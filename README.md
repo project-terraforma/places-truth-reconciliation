@@ -107,8 +107,7 @@ Evaluation includes cases where the system **intentionally abstains** from selec
 In real-world systems, truth reconciliation must balance correctness, latency, explainability, and the ability to incorporate human review.
 
 This project prioritizes **interpretable decision logic and measurable confidence** over raw accuracy.  
-Where possible, decisions are designed to be **stable across data releases** to avoid unnecessary churn when upstream sources fluctuate.
-
+Where possible, decisions are designed to remain stable across successive data releases, changing only when there is strong evidence of a real-world update rather than transient upstream noise.
 ---
 ## (Proposed) Repository Structure
 ```text
