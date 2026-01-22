@@ -108,7 +108,9 @@ In real-world systems, truth reconciliation must balance correctness, latency, e
 
 This project prioritizes **interpretable decision logic and measurable confidence** over raw accuracy.  
 Where possible, decisions are designed to remain stable across successive data releases, changing only when there is strong evidence of a real-world update rather than transient upstream noise.
+
 ---
+
 ## (Proposed) Repository Structure
 ```text
 places-attribute-conflation/
