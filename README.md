@@ -127,4 +127,5 @@ places-attribute-conflation/
 ├── notebooks/
 │   └── analysis.ipynb      # Exploratory analysis
 └── README.md
+└── LICENSE
 └── .gitignore
