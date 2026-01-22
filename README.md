@@ -9,7 +9,7 @@ This project tackles the problem of **attribute-level conflation**: given multip
 
 Our goal is to produce a **high-quality golden dataset** and evaluate different strategies—**rule-based logic vs. machine learning**—for selecting the best attributes.
 
-This project is motivated by large-scale places datasets such as the Overture Maps places theme, which aggregates tens of millions of place records from heterogeneous sources with varying confidence, freshness, and completeness. While the implementation is source-agnostic, the design reflects real-world constraints of Overture-style Places data.
+This project is developed as part of coursework at the University of California, Santa Cruz, in partnership with the Overture Maps Foundation, using data from the Overture Maps places theme. It explores attribute-level truth reconciliation in large-scale, multi-source places data and reflects real-world constraints present in Overture Places datasets.
 
 ---
 
