@@ -126,6 +126,6 @@ places-attribute-conflation/
 │   └── metrics.py          # Evaluation scripts
 ├── notebooks/
 │   └── analysis.ipynb      # Exploratory analysis
-└── README.md
-└── LICENSE
 └── .gitignore
+└── LICENSE
+└── README.md
