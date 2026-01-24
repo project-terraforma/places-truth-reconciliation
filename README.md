@@ -1,6 +1,6 @@
 # places-truth-reconciliation
 
-> Building a reliable “golden record” for real-world places by resolving conflicting attributes across multiple data sources.
+> Building a reliable “golden record” for real-world places by resolving conflicting attribute candidates produced by multiple aggregation strategies over multi-source data.
 
 ## Overview
 
@@ -9,7 +9,39 @@ This project tackles the problem of **attribute-level conflation**: given multip
 
 Our goal is to produce a **high-quality golden dataset** and evaluate different strategies—**rule-based logic vs. machine learning**—for selecting the best attributes.
 
-This project is developed as part of coursework at the University of California, Santa Cruz, in partnership with the Overture Maps Foundation, using data from the Overture Maps places theme. It explores attribute-level truth reconciliation in large-scale, multi-source places data and reflects real-world constraints present in Overture Places datasets.
+This project is developed as part of coursework at the University of California, Santa Cruz, in partnership with the Overture Maps Foundation, and is motivated by the structure and constraints of the Overture Maps Places dataset.
+
+---
+
+## Understanding the Dataset
+
+The input dataset consists of pre-matched place records, where each row represents a single real-world place with **two competing aggregated representations** of its attributes.
+
+For each reconcilable attribute (e.g., phone number, website, address), the dataset provides:
+- a baseline candidate (`base_*`)
+- an alternative candidate (`*`)
+
+Each candidate value is the **result of upstream aggregation across multiple source datasets** (e.g., Meta, Microsoft), rather than a single raw provider value.
+
+This structure intentionally models **disagreement between aggregation strategies**, not disagreement between individual sources. The project therefore focuses on *decision-making under uncertainty* rather than raw source ingestion or entity resolution.
+
+These competing candidates can be thought of as outputs from two different aggregation or selection pipelines applied over the same underlying multi-source inputs.
+
+---
+
+## Key Observations from Data Exploration 
+
+- Most user-facing attributes exhibit **high disagreement rates** (60-85%) between baseline and alternative candidates.
+- Manual inspection of representative samples indicates that disagreements often involve:
+  - formatting variations (e.g., normalized vs. raw phone numbers or URLs),
+  - semantic divergence (e.g., category granularity),
+  - partial or differently structured address representations.
+
+  These observations are qualitative and intended to motivate attribute selection rather than provide a complete causal taxonomy.
+- Metadata fields such as `sources` and `confidence` consistently differ by design and are treated as **signals**, not reconciliation targets.
+- A non-trivial fraction of cases exhibits **low confidence on both candidates**, motivating explicit support for abstention.
+
+Based on this analysis, the project focuses on four high-leverage attributes: **addresses, categories, phones, and websites**.
 
 ---
 
@@ -32,6 +64,7 @@ This project explores **how to programmatically determine the cleanest, most rel
 Many attributes have no objectively correct answer.  
 Sources may all be wrong, partially correct, or correct at different times.  
 This project explicitly handles ambiguity by prioritizing correctness, auditability, and the ability to abstain when confidence is low.
+In production systems, incorrect or unstable decisions can introduce churn across releases, making conservative decision-making and abstention first-class requirements.
 
 ---
 
@@ -47,19 +80,18 @@ This project explicitly handles ambiguity by prioritizing correctness, auditabil
 
 ## Attributes Considered
 
-This project focuses on attributes that are commonly incomplete, conflicting, or stale in real-world places data:
+This project focuses on attributes that are both highly prevalent and highly contested in the dataset:
 
+- Address
+- Category
 - Phone number
 - Website
-- Email
-- Address (limited evaluation)
-- Category (exploratory)
 
-Each attribute is evaluated **independently at the attribute level**, rather than assuming a single source is globally correct for a place.
+Other attributes (e.g., names, social links) are explored opportunistically but are not part of the core evaluation due to subjectivity or lower impact.
 
 ---
 
-## Methodology
+## Approach
 
 ### 1. Golden Dataset Creation
 
