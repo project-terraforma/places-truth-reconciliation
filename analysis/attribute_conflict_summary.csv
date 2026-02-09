@@ -1,0 +1,11 @@
+attribute,attr_present,base_attr_present,alt_coverage_pct,base_coverage_pct,conflict_count,conflict_rate_pct,abstention_rate_pct
+sources,2000,2000,100,100,2000,100,100
+addresses,2000,2000,100,100,1722,86,86
+categories,1984,1988,99,99,1608,80,81
+confidence,2000,2000,100,100,1558,78,78
+phones,1891,1996,95,100,1536,77,82
+names,2000,2000,100,100,1375,69,69
+websites,1712,1997,86,100,1292,65,79
+socials,1392,1017,70,51,858,43,78
+brand,704,1954,35,98,389,19,82
+emails,0,1000,0,50,0,0,50

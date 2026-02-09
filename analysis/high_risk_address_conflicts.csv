@@ -1,0 +1,6 @@
+id,addresses,base_addresses,confidence,base_confidence
+08f3f623a4116d4903fe879fe705b16c,"[{""freeform"":""Bitez Belediyesi Eski Kademe"",""postcode"":""48400"",""country"":""TR""}]","[{""country"":""TR""}]",0.28671328671328666,0.28671328671328666
+08f8e75a4a34a98303c9ece2827f9d5a,"[{""freeform"":""Av. Santa Rosa MZ A10 Lotes 23,24 y 25 Puerto Pachacutec Ventanilla el Callao"",""locality"":""Lima"",""postcode"":""15"",""country"":""PE""}]","[{""freeform"":""Av. Santa Rosa Mz. A10 Lote 23,24,25 AAHH Puerto Pachacutec Ventanilla CALLAO 6"",""locality"":""Ventanilla"",""postcode"":""07071"",""country"":""PE""}]",0.3941504178272981,0.28671328671328666
+08f411c452c348f103d15a0f565e38ca,"[{""locality"":""Huizhou"",""country"":""CN""}]","[{""freeform"":""西湖"",""locality"":""Huizhou"",""country"":""CN""}]",0.48103896103896104,0.28671328671328666
+08f650512ab02c2603d39e8e6b9c914a,"[{""locality"":""Sepang"",""country"":""MY""}]","[{""freeform"":""KLIA , Kuala Lumpur"",""locality"":""Kuala Lumpur"",""postcode"":""17040"",""country"":""MY""}]",0.48103896103896104,0.28686635944700467
+08f30e1d8332e4cd03e5851235f9d929,"[{""freeform"":""서울시 용산구 청파로49길 99"",""locality"":""Yongsan District"",""postcode"":""04312"",""country"":""KR""}]","[{""freeform"":""청파동2가 53-12"",""country"":""KR""}]",0.48103896103896104,0.3941504178272981

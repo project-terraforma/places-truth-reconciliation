@@ -31,17 +31,37 @@ These competing candidates can be thought of as outputs from two different aggre
 
 ## Key Observations from Data Exploration 
 
-- Most user-facing attributes exhibit **high disagreement rates** (60-85%) between baseline and alternative candidates.
-- Manual inspection of representative samples indicates that disagreements often involve:
-  - formatting variations (e.g., normalized vs. raw phone numbers or URLs),
-  - semantic divergence (e.g., category granularity),
-  - partial or differently structured address representations.
+Exploratory analysis over the aggregated place sample reveals several properties that directly shape reconciliation strategy design:
+- **High disagreement rates across user-facing attributes**
+  Addresses, categories, phones, and websites exhibit disagreement rates on the order of 60-85% between baseline and alternative aggregated candidates, making them the highest-leverage attributes for reconciliation.
 
-  These observations are qualitative and intended to motivate attribute selection rather than provide a complete causal taxonomy.
-- Metadata fields such as `sources` and `confidence` consistently differ by design and are treated as **signals**, not reconciliation targets.
-- A non-trivial fraction of cases exhibits **low confidence on both candidates**, motivating explicit support for abstention.
+- **Disagreement is primarily semantic, not due to missing data.**
+  For these high-impact attributes, the majority of conflicts occur when *both* aggregation strategies provide values that differ, rather than cases where one side is missing data. This indicates that reconciliation is largely a semantic disagreement problem rather than a coverage problem.
 
-Based on this analysis, the project focuses on four high-leverage attributes: **addresses, categories, phones, and websites**.
+- **Confidence scores are weakly aligned with agreement.**
+  In many cases, conflicting candidates have comparable or higher average confidence than matching candidates. This suggests that confidence reflects internal aggregation certainty rather than cross-strategy agreement, and cannot be safely used as a tie-breaker on its own.
+
+- **Truly high-risk conflicts are rare and isolatable.**
+  Rows where aggregation strategies disagree *and* both report low confidence occur infrequently. These cases represent the most dangerous failure modes for automation and can be explicitly identifies and routed for abstention or human review.
+
+- **Metadata fields are signals, not reconciliation targets.**
+  Fields such as `sources` and `confidence` differ by construction and are treated as inputs to decision-making rather than attributes to be reconciled.
+
+Together, these observations motivate:
+- treating abstention as a first-class outcome,
+- avoiding naive confidence-based arbitration
+- and prioritizing interpretable, rule-based decision logic for high-impact attributes.
+
+Abstention is treated as a correctness-preserving outcome rather than a failure mode, preventing silent corruption when no defensible automated decision exists.
+
+These observations are supported by reproducible analysis artifacts in `analysis/`, including:
+
+- `attribute_conflict_summary.csv` - attribute-level coverage, conflict, and abstention pressure
+- `attribute_conflict_breakdown.csv` - decomposition of conflicts into missing-data vs true disagreement
+- `attribute_confidence_behavior.csv` - comparison of confidence scores in conflict vs agreement cases
+- `high_risk_*_conflicts.csv` - row-level cases where automated resolution is unsafe.
+
+Based on these findings, the project focuses on four high-leverage attributes: **addresses, categories, phones, and websites**.
 
 ---
 
