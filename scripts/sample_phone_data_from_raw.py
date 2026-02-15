@@ -1,7 +1,7 @@
 import duckdb
 
 PARQUET_PATH = "../data/raw/project_a_samples.parquet"
-OUTPUT_PATH = "../data/labeled_golden/project_a_labeled_golden_candidates.csv"
+OUTPUT_PATH = "../data/sampled_from_raw/project_a_phones_sample_2.csv"
 
 # Sampling strategy:
 # - deterministic hash-based shuffle

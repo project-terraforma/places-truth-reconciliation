@@ -77,7 +77,7 @@ def main():
 
     pd.DataFrame(summary_rows) \
         .sort_values(by=["conflict_count", "attribute"], ascending=[False, True]) \
-        .to_csv("../analysis/attribute_conflict_summary.csv", index=False)
+        .to_csv("../analysis/general/attribute_conflict_summary.csv", index=False)
 
     # ------------------------------------------------------------
     # Conflict-type breakdowns for high-impact attributes
@@ -105,7 +105,7 @@ def main():
         })
 
     pd.DataFrame(breakdown_rows) \
-        .to_csv("../analysis/attribute_conflict_breakdown.csv", index=False)
+        .to_csv("../analysis/general/attribute_conflict_breakdown.csv", index=False)
 
     # ------------------------------------------------------------
     # Confidence signal behavior (conflict vs match)
@@ -134,7 +134,7 @@ def main():
         })
 
     pd.DataFrame(confidence_rows) \
-        .to_csv("../analysis/attribute_confidence_behavior.csv", index=False)
+        .to_csv("../analysis/general/attribute_confidence_behavior.csv", index=False)
 
     # ------------------------------------------------------------
     # High-risk rows (low confidence + conflict) — row-level
@@ -156,7 +156,7 @@ def main():
     """).fetchdf()
 
     high_risk_rows.to_csv(
-        "../analysis/high_risk_phone_conflicts.csv",
+        "../analysis/general/high_risk_phone_conflicts.csv",
         index=False
     )
 
@@ -177,7 +177,7 @@ def main():
     """).fetchdf()
 
     high_risk_address_rows.to_csv(
-        "../analysis/high_risk_address_conflicts.csv",
+        "../analysis/general/high_risk_address_conflicts.csv",
         index=False
     )
 
@@ -198,7 +198,7 @@ def main():
     """).fetchdf()
 
     high_risk_website_rows.to_csv(
-        "../analysis/high_risk_website_conflicts.csv",
+        "../analysis/general/high_risk_website_conflicts.csv",
         index=False
     )
 
