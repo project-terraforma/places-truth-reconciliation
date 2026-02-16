@@ -1,0 +1,9 @@
+source,digit_length_bucket,count,pct
+alt,10,528,28.07
+alt,11,936,49.76
+alt,12-15,389,20.68
+alt,7-9,28,1.49
+base,10,1297,76.34
+base,11,215,12.65
+base,12-15,97,5.71
+base,7-9,90,5.3

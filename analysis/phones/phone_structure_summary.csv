@@ -1,0 +1,3 @@
+source,usable_rows,has_plus_count,has_plus_pct,has_parentheses_count,has_parentheses_pct,has_hyphen_count,has_hyphen_pct,pure_numeric_count,pure_numeric_pct,too_short_count,too_long_count
+alt,1881,1283,68.21,0,0.0,0,0.0,598,31.79,0,0
+base,1699,13,0.77,267,15.72,329,19.36,978,57.56,0,0
