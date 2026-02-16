@@ -1,0 +1,11 @@
+stage,definition,both_usable_count,conflict_count,conflict_rate_pct,improvement_vs_prev_pct
+S0_null_normalization,"unify [null], [""""], [""NULL""], [""null""], SQL NULL, """" -> NULL; report usable before/after",1680,,,
+S1_raw_string,raw string compare (alt_raw != base_raw),1680,1330,79.17,
+S2_digits_only,strip non-digits; exact digits match,1680,1261,75.06,5.19
+S3_us_11v10_leading1,S2 + treat equal if 11 digits starting 1 vs 10 digits (drop leading 1),1680,819,48.75,35.05
+S4_generic_1digit_cc,"S3 + generic: one side 1 digit longer, drop leading digit matches",1680,765,45.54,6.59
+S5_trunk0_vs_cc2,S4 + if one starts 0 and other has 2-digit prefix: compare drop0 vs drop2,1680,554,32.98,27.58
+S6_trunk0_vs_cc3,S5 + if one starts 0 and other has 3-digit prefix: compare drop0 vs drop3,1680,478,28.45,13.72
+S7_cc2_vs_national,S6 + drop 2-digit prefix from longer side; compare remaining to shorter (no trunk gating),1680,425,25.3,11.09
+S8_cc3_vs_national,S7 + drop 3-digit prefix from longer side; compare remaining to shorter (no trunk gating),1680,417,24.82,1.88
+S9_cc2_then0_vs_cc2,S8 + if one is CC2+0+national and other is CC2+national (extra 0 after CC2),1680,402,23.93,3.6
