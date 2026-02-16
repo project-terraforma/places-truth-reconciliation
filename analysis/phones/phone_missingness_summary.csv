@@ -1,0 +1,3 @@
+source,total_rows,sql_null,bracket_null,bracket_empty_string,bracket_null_caps,bracket_null_lower,contains_null_text
+alt,2000,109,0,10,0,0,0
+base,2000,4,288,8,1,0,289
