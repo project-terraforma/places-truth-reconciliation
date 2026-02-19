@@ -3,39 +3,17 @@
 > Building a reliable “golden record” for real-world places by resolving conflicting attribute candidates produced by
 > multiple aggregation strategies over multi-source data.
 
-## Overview
-
-Real-world places often appear in multiple datasets with **inconsistent, outdated, or conflicting information**.  
-This project tackles the problem of **attribute-level conflation**: given multiple representations of the *same place*,
-how do we decide which attributes (phone, website, email, etc.) are the most accurate?
-
-Our goal is to produce a **high-quality golden dataset** and evaluate different strategies—**rule-based logic vs.
-machine learning**—for selecting the best attributes.
-
-This project is developed as part of coursework at the University of California, Santa Cruz, in partnership with the
-Overture Maps Foundation, and is motivated by the structure and constraints of the Overture Maps Places dataset.
-
 ---
 
 ## Understanding the Dataset
 
-The input dataset consists of pre-matched place records, where each row represents a single real-world place with **two
-competing aggregated representations** of its attributes.
+The Overture Maps Places dataset consists of pre-matched place records, where each row represents a single real-world place with two
+candidate representations of its attributes.
 
 For each reconcilable attribute (e.g., phone number, website, address), the dataset provides:
 
 - a baseline candidate (`base_*`)
 - an alternative candidate (`*`)
-
-Each candidate value is the **result of upstream aggregation across multiple source datasets** (e.g., Meta, Microsoft),
-rather than a single raw provider value.
-
-This structure intentionally models **disagreement between aggregation strategies**, not disagreement between individual
-sources. The project therefore focuses on *decision-making under uncertainty* rather than raw source ingestion or entity
-resolution.
-
-These competing candidates can be thought of as outputs from two different aggregation or selection pipelines applied
-over the same underlying multi-source inputs.
 
 ---
 
@@ -67,14 +45,6 @@ strategy design:
     - Fields such as `sources` and `confidence` differ by construction and are treated as inputs to decision-making
       rather than attributes to be reconciled.
 
-Together, these observations motivate:
-
-- treating abstention as a first-class outcome,
-    - Abstention is treated as a correctness-preserving outcome rather than a failure mode, preventing silent corruption
-      when no defensible automated decision exists.
-- avoiding naive confidence-based arbitration
-- and prioritizing interpretable, rule-based decision logic for high-impact attributes.
-
 These observations are supported by reproducible analysis artifacts in `analysis/general/`, including:
 
 - `attribute_conflict_summary.csv` - attribute-level coverage, conflict, and abstention pressure
@@ -82,7 +52,7 @@ These observations are supported by reproducible analysis artifacts in `analysis
 - `attribute_confidence_behavior.csv` - comparison of confidence scores in conflict vs agreement cases
 - `high_risk_*_conflicts.csv` - row-level cases where automated resolution is unsafe.
 
-Based on these findings, the project focuses on four high-leverage attributes: **addresses, categories, phones, and
+Based on these findings, the project begins on four high-leverage attributes: **addresses, categories, phones, and
 websites**.
 
 ### Phone Attribute Audit
@@ -177,8 +147,8 @@ This analysis measures how apparent phone conflict drops as progressively strong
 | S4    | Generic 1-digit CC drop         | 765            | 45.54%        | 6.59%                |
 | S5    | Trunk 0 vs 2-digit CC           | 554            | 32.98%        | 27.58%               |
 | S6    | Trunk 0 vs 3-digit CC           | 478            | 28.45%        | 13.72%               |
-| S7    | 2-digit CC vs national (no trunk gating) | 425   | 25.30%        | 11.09%               |
-| S8    | 3-digit CC vs national (no trunk gating) | 417   | 24.82%        | 1.88%                |
+| S7    | 2-digit CC vs national (no trunk) | 425          | 25.30%        | 11.09%               |
+| S8    | 3-digit CC vs national (no trunk) | 417          | 24.82%        | 1.88%                |
 | S9    | CC2+0+national vs CC2+national  | 402            | 23.93%        | 3.60%                |
 
 Percentages are based on 1,680 usable (normalizable) rows (rows where both sides simultaneously have at least one digit). Of the remaining 320 rows: 100 have no phone on either side, and 220 have a phone on only one side (201 alt-only, 19 base-only). The one-sided cases are not automatically resolvable — absence may reflect a genuine removal rather than a coverage gap — and are handled separately during reconciliation.
@@ -205,20 +175,6 @@ Remaining conflicts after all stages are exported for manual review in
 
 This staged approach serves as a template for normalization analysis on other attributes (websites, addresses)
 where similar encoding differences between aggregation strategies may inflate apparent conflict.
-
----
-
-## Problem Statement
-
-When multiple data sources describe the same place, they frequently disagree:
-
-- Different phone numbers
-- Outdated or broken websites
-- Inconsistent emails
-- Partial or malformed data
-
-Naive approaches like “most recent” or “most common” often fail.  
-This project explores **how to programmatically determine the cleanest, most reliable data**.
 
 ---
 
@@ -302,12 +258,3 @@ Evaluation includes cases where the system **intentionally abstains** from selec
 confidence.
 
 ---
-
-## Production Considerations
-
-In real-world systems, truth reconciliation must balance correctness, latency, explainability, and the ability to
-incorporate human review.
-
-This project prioritizes **interpretable decision logic and measurable confidence** over raw accuracy.  
-Where possible, decisions are designed to remain stable across successive data releases, changing only when there is
-strong evidence of a real-world update rather than transient upstream noise.
