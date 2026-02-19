@@ -19,7 +19,7 @@ For each reconcilable attribute (e.g., phone number, website, address), the data
 
 ## Key Observations from Data Exploration
 
-Exploratory analysis over the aggregated place sample reveals several properties that directly shape reconciliation
+Exploratory analysis over the 2,000-row place sample reveals several properties that directly shape reconciliation
 strategy design:
 
 - **High disagreement rates across user-facing attributes**
@@ -33,8 +33,8 @@ strategy design:
 
 - **Confidence scores are weakly aligned with agreement.**
     - In many cases, conflicting candidates have comparable or higher average confidence than matching candidates. This
-      suggests that confidence reflects internal aggregation certainty rather than cross-strategy agreement, and cannot
-      be safely used as a tie-breaker on its own.
+      suggests confidence reflects a candidate's internal quality signal rather than its likelihood of being correct
+      relative to the other side, and cannot be safely used as a tie-breaker on its own.
 
 - **Truly high-risk conflicts are rare and isolatable.**
     - Rows where aggregation strategies disagree *and* both report low confidence occur infrequently. These cases
@@ -52,7 +52,7 @@ These observations are supported by reproducible analysis artifacts in `analysis
 - `attribute_confidence_behavior.csv` - comparison of confidence scores in conflict vs agreement cases
 - `high_risk_*_conflicts.csv` - row-level cases where automated resolution is unsafe.
 
-Based on these findings, the project begins on four high-leverage attributes: **addresses, categories, phones, and
+Based on these findings, the project focuses on four high-leverage attributes: **addresses, categories, phones, and
 websites**.
 
 ### Phone Attribute Audit
@@ -82,10 +82,8 @@ This table measures how often phone values are actually absent versus encoded as
 | `bracket_null_lower`   | Exact string `["null"]`                             | 0          | 0         |
 | `contains_null_text`   | Any non-null string containing the substring `null` | 289        | 0         |
  
-**Interpretation**
-
-- Missingness is not limited to SQL NULL.
-- These must be explicitly handled, or they will be misclassified as disagreement.
+**Interpretation**: Missingness is not limited to SQL NULL. These variants must be explicitly handled or they will be
+misclassified as disagreement.
 
 #### Phone Structural Summary
 
@@ -104,12 +102,8 @@ This table evaluates formatting behavior **only for usable values**
 | `too_short_count`       | Digit length < 7                   | 0          | 0         |
 | `too_long_count`        | Digit length > 15                  | 0          | 0         |
 
-**Interpretation**
-
-- Structural validity is generally high.
-- Formatting conventions differ between aggregation strategies.
-- Pure string comparison overestimates disagreement due to formatting variation.
-- Confidence scores do not guarantee structural correctness.
+**Interpretation**: Structural validity is generally high, but the two sides use systematically different formatting
+conventions. Pure string comparison overestimates disagreement due to this variation.
 
 #### Digit Length Distribution (Usable Values Only)
 
@@ -126,11 +120,8 @@ This table buckets usable phone numbers by digit length.
 | `12-15` | International formats   | 97         | 389       |
 | `>15`   | Implausible / malformed | 0          | 0         |
 
-**Interpretation**
-
-- The majority of usable numbers fall within plausible bounds.
-- No evidence of systemic extreme-length corruption.
-- Digit normalization is required before reconciliation.
+**Interpretation**: The majority of usable numbers fall within plausible bounds. No evidence of systemic
+extreme-length corruption. Digit normalization is required before reconciliation.
 
 #### Phone Normalization Impact
 
@@ -151,10 +142,11 @@ This analysis measures how apparent phone conflict drops as progressively strong
 | S8    | 3-digit CC vs national (no trunk) | 417          | 24.82%        | 1.88%                |
 | S9    | CC2+0+national vs CC2+national  | 402            | 23.93%        | 3.60%                |
 
-Percentages are based on 1,680 usable (normalizable) rows (rows where both sides simultaneously have at least one digit). Of the remaining 320 rows: 100 have no phone on either side, and 220 have a phone on only one side (201 alt-only, 19 base-only). The one-sided cases are not automatically resolvable — absence may reflect a genuine removal rather than a coverage gap — and are handled separately during reconciliation.
+Percentages are based on 1,680 usable rows (both sides have at least one digit). Of the remaining 320 rows: 100 have
+no phone on either side, and 220 have a phone on only one side (201 alt-only, 19 base-only). 
 
 Remaining conflicts after all stages are exported for manual review in
-`analysis/phones/phone_remaining_conflicts.csv` with a `conflict_type` column: `both_present` (402 rows - genuinely different numbers after all normalization), `alt_only` (201 rows - alt has data, base missing), and `base_only` (19 rows - base has data, alt missing). 
+`analysis/phones/phone_remaining_conflicts.csv` with a `conflict_type` column: `both_present` (402 rows), `alt_only` (201 rows), and `base_only` (19 rows). 
 
 **Interpretation**
 
@@ -162,30 +154,15 @@ Remaining conflicts after all stages are exported for manual review in
   region-agnostic normalization rules, apparent conflict drops from 79% to 24%.
 - **The largest single improvement (S3, ~35%) comes from US +1 prefix normalization**, reflecting
   the dataset's heavy US representation and a systematic formatting difference between the two
-  aggregation strategies (E.164 vs bare national number).
+  sides (E.164 vs bare national number).
 - **International trunk-prefix normalization (S5–S6) accounts for ~37% combined reduction**,
   addressing the common pattern where one source stores a country code prefix while the other
   stores a local trunk-dialed number.
 - **The remaining ~24% (402 pairs) represent genuinely different phone numbers.** These are true
-  semantic conflicts that require reconciliation logic—either rule-based scoring, confidence
-  arbitration, or abstention.
-- **Normalization is a prerequisite to reconciliation, not a substitute.** Without this step,
-  reconciliation logic would waste capacity on formatting artifacts and produce misleading
-  accuracy metrics.
+  semantic conflicts requiring reconciliation logic
 
 This staged approach serves as a template for normalization analysis on other attributes (websites, addresses)
 where similar encoding differences between aggregation strategies may inflate apparent conflict.
-
----
-
-## Why This Is Hard
-
-Many attributes have no objectively correct answer.  
-Sources may all be wrong, partially correct, or correct at different times.  
-This project explicitly handles ambiguity by prioritizing correctness, auditability, and the ability to abstain when
-confidence is low.
-In production systems, incorrect or unstable decisions can introduce churn across releases, making conservative
-decision-making and abstention first-class requirements.
 
 ---
 
@@ -199,62 +176,37 @@ decision-making and abstention first-class requirements.
 
 ---
 
-## Attributes Considered
-
-This project focuses on attributes that are both highly prevalent and highly contested in the dataset:
-
-- Address
-- Category
-- Phone number
-- Website
-
-Other attributes (e.g., names, social links) are explored opportunistically but are not part of the core evaluation due
-to subjectivity or lower impact.
-
----
-
 ## Approach
 
 ### 1. Golden Dataset Creation
 
 A subset of pre-matched place records is manually reviewed to determine the most reliable attribute values.  
-These labels form a **ground-truth dataset** used for evaluation and supervised learning.
-
-Ambiguous cases are explicitly marked rather than forced into a binary decision.
+These labels form a **ground-truth dataset** used for evaluation and supervised learning. Ambiguous cases
+are explicitly marked rather than forced into a binary decision.
 
 ### 2. Rule-Based Baseline
 
-A deterministic scoring system evaluates candidate attributes using signals such as:
+A deterministic scoring system evaluates candidate attributes using signals such as format validity, source
+reliability, recency, consensus across sources, and domain consistency (e.g., email domain matches website). The
+highest-scoring attribute is selected, with support for abstention when confidence is low.
 
-- Format validity (e.g., phone or email structure)
-- Source reliability
-- Recency
-- Consensus across sources
-- Domain consistency (e.g., email domain matches website)
-
-The highest-scoring attribute is selected, with support for abstention when confidence is low.
+One candidate signal is **provider identity** — the `sources` field on each side identifies which upstream dataset
+(e.g., Microsoft, FourSquare, Meta) contributed the record. If certain providers systematically produce more reliable
+values for specific attributes, provider identity becomes a meaningful feature for the scorer. This hypothesis is not
+assumed upfront; it is tested during feature engineering by checking whether provider identity correlates with
+ground-truth labels in the golden dataset. Attribute CSVs pulled for analysis and labeling should include the
+`sources` and `base_sources` fields so this signal is available when needed.
 
 ### 3. Machine Learning Approach
 
 Each attribute candidate is represented as a feature vector and used to train a classifier or ranking model that
-predicts attribute correctness.
-
-The ML approach is evaluated against the rule-based baseline to determine:
-
-- Where ML adds value
-- Where it overfits or degrades interpretability
-- Whether hybrid approaches are justified
+predicts attribute correctness. The ML approach is evaluated against the rule-based baseline to determine where ML
+adds value, where it overfits or degrades interpretability, and whether hybrid approaches are justified.
 
 ### 4. Evaluation
 
-Evaluation is performed at the **attribute level**, not just the place level, using:
-
-- Attribute accuracy
-- Precision / recall
-- Coverage (ability to make a confident selection)
-- Comparison between rule-based and ML approaches
-
-Evaluation includes cases where the system **intentionally abstains** from selecting an attribute due to insufficient
-confidence.
+Evaluation is performed at the attribute level, not just the place level, using attribute accuracy, precision/recall,
+and coverage (the system's ability to make a confident selection). Evaluation explicitly includes cases where the
+system intentionally abstains due to insufficient confidence.
 
 ---
