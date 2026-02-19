@@ -1,7 +1,7 @@
 # places-truth-reconciliation
 
-> Building a reliable “golden record” for real-world places by resolving conflicting attribute candidates produced by
-> multiple aggregation strategies over multi-source data.
+> Building a reliable "golden record" for real-world places by selecting the best attribute values from two competing
+> candidate records per place.
 
 ---
 
