@@ -12,7 +12,7 @@ def main():
         Structural phone format audit (usable values only).
 
     Missingness is handled separately in:
-        analyze_phone_missingness.py
+        04_phone_missingness.py
 
     This script only evaluates:
         - formatting features
