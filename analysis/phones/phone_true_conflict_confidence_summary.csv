@@ -1,0 +1,6 @@
+conflict_class,row_count,avg_alt_confidence,avg_base_confidence,avg_confidence_diff,median_confidence_gap,alt_conf_higher,base_conf_higher,conf_tied,pct_alt_higher,pct_base_higher,pct_tied
+alt_only,201,0.7531,0.995,-0.2419,0.2072,3,196,2,1.5,97.5,1.0
+base_only,19,0.6108,0.9122,-0.3013,0.3431,1,15,3,5.3,78.9,15.8
+both_missing,100,0.5013,0.9727,-0.4715,0.519,1,94,5,1.0,94.0,5.0
+resolved_by_normalization,1278,0.8712,0.8538,0.0174,0.1997,467,468,343,36.5,36.6,26.8
+true_conflict,402,0.8258,0.9013,-0.0755,0.0554,72,241,89,17.9,60.0,22.1
