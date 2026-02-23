@@ -1,0 +1,10 @@
+base_provider,alt_provider,row_count,row_pct
+FourSquare,meta,843,42.15
+Microsoft,meta,525,26.25
+Microsoft,Microsoft,309,15.45
+FourSquare,Microsoft,157,7.85
+Microsoft,msft,116,5.8
+msft,msft,24,1.2
+meta,meta,15,0.75
+msft,meta,9,0.45
+meta,msft,2,0.1
