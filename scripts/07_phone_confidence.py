@@ -1,11 +1,11 @@
 import duckdb
 
-PARQUET_PATH = "../data/raw/project_a_samples.parquet"
+PARQUET_PATH = "../../data/raw/project_a_samples.parquet"
 
-OUTPUT_SUMMARY_PATH      = "../analysis/phones/phone_true_conflict_confidence_summary.csv"
-OUTPUT_DETAIL_PATH       = "../analysis/phones/phone_true_conflict_confidence_detail.csv"
-OUTPUT_DISTRIBUTION_PATH  = "../analysis/phones/phone_confidence_distribution.csv"
-OUTPUT_DIST_BUCKETED_PATH = "../analysis/phones/phone_confidence_distribution_bucketed.csv"
+OUTPUT_SUMMARY_PATH      = "../../analysis/phones/phone_true_conflict_confidence_summary.csv"
+OUTPUT_DETAIL_PATH       = "../../analysis/phones/phone_true_conflict_confidence_detail.csv"
+OUTPUT_DISTRIBUTION_PATH  = "../../analysis/phones/phone_confidence_distribution.csv"
+OUTPUT_DIST_BUCKETED_PATH = "../../analysis/phones/phone_confidence_distribution_bucketed.csv"
 
 NULL_SENTINELS = ('[null]', '[""]', '["NULL"]', '["null"]', '')
 
@@ -256,7 +256,8 @@ def main():
                     conflict_class,
                     CASE
                         WHEN confidence_value = 1.00 THEN '1.00'
-                        WHEN confidence_value >= 0.98 THEN '0.99 – 0.98'
+                        WHEN confidence_value = 0.99 THEN '0.99'
+                        WHEN confidence_value = 0.98 THEN '0.98'
                         WHEN confidence_value >= 0.95 THEN '0.97 – 0.95'
                         WHEN confidence_value >= 0.92 THEN '0.94 – 0.92'
                         WHEN confidence_value >= 0.89 THEN '0.91 – 0.89'
@@ -268,15 +269,16 @@ def main():
                     END AS bucket,
                     CASE
                         WHEN confidence_value = 1.00 THEN 1
-                        WHEN confidence_value >= 0.98 THEN 2
-                        WHEN confidence_value >= 0.95 THEN 3
-                        WHEN confidence_value >= 0.92 THEN 4
-                        WHEN confidence_value >= 0.89 THEN 5
-                        WHEN confidence_value >= 0.86 THEN 6
-                        WHEN confidence_value >= 0.78 THEN 7
-                        WHEN confidence_value = 0.77  THEN 8
-                        WHEN confidence_value >= 0.60 THEN 9
-                        ELSE 10
+                        WHEN confidence_value = 0.99 THEN 2
+                        WHEN confidence_value = 0.98 THEN 3
+                        WHEN confidence_value >= 0.95 THEN 4
+                        WHEN confidence_value >= 0.92 THEN 5
+                        WHEN confidence_value >= 0.89 THEN 6
+                        WHEN confidence_value >= 0.86 THEN 7
+                        WHEN confidence_value >= 0.78 THEN 8
+                        WHEN confidence_value = 0.77  THEN 9
+                        WHEN confidence_value >= 0.60 THEN 10
+                        ELSE 11
                     END AS bucket_order,
                     SUM(row_count) AS row_count
                 FROM raw

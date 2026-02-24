@@ -264,7 +264,8 @@ Alt confidence has more spread (24 distinct values) but still clusters heavily a
 |  Confidence Bucket | Row Count | % of Class |
 |--------------------|-----------|------------|
 | **1.00**           | **56**    | **13.9%**  |
-| 0.99 – 0.98        | 66        | 16.4%      |
+| 0.99              | 29        | 7.2%       |
+| 0.98              | 37        | 9.2%       |
 | 0.97 – 0.95        | 52        | 12.9%      |
 | 0.94 – 0.92        | 10        | 2.5%       |
 | 0.91 – 0.89        | 8         | 2.0%       |
@@ -284,8 +285,16 @@ Alt confidence has more spread (24 distinct values) but still clusters heavily a
 
 Base scores higher in 60% of rows — but since base clusters at 1.0 by construction, this tells us nothing about which phone number is correct.
 
-**Confidence gaps are too small to be useful.** The median confidence gap in true conflicts is 0.055. Most pairs have
-nearly identical scores, making confidence useless as a tiebreaker.
+**Confidence gaps are too small to be useful.** The median absolute confidence gap across the 402 true conflicts is 0.055, and 48% of rows have a gap of 0.05 or less:
+
+| Confidence Gap | Row Count | % of True Conflicts |
+|----------------|-----------|---------------------|
+| ≤ 0.05         | 193       | 48.0%               |
+| 0.06 – 0.10    | 23        | 5.7%                |
+| 0.11 – 0.20    | 14        | 3.5%                |
+| > 0.20         | 172       | 42.8%               |
+
+Nearly half of all true conflicts have gaps so small they are effectively tied. The 42.8% with gaps above 0.20 might seem actionable, but since base clusters at 1.0 those large gaps mostly just reflect base's fixed anchor value, not a meaningful quality difference.
 
 **Higher confidence does not mean more data.** In the 201 alt-only rows where alt provides a phone and base has nothing,
 `phone_true_conflict_confidence_summary.csv` shows:
