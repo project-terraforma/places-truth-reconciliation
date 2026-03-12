@@ -1,0 +1,12 @@
+stage,rule,conflict_count,conflict_rate_pct,improvement_vs_prior_pct
+S0,Raw primary name comparison,1083,54.15,
+S1,Casing (lowercase),1025,51.25,5.36
+S2,Unicode (fullwidth + diacritics),1001,50.05,2.34
+S3,Punctuation stripped,935,46.75,6.59
+S4,Spaces stripped,867,43.35,7.27
+S5,Conjunctions unified,854,42.7,1.5
+S6,Spelling normalized,853,42.65,0.12
+S7,Katakana→hiragana,852,42.6,0.12
+S8,Word reorder (sorted),826,41.3,3.05
+S9,Typo detection (Levenshtein ≤ 2),768,38.4,7.02
+Subset,One normalized name contained in the other,176,8.8,77.08

@@ -1,0 +1,10 @@
+agreement_type,row_count,pct_of_total,alt_primary,base_primary,alt_names_json,base_names_json
+primary_conflict,1083,54.2,Työväen Akatemia,Työväen Akatemian kirjasto,"{""primary"":""Työväen Akatemia""}","{""primary"":""Työväen Akatemian kirjasto"",""common"":{},""rules"":[]}"
+primary_conflict,1083,54.2,Full Steam Tromso,Full Steam,"{""primary"":""Full Steam Tromso""}","{""primary"":""Full Steam"",""common"":{},""rules"":[]}"
+primary_conflict,1083,54.2,Mecra Consult AB,Mecra Consult,"{""primary"":""Mecra Consult AB""}","{""primary"":""Mecra Consult"",""common"":{},""rules"":[]}"
+full_agreement,625,31.3,Scandic CH,Scandic CH,"{""primary"":""Scandic CH""}","{""primary"":""Scandic CH""}"
+full_agreement,625,31.3,Bannister GP Kia,Bannister GP Kia,"{""primary"":""Bannister GP Kia""}","{""primary"":""Bannister GP Kia""}"
+full_agreement,625,31.3,Alberta Gymnastics Federation,Alberta Gymnastics Federation,"{""primary"":""Alberta Gymnastics Federation""}","{""primary"":""Alberta Gymnastics Federation""}"
+primary_agrees_json_differs,292,14.6,Edward Jones,Edward Jones,"{""primary"":""Edward Jones""}","{""primary"":""Edward Jones"",""common"":{},""rules"":[]}"
+primary_agrees_json_differs,292,14.6,Bar des Sports,Bar des Sports,"{""primary"":""Bar des Sports""}","{""primary"":""Bar des Sports"",""common"":{},""rules"":[]}"
+primary_agrees_json_differs,292,14.6,Les Suites du Littoral,Les Suites du Littoral,"{""primary"":""Les Suites du Littoral""}","{""primary"":""Les Suites du Littoral"",""common"":{},""rules"":[]}"

@@ -1,0 +1,7 @@
+casing_pattern,count,pct_of_conflicts
+both_mixed_or_title,976,90.12
+casing_only,58,5.36
+base_all_caps_alt_not,32,2.95
+alt_all_caps_base_not,6,0.55
+alt_all_lower_base_not,6,0.55
+base_all_lower_alt_not,5,0.46

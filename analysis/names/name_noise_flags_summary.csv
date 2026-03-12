@@ -1,0 +1,15 @@
+conflict_pattern,count,pct_of_conflicts
+substring,574,53.0
+no_obvious_noise,143,13.2
+spacing_variant,140,12.93
+diacritic_variant,72,6.65
+casing_only,58,5.36
+typo_variant,27,2.49
+word_reorder,26,2.4
+conjunction_variant,14,1.29
+biz_suffix,10,0.92
+seo_junk,7,0.65
+excessive_length,6,0.55
+parenthetical,4,0.37
+spelling_variant,1,0.09
+trailing_number,1,0.09

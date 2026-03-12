@@ -1,0 +1,3 @@
+side,total_rows,avg_length,median_length,min_length,max_length,avg_word_count,median_word_count,min_word_count,max_word_count,all_caps_count,all_caps_pct,all_lower_count,all_lower_pct,trailing_number_count,trailing_number_pct,biz_suffix_count,biz_suffix_pct,seo_count,seo_pct,excessive_length_count,excessive_length_pct
+alt,2000,20.4,18.0,2,90,3.01,3.0,1,10,39,1.95,18,0.9,7,0.35,68,3.4,16,0.8,19,0.95
+base,2000,21.0,19.0,2,89,3.09,3.0,1,13,69,3.45,15,0.75,9,0.45,71,3.55,15,0.75,23,1.15
