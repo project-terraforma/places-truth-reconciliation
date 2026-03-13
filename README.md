@@ -513,28 +513,10 @@ rejected). The 5-character minimum avoids trivially matching short words. Typo d
 check because it is the most expensive (quadratic in string length) and the least precise.
 
 **Step 3 — Subset.** If one name is meaningfully contained inside the other, the row is `subset`.
-This check runs on multiple normalized forms because word boundaries differ between sources and
-scripts.
-
-**Why multiple containment checks are needed — Japanese compound boundaries:** Japanese text is
-typically written without spaces between words. Whether spaces appear depends on the source's
-formatting conventions, not linguistic rules. So `ローソン` (Lawson, 3 characters) needs to be
-found inside `ローソンいわき下好間店` (Lawson Iwaki-Shimokoma branch, 11 characters) — a pure
-character-level substring check with no spaces. But another source might write the same branch as
-`ローソン いわき下好間店` (with a space after the brand name). To handle both, subset detection
-runs three containment checks:
-
-1. Standard normalized forms — handles most Latin, Thai, and CJK subsets where spaces are consistent
-2. Space-stripped forms — handles Japanese compound boundaries where one source uses spaces and the other does not
-3. Hiragana-normalized + space-stripped forms — handles cases where one source writes in katakana and the other in hiragana, with different spacing
-
-Example: `すき家` (Sukiya) vs `すき家 札幌北郷店` (Sukiya Sapporo Kitago branch) — the
-shorter name is the brand, the longer name is the branch listing. This is the most common
-pattern in Japanese and Thai data.
 
 **Step 4 — Genuinely different.** If none of the above matched, the row is `genuinely_different`.
 Example: `ก๋วยเตี๋ยวปลาในตำนาน` (Legendary fish noodles) vs `ก๋วยเตี๋ยวปลาสด` (Fresh fish
-noodles) — different words, different businesses.
+noodles) — different words, different business names.
 
 #### Why Two Tiers?
 
@@ -542,10 +524,9 @@ Tier 1 answers **"what do we do with this conflict?"** — it maps directly to a
 action. `casing_only` and `normalization_equivalent` are auto-resolvable. `subset` is a policy
 decision. `genuinely_different` requires human review.
 
-Tier 2 answers **"what kind of difference is it?"** — it is diagnostic. When presenting to
-stakeholders, Tier 2 explains *why* conflicts exist in the data (punctuation conventions differ
-between providers, Japanese listings include branch suffixes, etc.). Tier 2 subtags are also
-candidates for feature engineering if an ML approach is pursued later.
+Tier 2 answers **"what kind of difference is it?"** — it is diagnostic. Tier 2 explains *why* conflicts exist in the
+data (punctuation conventions differ between providers, Japanese listings include branch suffixes, etc.).
+Tier 2 subtags are also candidates for feature engineering if an ML approach is pursued later.
 
 #### Tier 2: Transformation Subtags
 
@@ -575,6 +556,29 @@ transformation explains the difference, not the reconciliation action.
 | `seo_junk`       | SEO keywords in the longer name (hours, directions, near me)   |
 | `facility_suffix` | Bus stop, ATM, substation appended                            |
 | `descriptor`     | Additional business description (catch-all)                    |
+
+
+**How subset subtags are detected:** For each subset row, the script identifies the "excess" —
+the content the longer name adds beyond the shorter name — and checks it against specific patterns
+in priority order:
+ 
+1. **`parenthetical`**: The longer name has parentheses/brackets that the shorter name doesn't.
+2. **`biz_suffix`**: The longer name ends with a legal suffix the shorter doesn't
+   (`LLC`, `Inc`, `GmbH`, `SRL`, `s.r.l.`, `Corp`, `Ltd`, `Pty`, `AG`, etc.).
+3. **`seo_junk`**: The longer name contains SEO keywords the shorter doesn't
+   (`hours`, `address`, `near me`, `directions`, `reviews`, `menu`).
+4. **`branch_suffix`**: The excess content matches branch/location keywords:
+   - Japanese: `店` (store), `支店` (branch), `出張所` (sub-office), `営業所` (office),
+     `イオン` (Aeon), `モール` (mall), `マルイ` (Marui)
+   - Thai: `สาขา` (branch), `ถนน` (road), `ซอย` (soi/alley), `ต.`/`อ.`/`จ.` (sub-district/district/province)
+   - English: `branch`, `store`, `outlet`, `location`, `mall`, `plaza`, `center`, `centre`
+5. **`facility_suffix`**: The excess matches facility keywords: `バス停` (bus stop), `bus stop`,
+   `atm`, `cash machine`, `substation`.
+6. **`descriptor`**: Catch-all. If no other subtag fires, the excess is labeled `descriptor`.
+   This accounts for 74% of subsets because most extra content (location names, department names,
+   service descriptions, owner names) doesn't contain any of the specific keywords above. The
+   keyword lists are intentionally conservative — better to land in the catch-all than to
+   false-classify.
 
 Subtag frequency from `name_subtag_summary.csv` (counts may exceed Tier 1 totals because rows can
 carry multiple subtags):
@@ -638,20 +642,7 @@ cannot resolve the conflict and human judgment is required.
 
 ### 3. Technical Notes — Multilingual Unicode Handling
 
-Working with place names across multiple scripts (Latin, CJK, Thai, Korean, Cyrillic, Arabic)
-introduces Unicode normalization challenges that are not obvious from Latin-only data. This section
-documents three patterns encountered during development, as reference for anyone building text
-normalization pipelines across scripts.
-
-**Note 1: Punctuation stripping must be Unicode-category-aware.**
-
-A common approach to stripping punctuation is `[^a-zA-Z0-9\s]`, which keeps only ASCII letters,
-digits, and whitespace. This destroys every non-Latin character — CJK ideographs, Japanese kana,
-Thai, Korean Hangul, Cyrillic, and Arabic are all silently removed. The correct approach is to
-filter by Unicode character category: keep L (Letter), N (Number), and M (Mark) from all scripts,
-strip only P (Punctuation) and S (Symbol).
-
-**Note 2: Accent stripping must distinguish Latin diacritics from script-essential marks.**
+**Note 1: Accent stripping must distinguish Latin diacritics from script-essential marks.**
 
 Unicode represents accented Latin characters as a base letter plus a combining mark (e.g. `é` =
 `e` + combining acute accent). Stripping all combining marks removes Latin accents as intended, but
@@ -659,11 +650,14 @@ also removes marks that are linguistically meaningful in other scripts. In Japan
 (゙) is a combining mark that voices consonants — stripping it turns `バ` (ba) into `ハ` (ha),
 changing the character's pronunciation and meaning entirely. In Thai, tone marks (่ ้ ๊ ๋) are
 combining marks that determine which of five tones a syllable carries — stripping them changes
-word meaning (e.g., `ห้วย` "stream" loses its tone mark and becomes ambiguous). The fix is to
+word meaning (e.g., `ห้วย` "stream" loses its tone mark and becomes ambiguous). 99 rows (4.95%) contain script-essential
+combining marks that naive accent stripping would destroy: 37 with Japanese dakuten (voicing
+marks that distinguish バ "ba" from ハ "ha"), 10 with handakuten (パ vs ハ), 47 with Thai tone
+marks (which determine word meaning across five tones), and 20 with small kana. The fix is to
 only strip combining marks in the Latin Combining Diacritical Marks block (U+0300..U+036F),
 leaving Japanese, Thai, Korean, Arabic, and other script-specific marks intact.
 
-**Note 3: Fullwidth spaces (U+3000) are visually identical to ASCII spaces.**
+**Note 2: Fullwidth spaces (U+3000) are visually identical to ASCII spaces.**
 
 CJK text commonly uses the fullwidth ideographic space (U+3000) instead of the ASCII space
 (U+0020). These render identically in most fonts but are different codepoints. NFKD normalization
@@ -671,8 +665,11 @@ converts U+3000 → U+0020, so after normalization both forms are identical. Any
 or diagnostic logic that operates on already-normalized forms will miss this difference entirely.
 The fix is to also check raw forms with whitespace collapsing before checking normalized forms.
 
-**Verification**: The test suite (`test_v2.py`) validates the normalization pipeline against 41
+**Verification**: 
+- The test suite (`test_v2.py`) validates the normalization pipeline against 41
 test cases covering all Tier 1 labels, CJK/Thai/Korean scripts, and the patterns described above.
+- The script `unicode_accent_audit.py` counts the number of non-Latin accents in the dataset and
+outputs it to `name_unicode_mark_counts.csv`.
 
 ### 4. Casing Patterns
 
@@ -707,11 +704,9 @@ Most cases are straightforward: `CVS Pharmacy` vs `CVS pharmacy`, `Honda of Jone
 `Honda Of Jonesboro`, `Subway` vs `SUBWAY`. But several raise the question of whether casing is
 the owner's stylistic choice:
 
-- `ecoATM` vs `Ecoatm` — the camelCase is intentional branding
-- `IndianOil` vs `Indianoil` — same pattern
+- `ecoATM` vs `Ecoatm` — the camelCase is intentional branding, compound wordcasing
+- `IndianOil` vs `Indianoil`, `PuroClean` vs `Puroclean`, `CockTailz Fine Wine and Spirits` vs `Cocktailz Fine Wine and Spirits` — same pattern
 - `OXXO` vs `Oxxo`, `bp` vs `BP` — all-caps/lowercase is the brand identity
-- `CockTailz Fine Wine and Spirits` vs `Cocktailz Fine Wine and Spiritz` — mixed stylization
-- `PuroClean` vs `Puroclean` — compound word casing
 
 How do we know when capitalization is an abbreviation versus a stylistic choice? There is no
 reliable automated signal for this. A rule that "prefer title case" would silently damage branded
@@ -734,9 +729,11 @@ tiebreaker when the name language is ambiguous, but should not override name-lev
 
 #### Normalization Equivalent — Diacritic (19 rows)
 
-Clear cases: `Imobiliária Alegro` vs `Imobiliaria Alegro` — accent should be preserved in languages
-that use it. But edge cases arise when a word exists in multiple languages: `Café de l'Harmonie` vs
-`Cafe de l'Harmonie` — is the accent French (required) or English-stylized (optional)?
+Clear cases: `Imobiliária Alegro` vs `Imobiliaria Alegro` or `Café de l'Harmonie` vs `Cafe de l'Harmonie`
+— accent should be preserved in languages that use it. The edge case is the reverse: English names that borrow accented words as stylization,
+like `Wildberry Pancakes and Café` vs `Wildberry Pancakes and Cafe`. The accent is preserved in both cases because the selection
+rule prefers the form with more linguistic information, regardless of whether the accent is
+grammatically required or stylistically chosen.
 
 Proposed approach: if the surrounding name text is in a language that uses the accent, keep it
 (`Café` in a French name). If the name is English with a borrowed word, the owner may have chosen
@@ -777,10 +774,6 @@ Standard: strip `+`, `®`, `™` for normalization but flag as owner-decided for
 nakaguro separates loanwords in katakana. Both forms are standard. Standard: strip for comparison,
 prefer the nakaguro form in the golden record as it aids readability.
 
-**Thai parentheses**: `โตโยต้า ลีสซิ่ง ประเทศไทย` vs `โตโยต้า ลิสซิ่ง(ประเทศไทย)` — this
-looks like punctuation to English speakers, but there is also a Thai spelling difference
-(`ลีสซิ่ง` vs `ลิสซิ่ง`) making it more than just parentheses.
-
 **Extra conjunction in one side**: `Müller & Egerer Bäckerei Konditorei` vs
 `Müller & Egerer Bäckerei & Konditorei` — one side has an `&` the other omits. This falls outside
 conjunction normalization (which handles `and` ↔ `&` substitution, not insertion/deletion).
@@ -796,17 +789,12 @@ words) are correctly caught.
 Open question: could a typo dictionary or fuzzy-match library improve resolution? Levenshtein catches
 1–2 character differences, but has no concept of common misspellings.
 
-Edge cases:
-
-- False flag: `Gimnasio R&C` vs `Gimnasio RYC` — the conjunction normalizer converts `&` to `and`
-  but does not catch `&` → `Y` inside abbreviations where `Y` is the Spanish conjunction. Consider
-  expanding conjunction handling to detect single-letter conjunction substitutions within words.
-- Small kana: `ミカモラィディングクラブ` vs `ミカモライディングクラブ` — the small `ィ` vs full `イ`
-  is a 1-character difference caught by Levenshtein but is actually a script-form issue (nonstandard
-  small kana usage).
-- Fullwidth Latin: `ヘアーサロンａ‐ｃｕｂｕ` vs `ヘアーサロンa‐cubu` — fullwidth ASCII vs halfwidth.
-  Currently caught by typo because NFKD normalization handles the conversion before Levenshtein runs,
-  but the remaining dash difference pushes it to typo.
+**Normalization Equivalent — Edge cases:** `Gimnasio R&C` vs `Gimnasio RYC` is a false flag — Y is the Spanish
+conjunction but appears inside an abbreviation with no word boundaries, so the conjunction
+normalizer cannot detect it. This is a known limitation. Small kana variants
+(`ミカモラィディングクラブ` vs `ミカモライディングクラブ`) and fullwidth Latin
+(`ヘアーサロンａ‐ｃｕｂｕ vs ヘアーサロンa‐cubu`) are both correctly resolved by the
+existing pipeline (Levenshtein and NFKD normalization respectively).
 
 #### Subset — Business Suffix (52 rows)
 
@@ -868,9 +856,10 @@ context or acronym expansion.
 - `Vitality Integrated Programs` vs `Vitality Integrated Programs (VIP)` — name + acronym
 - `CIBC Branch (Cash at ATM only)` vs `CIBC` — descriptor in parentheses
 
-Standard: the parenthetical content is informative but not part of the core name. Prefer the
-form without parentheses for the golden record, but preserve parenthetical content as metadata
-where the schema supports alternate names.
+Standard: For CJK/Thai names, the parenthetical content is preserved — Thai transliterations and Japanese
+kana readings are essential for disambiguation, not noise. For English names, the parenthetical
+is typically location context or acronym expansion; prefer the form without parentheses, but
+preserve the content as metadata where the schema supports alternate names.
 
 #### Subset — Descriptor (442 rows)
 
