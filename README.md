@@ -125,7 +125,7 @@ conflating formatting noise with semantic disagreement.
 ### 1. Missingness
 
 Script: `scripts/phones/04_phone_missingness.py`  
-Output: `analysis/phones/phone_missingness_summary.csv`
+Output: `analysis/phones/phone_missingness_summary.csv`, `analysis/phones/phone_null_normalization_impact.csv`
 
 This table measures how often phone values are actually absent versus encoded as string-wrapped null markers.
 
@@ -139,10 +139,11 @@ This table measures how often phone values are actually absent versus encoded as
 | `bracket_null_lower`   | Exact string `["null"]`                             | 0          | 0         |
 | `contains_null_text`   | Any non-null string containing the substring `null` | 289        | 0         |
 
-**Interpretation**: Missingness is not limited to SQL NULL. The base side uses bracket-wrapped null markers heavily
-(289 rows); the alt side uses SQL NULL (109 rows). Any comparison that treats these as real values will overcount
-conflict. All null variants are unified to true NULL before any further analysis. These variants must be explicitly
-handled or they will be misclassified as disagreement.
+**Interpretation**: **Null normalization resolves 206 false conflicts.** Before unifying null encodings, 1536 rows
+appear as conflicts because the raw strings differ. Of these, 200 have a real phone on the alt
+side but a bracket-wrapped null marker (`[null]`, `[""]`) on the base side, and 6 have the
+reverse pattern. After unification, these are correctly reclassified as one-sided rows rather
+than conflicts.
 
 ### 2. Structure and Formatting
 
@@ -217,8 +218,11 @@ Remaining conflicts after all stages are exported for manual review in
 
 **Interpretation**
 
-- **Raw string comparison overstates phone conflict by approximately 3x.** After applying
+- **Raw string comparison overstates phone conflict by approximately 3.3x.** After applying
   region-agnostic normalization rules, apparent conflict drops from 79% to 24%.
+  - The S1 baseline of 1330 conflicts (79.2%) in the normalization pipeline already
+    benefits from null normalization — the true pre-normalization conflict rate is 1536 (91.4% of
+    the 1680 usable rows), making the actual overstatement factor approximately **3.8x** rather than 3.3x.
 - **The largest single improvement (S3, ~35%) comes from US +1 prefix normalization**, reflecting
   the dataset's heavy US representation and a systematic formatting difference between the two
   sides (E.164 vs bare national number).
