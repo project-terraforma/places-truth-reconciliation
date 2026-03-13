@@ -5,8 +5,8 @@ normalization_equivalent,typo,37
 normalization_equivalent,word_reorder,26
 normalization_equivalent,diacritic,19
 normalization_equivalent,conjunction,15
-normalization_equivalent,spelling,1
 normalization_equivalent,script_form,1
+normalization_equivalent,spelling,1
 subset,descriptor,442
 subset,biz_suffix,52
 subset,branch_suffix,46

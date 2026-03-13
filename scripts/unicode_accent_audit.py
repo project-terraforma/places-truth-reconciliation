@@ -7,7 +7,7 @@ Purpose:
     that naive accent stripping would destroy.
 
 Outputs:
-    name_unicode_mark_counts.csv    Counts per mark type, per side
+    name_meaningful_diacritic_count.csv    Counts per mark type, per side
 """
 
 import unicodedata
@@ -15,7 +15,7 @@ import duckdb
 import pandas as pd
 
 PARQUET_PATH = "../data/raw/project_a_samples.parquet"
-OUTPUT_PATH = "../analysis/names/name_unicode_mark_counts.csv"
+OUTPUT_PATH = "../analysis/names/name_meaningful_diacritic_count.csv"
 
 
 def audit_marks(s: str) -> dict:
