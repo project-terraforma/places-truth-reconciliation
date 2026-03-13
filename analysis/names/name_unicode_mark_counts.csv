@@ -1,0 +1,4 @@
+side,total_rows,has_dakuten_count,has_dakuten_pct,has_handakuten_count,has_handakuten_pct,has_thai_tone_count,has_thai_tone_pct,has_small_kana_count,has_small_kana_pct,has_korean_mark_count,has_korean_mark_pct,has_any_vulnerable_mark_count,has_any_vulnerable_mark_pct
+alt,2000,32,1.6,9,0.45,44,2.2,19,0.95,1,0.05,90,4.5
+base,2000,34,1.7,9,0.45,45,2.25,19,0.95,1,0.05,94,4.7
+either,2000,37,1.85,10,0.5,47,2.35,20,1.0,1,0.05,99,4.95

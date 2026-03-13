@@ -1,0 +1,10 @@
+before_status,after_status,row_count,pct_of_total
+raw_conflict,norm_conflict,1330,66.5
+raw_agree,norm_agree,350,17.5
+raw_conflict,alt_only,200,10.0
+base_only,both_null,93,4.65
+base_only,base_only,13,0.65
+raw_conflict,base_only,6,0.3
+raw_agree,both_null,4,0.2
+both_null,both_null,3,0.15
+alt_only,alt_only,1,0.05
