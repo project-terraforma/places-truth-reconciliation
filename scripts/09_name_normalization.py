@@ -123,8 +123,26 @@ def levenshtein(a: str, b: str) -> int:
     return prev[-1]
 
 
+def _differs_only_in_digits(a: str, b: str) -> bool:
+    """True if the only character differences between a and b are digit substitutions."""
+    if len(a) != len(b):
+        short, long = (a, b) if len(a) < len(b) else (b, a)
+        long_no_trailing_digits = long.rstrip('0123456789')
+        if long_no_trailing_digits == short or long_no_trailing_digits.rstrip() == short.rstrip():
+            return True
+        return False
+    has_diff = False
+    for ca, cb in zip(a, b):
+        if ca != cb:
+            has_diff = True
+            if not (ca.isdigit() or cb.isdigit()):
+                return False
+    return has_diff
+
+
 def is_typo(a: str, b: str) -> bool:
-    """True if Levenshtein ≤ 2 and similarity ≥ 0.85, both ≥ 5 chars."""
+    """True if Levenshtein ≤ 2 and similarity ≥ 0.85, both ≥ 5 chars.
+    Rejects digit-only differences (different branch numbers are not typos)."""
     if not isinstance(a, str) or not isinstance(b, str):
         return False
     if len(a) < 5 or len(b) < 5:
@@ -132,7 +150,11 @@ def is_typo(a: str, b: str) -> bool:
     dist = levenshtein(a, b)
     if dist > 2:
         return False
-    return (1 - dist / max(len(a), len(b))) >= 0.85
+    if (1 - dist / max(len(a), len(b))) < 0.85:
+        return False
+    if _differs_only_in_digits(a, b):
+        return False
+    return True
 
 
 # ══════════════════════════════════════════════════════════════════════════════

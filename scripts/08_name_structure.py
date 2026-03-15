@@ -267,9 +267,32 @@ def levenshtein(a: str, b: str) -> int:
     return prev[-1]
 
 
+def _differs_only_in_digits(a: str, b: str) -> bool:
+    """True if the only character differences between a and b are digit substitutions.
+    'Fire Station 5' vs 'Fire Station 1' → True (different numbers, not a typo).
+    'Agriturismo' vs 'Agritursmo' → False (letter difference, plausible typo)."""
+    if len(a) != len(b):
+        # Length differs — check if the inserted/deleted chars are digits
+        short, long = (a, b) if len(a) < len(b) else (b, a)
+        # Simple heuristic: if removing digits from the longer makes them equal, it's a number difference
+        long_no_trailing_digits = long.rstrip('0123456789')
+        if long_no_trailing_digits == short or long_no_trailing_digits.rstrip() == short.rstrip():
+            return True
+        return False
+    # Same length: check if every differing position is a digit on at least one side
+    has_diff = False
+    for ca, cb in zip(a, b):
+        if ca != cb:
+            has_diff = True
+            if not (ca.isdigit() or cb.isdigit()):
+                return False  # Non-digit difference → plausible typo
+    return has_diff
+
+
 def is_typo(a: str, b: str) -> bool:
     """True if a and b are typo variants: both ≥ 5 chars, Levenshtein ≤ 2,
-    similarity ≥ 0.85."""
+    similarity ≥ 0.85. Rejects digit-only differences (different branch numbers
+    like 'Fire Station 5' vs 'Fire Station 1' are not typos)."""
     if not isinstance(a, str) or not isinstance(b, str):
         return False
     if len(a) < 5 or len(b) < 5:
@@ -277,7 +300,12 @@ def is_typo(a: str, b: str) -> bool:
     dist = levenshtein(a, b)
     if dist > 2:
         return False
-    return (1 - dist / max(len(a), len(b))) >= 0.85
+    if (1 - dist / max(len(a), len(b))) < 0.85:
+        return False
+    # Reject if the only differences are digit substitutions/insertions
+    if _differs_only_in_digits(a, b):
+        return False
+    return True
 
 
 # ══════════════════════════════════════════════════════════════════════════════

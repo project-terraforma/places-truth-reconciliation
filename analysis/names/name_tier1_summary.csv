@@ -1,5 +1,5 @@
 tier1,count,pct_of_conflicts
-subset,600,55.4
-normalization_equivalent,238,21.98
-genuinely_different,187,17.27
+subset,602,55.59
+normalization_equivalent,234,21.61
+genuinely_different,189,17.45
 casing_only,58,5.36

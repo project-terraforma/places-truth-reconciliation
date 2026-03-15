@@ -123,6 +123,23 @@ def levenshtein(a: str, b: str) -> int:
     return prev[-1]
 
 
+def _differs_only_in_digits(a: str, b: str) -> bool:
+    """True if the only character differences are digit substitutions."""
+    if len(a) != len(b):
+        short, long = (a, b) if len(a) < len(b) else (b, a)
+        long_no_trailing_digits = long.rstrip('0123456789')
+        if long_no_trailing_digits == short or long_no_trailing_digits.rstrip() == short.rstrip():
+            return True
+        return False
+    has_diff = False
+    for ca, cb in zip(a, b):
+        if ca != cb:
+            has_diff = True
+            if not (ca.isdigit() or cb.isdigit()):
+                return False
+    return has_diff
+
+
 def is_typo(a: str, b: str) -> bool:
     if not isinstance(a, str) or not isinstance(b, str):
         return False
@@ -131,7 +148,11 @@ def is_typo(a: str, b: str) -> bool:
     dist = levenshtein(a, b)
     if dist > 2:
         return False
-    return (1 - dist / max(len(a), len(b))) >= 0.85
+    if (1 - dist / max(len(a), len(b))) < 0.85:
+        return False
+    if _differs_only_in_digits(a, b):
+        return False
+    return True
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -441,7 +462,12 @@ def select_normalized(alt: str, base: str) -> tuple:
     8. Shorter, then alt as tiebreaker
     """
 
-    # Rule 1: Branded casing — if one side has camelCase, prefer it
+    # Rule 1: Branded casing — if one side has camelCase, prefer it.
+    # Detects lowercase→uppercase transitions within words: ecoATM, IndianOil,
+    # PhotoColorLab, Dance4Life, LloydsPharmacy, EdShed.
+    # Known false positives (3 rows): DelMoro, TerasCorner, NovaCordis — these
+    # are normal words joined by space removal, not intentional branding.
+    # Documented as edge cases; fixing them breaks the 8+ correct detections.
     alt_branded = _has_branded_casing(alt)
     base_branded = _has_branded_casing(base)
     if alt_branded and not base_branded:
@@ -471,13 +497,29 @@ def select_normalized(alt: str, base: str) -> tuple:
     if _has_nakaguro(base) and not _has_nakaguro(alt):
         return (base, 'base', 'has_nakaguro')
 
-    # Rule 5: Prefer abbreviation periods (Mr. > Mr, A. > A, Mark A. > Mark A)
+    # Rule 5: Period handling (two sub-rules)
     alt_periods = alt.count('.')
     base_periods = base.count('.')
+
+    # 5a: Prefer abbreviation periods when one side has none (Mr. > Mr)
     if alt_periods > base_periods and base_periods == 0:
         return (alt, 'alt', 'has_periods')
     if base_periods > alt_periods and alt_periods == 0:
         return (base, 'base', 'has_periods')
+
+    # 5b: When both have periods, prefer compact single-letter abbreviations
+    # F.C. > F. C., G.L. > G. L., e.V. > e. V.
+    # But Mr. Something > Mr.Something (multi-letter words need the space)
+    if alt_periods > 0 and base_periods > 0:
+        # Count spaces after single-letter+period patterns
+        alt_spaced_abbrev = len(re.findall(r'\b\w\.  ?\w\.', alt))  # "F. C." pattern
+        base_spaced_abbrev = len(re.findall(r'\b\w\.  ?\w\.', base))
+        alt_compact_abbrev = len(re.findall(r'\b\w\.\w\.', alt))    # "F.C." pattern
+        base_compact_abbrev = len(re.findall(r'\b\w\.\w\.', base))
+        if alt_compact_abbrev > alt_spaced_abbrev and base_spaced_abbrev > base_compact_abbrev:
+            return (alt, 'alt', 'compact_abbreviation')
+        if base_compact_abbrev > base_spaced_abbrev and alt_spaced_abbrev > alt_compact_abbrev:
+            return (base, 'base', 'compact_abbreviation')
 
     # Rule 6: Prefer internal dashes (Save-A-Lot > Save A Lot)
     alt_dash = _has_internal_dash(alt)
@@ -487,30 +529,48 @@ def select_normalized(alt: str, base: str) -> tuple:
     if base_dash and not alt_dash:
         return (base, 'base', 'has_compound_dash')
 
-    # Rule 7: Casing quality score
+    # Rule 7: Prefer COMPOUND form (fewer spaces) — if someone wrote it as
+    # one word, it was probably intentional. EXCEPTION: if the compound form
+    # has significantly worse casing (all lowercase vs title case), let
+    # the casing rule decide instead. Also prefer spaced for trailing numbers.
+    alt_spaces = _count_spaces(alt)
+    base_spaces = _count_spaces(base)
+    if alt_spaces != base_spaces:
+        fewer = alt if alt_spaces < base_spaces else base
+        more = base if alt_spaces < base_spaces else alt
+        fewer_src = 'alt' if alt_spaces < base_spaces else 'base'
+        more_src = 'base' if alt_spaces < base_spaces else 'alt'
+        # Trailing number exception: prefer spaced (pickleball 406 > pickleball406)
+        if re.search(r'\s\d+\s*$', more) and not re.search(r'\s\d+\s*$', fewer):
+            return (more, more_src, 'prefer_spaced_number')
+        # Casing sanity check: reject compound if it contains a long all-lowercase
+        # word that the spaced form has in title case. Example: "Baghdad foodmart"
+        # has "foodmart" all-lowercase, but "Baghdad Food Mart" has "Food" and "Mart"
+        # properly capitalized. But "Dance4Life" and "SUMALIFT" have no long
+        # all-lowercase words, so they pass.
+        fewer_words = re.findall(r'[a-zA-Z]+', fewer)
+        has_bad_lowercase = any(
+            w == w.lower() and len(w) >= 4 for w in fewer_words
+        )
+        if has_bad_lowercase:
+            more_words = re.findall(r'[a-zA-Z]+', more)
+            more_has_title = any(
+                w[0].isupper() and len(w) >= 4 for w in more_words
+            )
+            if more_has_title:
+                pass  # Fall through to casing — compound has bad casing
+            else:
+                return (fewer, fewer_src, 'prefer_compound')
+        else:
+            return (fewer, fewer_src, 'prefer_compound')
+
+    # Rule 8: Casing quality score
     alt_casing = _casing_score(alt)
     base_casing = _casing_score(base)
     if alt_casing > base_casing:
         return (alt, 'alt', 'better_casing')
     if base_casing > alt_casing:
         return (base, 'base', 'better_casing')
-
-    # Rule 8: Prefer COMPOUND form (fewer spaces) — if someone wrote it as
-    # one word, it was probably intentional. EXCEPTION: if the space separates
-    # a trailing number (pickleball 406 > pickleball406), prefer the spaced form.
-    alt_spaces = _count_spaces(alt)
-    base_spaces = _count_spaces(base)
-    if alt_spaces != base_spaces:
-        # Check if the difference is just a number being split off
-        fewer = alt if alt_spaces < base_spaces else base
-        more = base if alt_spaces < base_spaces else alt
-        fewer_src = 'alt' if alt_spaces < base_spaces else 'base'
-        more_src = 'base' if alt_spaces < base_spaces else 'alt'
-        # If the extra space separates a trailing number, prefer spaced
-        if re.search(r'\s\d+\s*$', more) and not re.search(r'\s\d+\s*$', fewer):
-            return (more, more_src, 'prefer_spaced_number')
-        # Otherwise prefer compound
-        return (fewer, fewer_src, 'prefer_compound')
 
     # Rule 9: Prefer shorter (less noise), then alt by convention
     if len(alt) < len(base):

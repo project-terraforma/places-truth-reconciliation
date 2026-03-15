@@ -8,5 +8,5 @@ S5,Conjunctions unified,854,42.7,1.5
 S6,Spelling normalized,853,42.65,0.12
 S7,Katakana→hiragana,852,42.6,0.12
 S8,Word reorder (sorted),826,41.3,3.05
-S9,Typo detection (Levenshtein ≤ 2),768,38.4,7.02
-Subset,One normalized name contained in the other,176,8.8,77.08
+S9,Typo detection (Levenshtein ≤ 2),775,38.75,6.17
+Subset,One normalized name contained in the other,178,8.9,77.03
