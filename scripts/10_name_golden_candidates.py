@@ -265,6 +265,7 @@ _LOWERCASE_PARTICLES = {
     'el', 'los', 'las', 'do', 'da', 'dos', 'das',
     'van', 'von', 'den', 'der', 'het',
     'of', 'the', 'and', 'in', 'at', 'by', 'for', 'to', 'on',
+    'e', 'y',
 }
 
 
