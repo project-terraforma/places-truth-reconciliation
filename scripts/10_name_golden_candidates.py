@@ -614,6 +614,12 @@ def select_subset(alt: str, base: str, alt_nc: str, base_nc: str) -> tuple:
         'gym', 'fitness', 'arena', 'stadium',
         'bank', 'insurance', 'agency',
         'sportsbar', 'brewpub', 'coffeehouse',
+        # Business suffixes — legal identity, not noise
+        'inc', 'llc', 'ltd', 'gmbh', 'srl', 'corp', 'plc',
+        'ag', 'sa', 'ltda', 'pty', 'co',
+        # Branch/facility keywords (English)
+        'branch', 'outlet', 'location', 'mall', 'plaza', 'center', 'centre',
+        'atm',
     }
 
     # Determine which is shorter/longer on normalized forms
