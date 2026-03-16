@@ -644,18 +644,25 @@ cannot resolve the conflict and human judgment is required.
 
 **Note 1: Accent stripping must distinguish Latin diacritics from script-essential marks.**
 
-Unicode represents accented Latin characters as a base letter plus a combining mark (e.g. `é` =
-`e` + combining acute accent). Stripping all combining marks removes Latin accents as intended, but
-also removes marks that are linguistically meaningful in other scripts. In Japanese, the dakuten
-(゙) is a combining mark that voices consonants — stripping it turns `バ` (ba) into `ハ` (ha),
-changing the character's pronunciation and meaning entirely. In Thai, tone marks (่ ้ ๊ ๋) are
-combining marks that determine which of five tones a syllable carries — stripping them changes
-word meaning (e.g., `ห้วย` "stream" loses its tone mark and becomes ambiguous). 99 rows (4.95%) contain script-essential
+Unicode represents many accented Latin characters as either a precomposed character or as a base letter plus a
+combining mark (for example, é can be represented as e + combining acute accent). Stripping combining marks may
+remove Latin accents as intended, but it can also remove marks that are linguistically meaningful in other scripts.
+
+In Japanese, the dakuten (`゛`) indicates voicing. In Unicode, this may be represented either as a precomposed character like
+`バ` or as a base kana plus the combining dakuten (`バ` = `ハ` + `U+3099`). Removing the dakuten changes `バ` (ba) to `ハ` (ha),
+altering pronunciation and meaning entirely.
+
+In Thai, tone marks (`่ ้ ๊ ๋`) are combining marks, and removing them can change pronunciation and meaning.
+For example, `ห้วย` loses its tone mark and becomes `หวย`, changing the word from `creek` or `stream` to `lottery` or `lottery ticket`..
+(Thai has five tones, but only four written tone marks; the realized tone also depends on consonant class
+and syllable structure, not just the mark.)
+
+More broadly, 99 rows (4.95%) contain script-essential
 combining marks that naive accent stripping would destroy: 37 with Japanese dakuten (voicing
-marks that distinguish バ "ba" from ハ "ha"), 10 with handakuten (パ vs ハ), 47 with Thai tone
-marks (which determine word meaning across five tones), and 20 with small kana. The fix is to
-only strip combining marks in the Latin Combining Diacritical Marks block (U+0300..U+036F),
-leaving Japanese, Thai, Korean, Arabic, and other script-specific marks intact.
+marks that distinguish `バ` "ba" from `ハ` "ha"), 10 with handakuten (`パ` vs `ハ`), 47 with Thai tone
+marks, and 20 with small kana. The fix is to avoid blanket removal of all combining marks and instead apply a 
+conservative Latin-only accent-folding rule, such as stripping marks in the Combining Diacritical Marks block
+(`U+0300`..`U+036F`), while leaving script-specific marks intact.
 
 **Note 2: Fullwidth spaces (U+3000) are visually identical to ASCII spaces.**
 
