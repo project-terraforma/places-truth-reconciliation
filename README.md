@@ -708,15 +708,25 @@ the owner's stylistic choice:
 - `IndianOil` vs `Indianoil`, `PuroClean` vs `Puroclean`, `CockTailz Fine Wine and Spirits` vs `Cocktailz Fine Wine and Spirits` — same pattern
 - `OXXO` vs `Oxxo`, `bp` vs `BP` — all-caps/lowercase is the brand identity
 
-How do we know when capitalization is an abbreviation versus a stylistic choice? There is no
-reliable automated signal for this. A rule that "prefer title case" would silently damage branded
-names like `ecoATM` or `bp`.
-
 Language-specific casing conventions add further complexity. French and Italian articles and
 prepositions are conventionally lowercased in names: `Fleurs d'Alain` vs `Fleurs D'Alain`,
 `Osteria del Tempo Perso` vs `Osteria Del Tempo Perso`. These follow grammar rules, not owner
 preference. In Japanese, Western brand text tends to be uppercase by convention:
 `セルフ写真館BLANC` vs `セルフ写真館Blanc`.
+
+How do we know when capitalization is an abbreviation versus a stylistic choice? There is no
+reliable automated signal for this. A rule that "prefers capitalization" when the word is less than 4 letters 
+works great, but a rule that "prefer title case" when the word is 5 letters or longer would silently damage branded
+names like `ecoATM`.
+
+In such a case, an additional rule that "prefers lowercase->uppercase transition" fixes many situations like `ecoATM` vs `Ecoatm`, 
+but it is not perfect; it creates three edge cases (false positives), e.g. `DelMoro Supermarket`, `TerasCorner`, and `NovaCordis`,
+when `Del Moro Supermarket`, `Teras Corner`, and `Nova Cordis` are correct.
+
+**Pipeline action (S1)**: Lowercase both sides for comparison. This resolves all 58 casing-only
+conflicts but does not preserve owner-stylized casing (`ecoATM`, `IndianOil`) or language-specific
+conventions (`d'`/`del`). These are acknowledged as information loss during comparison — the golden
+selection rules in Section 7 recover the preferred casing when picking between the two raw names.
 
 #### Normalization Equivalent — Conjunction (15 rows)
 
@@ -727,6 +737,12 @@ One approach: use the language of the name attribute rather than GPS coordinates
 name in Texas should still use `et` if that is what the business uses. GPS coordinates can help as a
 tiebreaker when the name language is ambiguous, but should not override name-level language signals.
 
+**Pipeline action (S5):** Unify `&`/`and`/`et`/`und`/`y`/`e` → canonical form for comparison.
+Resolves: `Howarth Timber and Building Supplies` ↔ `Howarth Timber & Building Supplies`,
+`Acqua e Sapone` ↔ `Acqua & Sapone`. Note: conjunction insertion/deletion
+(`Bäckerei Konditorei` vs `Bäckerei & Konditorei`) is not handled — only substitution is normalized.
+Proposal: golden dataset should prefer the canonical form.
+
 #### Normalization Equivalent — Diacritic (19 rows)
 
 Clear cases: `Imobiliária Alegro` vs `Imobiliaria Alegro` or `Café de l'Harmonie` vs `Cafe de l'Harmonie`
@@ -735,11 +751,15 @@ like `Wildberry Pancakes and Café` vs `Wildberry Pancakes and Cafe`. The accent
 rule prefers the form with more linguistic information, regardless of whether the accent is
 grammatically required or stylistically chosen.
 
-Proposed approach: if the surrounding name text is in a language that uses the accent, keep it
+Proposed approach for the golden dataset: if the surrounding name text is in a language that uses the accent, keep it
 (`Café` in a French name). If the name is English with a borrowed word, the owner may have chosen
 either form. As with conjunctions, the name's own language is a stronger signal than GPS. If an
 Italian café uses English branding with an accented `Café`, that may be intentional stylization
 that cannot be resolved without owner input.
+
+**Pipeline action (S2):** Strip Latin diacritics for comparison (`é` → `e`), plus fullwidth-to-
+halfwidth conversion (`ａ` → `a`, fullwidth space → ASCII space). Diacritics are stripped only
+for matching — the golden selection rules in Section 7 prefer the accented form.
 
 #### Normalization Equivalent — Punctuation (85 rows)
 
@@ -748,7 +768,7 @@ This is the most rule-friendly category. Observations by punctuation type:
 **Dashes as separators**: Very common, easily normalized. `Farmers Insurance - David Hiney` vs
 `Farmers Insurance David Hiney`, `Maricopa County Sheriff's Office - District III Substation` vs
 `Maricopa County Sheriff's Office District III Substation`. Standard: drop separator dashes.
-But dashes *within* compound words may reflect owner's choice: `Grill-Ecke` vs `Grillecke` (German
+But dashes *within* compound words may reflect owner's choice: `A-1 Dental` vs `A1 Dental`, `Grill-Ecke` vs `Grillecke` (German
 compound).
 
 **Abbreviation dots**: `Dana Stampi s.r.l.` vs `Dana Stampi SRL`, `D.P.T.` vs `DPT`. Standard:
@@ -757,9 +777,9 @@ the database-normalized form. Keeping dots vs stripping is a formatting preferen
 
 **Apostrophes**: Should be preserved — they carry meaning. `Aherne's` vs `Ahernes`, `Fredson's`
 vs `Fredsons`, `L'ynara Brautmode` vs `Lynara Brautmode`, `Dunkin' Donuts` vs `Dunkin Donuts`.
-Standard: prefer the form with the apostrophe.
+Proposal: prefer the form with the apostrophe.
 
-**Quotation marks**: Likely drop. `Centro Aperto Polivalente per minori "LOL"` vs
+**Quotation marks**: Not enough examples. `Centro Aperto Polivalente per minori "LOL"` vs
 `Centro Aperto Polivalente per Minori Lol`, `Friseur Salon "Zur alten Wache"` vs
 `Friseur Salon "Alte Wache"` (the quotes are incidental — the real difference is the name inside
 them, making this genuinely different).
@@ -767,34 +787,65 @@ them, making this genuinely different).
 **Plus signs and special characters**: `Gas` vs `Gas+`, `PostalAnnex+` vs `PostalAnnex`,
 `Brothers Mechanical Services` vs `Brothers Mechanical Services®`. These are branding elements.
 Standard: strip `+`, `®`, `™` for normalization but flag as owner-decided for the golden record.
+Proposal for the golden dataset: strip because a high majority is noise.
 
-**Exclamation marks**: `Maloserá` vs `Maloserá!` — likely owner's stylistic choice.
+**Exclamation marks**: `Maloserá` vs `Maloserá!` — likely owner's stylistic choice. Not enough data to tell. Likely keep.
 
 **Japanese nakaguro (・)**: `ビジネスホテル・キャッスル` vs `ビジネスホテルキャッスル` — the
 nakaguro separates loanwords in katakana. Both forms are standard. Standard: strip for comparison,
 prefer the nakaguro form in the golden record as it aids readability.
 
-**Extra conjunction in one side**: `Müller & Egerer Bäckerei Konditorei` vs
-`Müller & Egerer Bäckerei & Konditorei` — one side has an `&` the other omits. This falls outside
-conjunction normalization (which handles `and` ↔ `&` substitution, not insertion/deletion).
+**Pipeline action (S3):** Remove dashes, dots, quotes, nakaguro, `®`, `™`, `+`, `!` and collapse
+whitespace. Apostrophes are preserved — they carry linguistic meaning. This is the second-largest
+single improvement in the pipeline (6.59%).
 
 #### Normalization Equivalent — Spacing (76 rows)
 
-Generally clean. Compound split/join cases are well-handled: `PhotoColorLab` vs `Photo Color Lab`,
-`Dance4Life` vs `Dance 4 Life`. Japanese spacing differences (presence/absence of spaces between
-words) are correctly caught.
+Generally clean. Compound split/join cases are well-handled: `Photo Color Lab` ↔ `PhotoColorLab`,
+`Dance 4 Life` ↔ `Dance4Life`, `からみそラーメン ふくろう` ↔ `からみそラーメンふくろう`.
+
+**Pipeline action (S4):** Strip all spaces and compare. This is the largest single improvement in
+the pipeline (7.27%), reflecting the dataset's heavy Japanese and English representation where word
+boundary conventions differ between sources. Proposal for golden dataset: squish English together.
 
 #### Normalization Equivalent — Typo (37 rows)
 
 Open question: could a typo dictionary or fuzzy-match library improve resolution? Levenshtein catches
 1–2 character differences, but has no concept of common misspellings.
 
-**Normalization Equivalent — Edge cases:** `Gimnasio R&C` vs `Gimnasio RYC` is a false flag — Y is the Spanish
-conjunction but appears inside an abbreviation with no word boundaries, so the conjunction
-normalizer cannot detect it. This is a known limitation. Small kana variants
-(`ミカモラィディングクラブ` vs `ミカモライディングクラブ`) and fullwidth Latin
-(`ヘアーサロンａ‐ｃｕｂｕ vs ヘアーサロンa‐cubu`) are both correctly resolved by the
-existing pipeline (Levenshtein and NFKD normalization respectively).
+**Edge cases:** `Gimnasio R&C` vs `Gimnasio RYC` is a false flag — `Y` is the Spanish conjunction
+but appears inside an abbreviation with no word boundaries, so the conjunction normalizer cannot
+detect it. This is a known limitation. Small kana variants (`ミカモラィディングクラブ` vs
+`ミカモライディングクラブ`) and fullwidth Latin (`ヘアーサロンａ‐ｃｕｂｕ` vs `ヘアーサロンa‐cubu`)
+are both correctly resolved by the existing pipeline (Levenshtein and fullwidth-to-halfwidth
+conversion respectively). Numbers are excluded from typo checks as to avoid matching different
+locations as the same place, e.g., `City of Santee Fire Station 5` vs `City of Santee Fire Station #1`.
+However, some edge cases that still pass through are `Wings of Grace Thrift & More` vs `Wings Of Grace Thrift Store`
+and `Igreja Metodista Central em Santa Maria` vs `Igreja Metodista Central de Santa Maria` - they correctly
+get flagged but are labeled as `normalization equivalent - typo` rather than as `genuinely_different`.
+ 
+**Pipeline action (S9):** Levenshtein distance ≤ 2 with similarity ≥ 0.85, on strings of 5+
+characters. Conservative thresholds: edit distance 2 catches single transpositions, dropped
+letters, or substitutions (like Thai `ค` vs `ก`), while the 0.85 similarity floor prevents
+short-string false matches. Runs on Stage 7 forms (readable, not sorted) because Levenshtein on
+sorted characters measures character-set difference, not actual edit distance. This is the last
+check because it is the most expensive (quadratic in string length) and the least precise.
+
+#### Additional Pipeline Stages
+ 
+Three pipeline stages have minimal representation in this dataset but are included for completeness:
+ 
+**Normalization Equivalent — Spelling normalization (S6):** British → American English (`centre` → `center`, `defence` →
+`defense`). Fires on 1 row in this dataset.
+ 
+**Normalization Equivalent — Script-form normalization (S7):** Katakana → hiragana. Japanese has two phonetic scripts that
+represent the same sounds with different characters. `コインランドリーハナコ` (katakana) and
+`コインランドリーはなこ` (hiragana) both read "Coin Laundry Hanako." This stage must come before
+word reorder (S8) so that katakana and hiragana are unified before sorting.
+ 
+**Normalization Equivalent — Word reorder (S8):** Sort all characters and compare. Resolves `Colombo Cristoforo` ↔
+`Cristoforo Colombo`. Sorting is used only for normalization-equivalent detection — subset
+detection uses unsorted forms because sorting destroys substring containment.
 
 #### Subset — Business Suffix (52 rows)
 
@@ -982,110 +1033,9 @@ reconciliation.
 (`normalized`, `subset`, or `different`), raw names, normalized forms, address/category context,
 confidence, and source providers — the complete audit trail for inspection.
 
-The following subsections document the design decisions behind each stage, based on the manual
-inspection in Section 5.
-
-#### Stage 0: Raw comparison
-
-Baseline conflict count on extracted primary names. 1083 conflicts (54.15% of 2000 rows).
-
-#### Stage 1: Casing normalization
-
-Lowercase both sides. Resolves: `ROSSMANN` ↔ `Rossmann`, `CVS Pharmacy` ↔ `CVS pharmacy`.
-
-Does **not** resolve owner-stylized casing (`ecoATM`, `IndianOil`). These are acknowledged
-as information loss, but casing cannot be reliably preserved without an external brand database.
-Language-specific casing rules (French `d'`/`del`, Japanese preference for uppercase Western text)
-are also lost here but are formatting preferences rather than semantic content.
-
-#### Stage 2: Unicode normalization
-
-NFKD → NFC (fullwidth → ASCII), strip Latin diacritics. Resolves: `ａ` → `a`, `é` → `e`,
-fullwidth space → ASCII space.
-
-Open question: diacritics in borrowed words (`Café` in English context). Proposed rule: strip for
-comparison, prefer the accented form in the golden record when the name language uses that accent.
-
-#### Stage 3: Punctuation stripping
-
-Remove dashes, dots, quotes, nakaguro (・), `®`, `™`, `+`, `!`. Collapse whitespace.
-Resolves: `Farmers Insurance - David Hiney` ↔ `Farmers Insurance David Hiney`,
-`Dana Stampi s.r.l.` ↔ `Dana Stampi SRL`, `ビジネスホテル・キャッスル` ↔ `ビジネスホテルキャッスル`.
-
-Apostrophes: **preserve** — they carry linguistic meaning (`Aherne's`, `L'ynara`, `Dunkin'`).
-
-Open question: dashes within compound words (`Grill-Ecke` vs `Grillecke`, `A-1 Dental` vs
-`A1 Dental`) — these may be owner's choice.
-
-#### Stage 4: Space normalization
-
-Strip all spaces and compare. Resolves: `Photo Color Lab` ↔ `PhotoColorLab`,
-`Dance 4 Life` ↔ `Dance4Life`, `からみそラーメン ふくろう` ↔ `からみそラーメンふくろう`.
-
-This is the most aggressive normalization stage. It collapses all word boundary information.
-
-#### Stage 5: Conjunction normalization
-
-Unify `&`/`and`/`et`/`und`/`y`/`e` → canonical form. Resolves: `Howarth Timber and Building Supplies`
-↔ `Howarth Timber & Building Supplies`, `Acqua e Sapone` ↔ `Acqua & Sapone`.
-
-Open question: should the golden record use `&` universally, or preserve the language-appropriate
-conjunction? Proposed: preserve `&` for English, preserve the native conjunction for other languages,
-use name language as the primary signal (not GPS).
-
-#### Stage 6: Spelling normalization
-
-British → American English. Resolves: `centre` → `center`, `defence` → `defense`.
-
-Rarely fires in this dataset (1 row), but included for completeness.
-
-#### Stage 7: Script-form normalization (Japanese)
-
-Katakana → hiragana. Japanese has two phonetic scripts that represent the same sounds with different
-characters (see katakana/hiragana explanation in Section 2). Converting all katakana to hiragana before
-comparing catches cases where one source uses one script and the other uses the other.
-Resolves: `コインランドリーハナコ` ↔ `コインランドリーはなこ` (both read "Coin Laundry Hanako").
-
-**This must come before word reorder** — sorting characters requires katakana and hiragana to
-already be unified, otherwise `ハナコ` and `はなこ` sort to different positions and the reorder
-stage cannot match them.
-
-#### Stage 8: Word reorder
-
-Sort all characters alphabetically and compare. Builds on Stage 7 so that katakana/hiragana
-differences have already been resolved before sorting.
-Resolves: `Colombo Cristoforo` ↔ `Cristoforo Colombo`.
-
-**Note on subset detection:** Sorting is used only for normalization-equivalent detection. Subset
-detection operates on Stage 7 (unsorted) and Stage 4 (space-stripped) forms, because sorting
-destroys substring containment — `ろーそん` sorted becomes `そろんー`, which is no longer
-contained in the sorted longer name.
-
-#### Stage 9: Typo detection
-
-Levenshtein distance ≤ 2 with similarity ≥ 0.85, on strings of 5+ characters. These conservative
-thresholds catch single transpositions, dropped letters, or character substitutions while avoiding
-false positives on short strings (see Levenshtein explanation in Section 2).
-Resolves: `คลีนิคบ้านหมอ` ↔ `คลีนิกบ้านหมอ` (Thai spelling variant),
-`ミカモラィディングクラブ` ↔ `ミカモライディングクラブ` (small kana variant).
-
-Typo detection runs on Stage 7 forms (readable, unsorted) rather than Stage 8 (sorted), because
-Levenshtein on sorted characters measures character-set difference, not actual edit distance.
-
-#### After normalization: subset detection
-
-Once normalization is complete, check whether one normalized name is contained in the other.
-This check runs on Stage 7 (hiragana-normalized) and Stage 4 (space-stripped) forms — not Stage 8
-(sorted) — because sorting destroys substring containment.
-
-This identifies brand-vs-branch, parenthetical, and descriptor patterns. The reconciliation
-decision for subsets is a policy choice (prefer shorter core name vs longer specific listing),
-not a normalization decision.
-
-#### Remaining conflicts: genuinely different
-
-The 176 rows that survive all 9 normalization stages and are not subsets represent the irreducible
-conflict population. These require either human review, external verification, or abstention.
+The design decisions behind each stage — what each normalizer does, why it was included, and what 
+edge cases it handles — are documented in Section 5 alongside the manual inspection observations
+that motivated them.
 
 ### 7. Golden Dataset Selection
 
@@ -1095,7 +1045,9 @@ Outputs: `analysis/names/name_golden_candidates.csv`, `analysis/names/name_golde
 This script applies concrete selection rules to every row and produces a recommended golden
 name for each place. For each row, the output contains the raw alt and base names, the
 selected golden name, which side it came from (`alt` / `base` / `agreement` / `abstain`),
-and the reason it was selected.
+and the reason it was selected. `selection_reason` shows which formatting rule broke the tie,
+not which normalizer caught the match as before. The classifier (08) and selector (10) answer 
+different questions.
 
 #### Selection Rules for Casing and Normalization Conflicts (296 rows)
 
@@ -1108,7 +1060,7 @@ transition (the `o→A` in `ecoATM`). If one side has branded casing and the oth
 branded version wins. This is the highest-priority rule because branded casing is an intentional
 design choice that all other rules would destroy.
 
-Known edge cases: `Del Moro` (D→M transition looks branded but isn't), `Ters Corner`,
+Known edge cases: `Del Moro` (D→M transition looks branded but isn't), `Teras Corner`,
 `Nova Cordis`. These are false positives where a title-cased two-word name happens to have a
 lowercase→uppercase boundary at the word break. The false positive rate is low (~3 rows).
 
