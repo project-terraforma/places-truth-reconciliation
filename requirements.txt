@@ -1,3 +1,20 @@
 duckdb
 pandas
 numpy
+scikit-learn     # baseline comparisons (n-gram, logistic regression)
+
+# DSPy evaluation (scripts 11, 12)
+dspy-ai
+python-dotenv
+
+# API providers — install the ones you use
+anthropic        # Claude Haiku — reliable structured output, upper-bound baseline
+# together       # Together AI — Mistral-7B, Llama-3.1-8B via cheap API (~$0.20/1M tokens)
+# groq           # Groq — Llama-3.1-8B free tier (rate-limited)
+
+# Local inference (free, no API key needed after setup):
+#   brew install ollama          (Mac) — or https://ollama.com for Windows/Linux
+#   ollama pull mistral          (Mistral-7B, ~4GB download)
+#   ollama pull llama3.1         (Llama-3.1-8B, ~4.5GB download)
+#   ollama serve                 (start server — or open the Ollama desktop app)
+#   Then run: python 11_dspy_extra_content.py --provider ollama --model mistral
