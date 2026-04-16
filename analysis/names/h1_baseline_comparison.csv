@@ -1,0 +1,6 @@
+model,label_accuracy,selection_accuracy,business_type,location,disambiguation,noise,parse_errors,notes
+Majority class,0.2377,0.6639,0.0,0.0,1.0,0.0,0,Always predict 'disambiguation' (most common class)
+Rules — blind vocab,0.5082,0.7951,0.3902,0.8,0.2414,0.4286,0,"README §7 keyword list, no model feedback; 0% location recall"
+Rules — corrected vocab,0.7049,0.9918,0.9756,0.8,0.2414,0.4286,0,After 21 vocabulary corrections derived from model review
+Word 1-2gram + LogReg,0.3279,0.7049,0.1463,0.1333,0.931,0.1429,0,TF-IDF word unigrams+bigrams on extra_content; n=182 train
+Char 3-5gram + LogReg,0.3934,0.6967,0.1707,0.3556,0.8276,0.1429,0,TF-IDF char trigrams-5grams on extra_content; n=182 train
