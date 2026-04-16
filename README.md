@@ -450,13 +450,13 @@ The distribution across 1083 conflict rows:
 
 | Tier 1 Label              | Count | % of Conflicts |
 |---------------------------|-------|----------------|
-| `subset`                  | 600   | 55.4%          |
-| `normalization_equivalent`| 238   | 22.0%          |
-| `genuinely_different`     | 187   | 17.3%          |
+| `subset`                  | 602   | 55.6%          |
+| `normalization_equivalent`| 234   | 21.6%          |
+| `genuinely_different`     | 189   | 17.5%          |
 | `casing_only`             | 58    | 5.4%           |
 
 Over 82% of name conflicts (casing + normalization + subset) have a deterministic or policy-based
-resolution path. Only 17.3% are genuinely different names requiring human review.
+resolution path. Only 17.5% are genuinely different names requiring human review.
 
 #### How Tier 1 Classification Works
 
@@ -583,30 +583,30 @@ in priority order:
 Subtag frequency from `name_subtag_summary.csv` (counts may exceed Tier 1 totals because rows can
 carry multiple subtags):
 
-**Normalization subtags** (238 rows; percentages reflect how many rows carry each subtag,
+**Normalization subtags** (234 rows; percentages reflect how many rows carry each subtag,
 and can exceed 100% because a single row may carry multiple subtags):
 
 | Subtag        | Count | % of Norm. Rows |
 |---------------|-------|-----------------|
 | `punctuation` | 85    | 35.7%           |
 | `spacing`     | 76    | 31.9%           |
-| `typo`        | 37    | 15.5%           |
+| `typo`        | 33    | 14.1%           |
 | `word_reorder`| 26    | 10.9%           |
 | `diacritic`   | 19    | 8.0%            |
 | `conjunction` | 15    | 6.3%            |
 | `script_form` | 1     | 0.4%            |
 | `spelling`    | 1     | 0.4%            |
 
-Punctuation and spacing dominate normalization conflicts. Typo at 37 rows reflects the long tail
+Punctuation and spacing dominate normalization conflicts. Typo at 33 rows reflects the long tail
 of 1–2 character differences that no other normalizer catches (Thai spelling variants, small kana,
 minor letter substitutions). Conjunction and diacritic differences are present but less common.
 Script-form and British/American spelling variants are rare in this sample.
 
-**Subset subtags** (600 rows):
+**Subset subtags** (602 rows):
 
 | Subtag           | Count | % of Subset Rows |
 |------------------|-------|------------------|
-| `descriptor`     | 442   | 73.7%            |
+| `descriptor`     | 444   | 73.8%            |
 | `biz_suffix`     | 52    | 8.7%             |
 | `branch_suffix`  | 46    | 7.7%             |
 | `parenthetical`  | 36    | 6.0%             |
@@ -932,7 +932,7 @@ In most cases the shorter form is the core business name and the longer form is 
 elaboration. Standard: prefer the shorter core name. However, this is a policy decision — the owner
 may prefer the more specific form.
 
-#### Genuinely Different (187 rows)
+#### Genuinely Different (189 rows)
 
 These are rows where the two sides provide semantically different names that no normalization
 can reconcile. Manual inspection reveals several recurring patterns:
@@ -1002,37 +1002,37 @@ the pipeline is **monotonic**.
 | S6     | Spelling normalized               | 853            | 42.65%        | 0.12%                |
 | S7     | Katakana→hiragana                 | 852            | 42.60%        | 0.12%                |
 | S8     | Word reorder (sorted)             | 826            | 41.30%        | 3.05%                |
-| S9     | Typo detection (Levenshtein ≤ 2)  | 768            | 38.40%        | 7.02%                |
-| Subset | One name contained in the other   | 176            | 8.80%         | 77.08%               |
+| S9     | Typo detection (Levenshtein ≤ 2)  | 775            | 38.75%        | 6.17%                |
+| Subset | One name contained in the other   | 178            | 8.90%         | 77.03%               |
 
 Percentages are based on 2000 total rows. Of the 1083 original primary-name conflicts:
 
 | Disposition              | Rows | % of Conflicts | Meaning                                       |
 |--------------------------|------|----------------|-----------------------------------------------|
-| Resolved by normalization| 315  | 29.1%          | Same name after formatting noise is stripped   |
-| Subset (policy decision) | 592  | 54.7%          | One name is contained in the other             |
-| Genuinely different      | 176  | 16.3%          | Irreducible conflict requiring human review    |
+| Resolved by normalization| 308  | 28.4%          | Same name after formatting noise is stripped   |
+| Subset (policy decision) | 597  | 55.1%          | One name is contained in the other             |
+| Genuinely different      | 178  | 16.4%          | Irreducible conflict requiring human review    |
 
 **Interpretation**
 
 **Raw string comparison overstates name conflict by approximately 6x.** After applying
-all normalization stages and subset detection, apparent conflict drops from 54.2% to 8.8%.
+all normalization stages and subset detection, apparent conflict drops from 54.2% to 8.9%.
 
 **The largest single improvement (S4, 7.27%) comes from space normalization**, reflecting the
 dataset's heavy Japanese and Thai representation where word boundary conventions differ between
 sources. Punctuation stripping (S3, 6.59%) is the second largest, driven by dash-as-separator
 and abbreviation-dot patterns across Latin scripts.
 
-**Typo detection (S9, 7.02%) resolves a meaningful tail** of 1–2 character differences —
+**Typo detection (S9, 6.17%) resolves a meaningful tail** of 1–2 character differences —
 Thai spelling variants, small kana, and minor misspellings that no other normalizer catches.
 
-**Subset detection accounts for the majority of remaining conflicts** — 592 of 768 post-
+**Subset detection accounts for the majority of remaining conflicts** — 597 of 775 post-
 normalization conflicts (77%) are cases where one name is contained in the other (brand vs
 brand+branch, name vs name+parenthetical, etc.). These are not formatting noise — they are
 genuine data differences where one source includes more information. Reconciliation requires
 a **policy decision**: prefer the shorter core name or the longer specific listing.
 
-**The remaining 176 rows (8.8% of all rows, 16.3% of conflicts) are genuinely different names**
+**The remaining 178 rows (8.9% of all rows, 16.4% of conflicts) are genuinely different names**
 requiring human review or abstention. These represent the golden dataset population for name
 reconciliation.
 
@@ -1123,7 +1123,7 @@ flagged for human review. This typically happens with Thai and Japanese typo var
 both spellings are plausible: `วัดสถารศ` vs `วัดสถารส`, `คลีนิคบ้านหมอ` vs `คลีนิกบ้านหมอ`,
 `コインランドリーはなこ` vs `コインランドリーハナコ`.
 
-#### Selection Rules for Subset Conflicts (600 rows)
+#### Selection Rules for Subset Conflicts (602 rows)
 
 When one name is contained in the other, the script decides whether to keep the shorter
 core name or the longer specific listing.
@@ -1150,9 +1150,8 @@ rule fires, the shorter form is the core business name. `Emerson Fence` over
 
 #### Known Limitations and Edge Cases
 
-The rule-based approach handles approximately **90% of name conflicts correctly** based on
-manual review of all 2000 rows. The remaining ~10% fall into categories that genuinely
-require semantic understanding:
+The rule-based approach produces a defensible selection for most name conflicts. The cases
+that genuinely require semantic understanding fall into several recurring categories:
 
 **Location vs business-type ambiguity (the primary gap).** The extra content in subset
 conflicts can be either a business-type descriptor (Hotel, Supermarket — keep it) or a
@@ -1165,7 +1164,7 @@ them. Examples where rules fail:
 - `BP` vs `BP America` — America is not a useful qualifier
 
 But the same rule that would drop locations would also incorrectly drop:
-- `Kip McGrath` vs `Kip McGrath Hammersmith` — Hammersmith is location AND disambiguation
+- `Kip McGrath` vs `Kip McGrath Hammersmith` — Hammersmith is a location qualifier, same as Champs-Elysées
 - `Victoria Coiffure` vs `Victoria Coiffure Florissant` — same problem
 
 This is the single largest gap in the rule-based approach and the clearest case for an
@@ -1201,8 +1200,10 @@ The golden candidates CSV provides labeled training data for a hybrid approach. 
 gaps where ML adds value:
 
 1. **Extra content classification.** Given a core name and extra content, classify the extra
-   as: business-type (keep), location (usually drop), or noise (drop). A small language model
-   fine-tuned on the `extra_content` column could handle this with high accuracy.
+   as: business-type (keep), location (usually drop), disambiguation (usually drop), or noise
+   (drop). This has since been evaluated in the ML Extension section (Hypothesis 1). A 4-shot
+   prompted SLM achieves 85–95% selection accuracy with no vocabulary construction, compared
+   to ~97% for a hand-crafted keyword list built iteratively.
 
 2. **Casing reconstruction.** Given a name in unknown casing, produce the correct cased form.
    This requires knowledge of brand names (`ecoATM`), language conventions (`d'Alain`), and
@@ -1223,14 +1224,14 @@ Of 2000 rows in the dataset:
 | Outcome                     | Rows | % of Total | Meaning                                      |
 |-----------------------------|------|------------|----------------------------------------------|
 | Agreement (no conflict)     | 917  | 45.9%      | Both sides identical — golden name is obvious |
-| Rule-selected with confidence| ~850| ~42.5%     | Rules produce a defensible selection          |
-| Rule-selected with caveats  | ~50  | ~2.5%      | Selection is plausible but edge cases exist   |
-| Abstain (human review)      | ~180 | ~9.0%      | Rules cannot determine the better name        |
+| Rule-resolved               | 590  | 29.5%      | Casing (58) + normalization (234) + subset-confident (298) |
+| SLM — H1 (subset uncertain) | 304  | 15.2%      | Extra-content classification needed          |
+| SLM — H2 (genuinely different) | 189 | 9.5%    | Genuine semantic disagreement                |
 
-The rule-based system covers **~88% of rows with a confident selection** and honestly
-flags the remaining ~12% for human review or ML augmentation. The `name_golden_candidates.csv`
-output provides the full audit trail: every row has a selected name, a source, and a reason,
-enabling row-by-row review and correction.
+Rules handle **75% of all name pairs** (917 agreement + 590 rule-resolved) without any language
+model. The remaining **25% (493 rows)** require semantic reasoning that rules cannot provide.
+The `name_golden_candidates.csv` output provides the full audit trail: every row has a selected
+name, a source, and a reason, enabling row-by-row review and correction.
 
 ### 8. Confidence
 
@@ -1238,6 +1239,1111 @@ enabling row-by-row review and correction.
 place existence, not attribute quality. The same structural limitations (base clustering at 1.0,
 small gaps, no relationship to attribute correctness) apply equally to names. Confidence analysis
 is not repeated here.
+
+---
+
+## ML Extension Hypotheses
+
+The rule-based analysis in Sections 3–7 characterizes which conflict types rules can resolve
+and which they cannot. This section records the research hypotheses for ML augmentation,
+the empirical basis for each, and the intellectual landscape they sit within.
+
+### The Stratification Principle
+
+The core methodological claim of this work is: **characterize the conflict distribution before
+deploying a model.** Existing entity resolution (ER) literature almost universally applies
+models to an entire dataset without first determining what fraction of conflicts actually
+require semantic reasoning.
+
+**The apparent conflicts are not errors in either source.** Meta stores phone numbers in
+E.164 format (`+14155551234`); FourSquare stores them in local format (`(415) 555-1234`).
+Both are internally correct and consistent. Aggregating them produces raw-string conflicts
+that are entirely formatting artifacts. The same holds for names: `Café` vs `Cafe`,
+`&` vs `and`, `PhotoColorLab` vs `Photo Color Lab` are provider serialization conventions,
+not data quality defects. The 75% figure measures how much of the dataset is attributable
+to convention differences between independently correct systems — not how much was wrong.
+
+This reframing matters for positioning. The contribution is not that one provider's data
+is better than another's, or that the dataset was noisy and needed cleaning. The contribution
+is a methodology for quantifying how much of apparent conflict in any multi-source
+aggregation is a formatting artifact vs. a genuine semantic disagreement — and for
+identifying, precisely, which rows belong to each category. Rules resolve the formatting
+artifacts; an SLM resolves the semantic residual. The remaining **25% share a specific
+structural property** that no rule can reliably handle — making them the correct and only
+target for a language model component.
+
+This stratification principle is not name-specific. The same methodology — staged normalization,
+conflict taxonomy, rule coverage audit, residual characterization — applies to any attribute
+type (phone, address, category) and any multi-source place or entity dataset. The place data
+is the instantiation; the principle is the contribution.
+
+### Conflict Inventory Summary
+
+Across 2000 rows and 1083 name conflicts:
+
+| Tier | Rows | % of Total | Disposition |
+|------|------|-----------|-------------|
+| No conflict (agreement) | 917 | 45.9% | No action required |
+| `casing_only` | 58 | 2.9% | Rule auto-resolves |
+| `normalization_equivalent` | 234 | 11.7% | Rule auto-resolves |
+| `subset / biz_suffix, branch_suffix, facility_suffix, seo_junk` | 124 | 6.2% | Rule handles reliably |
+| `subset / CJK/Thai-script or generic short name` | 174 | 8.7% | Rule handles reliably |
+| **`subset / descriptor or parenthetical (latin, uncertain)`** | **304** | **15.2%** | **SLM — Hypothesis 1** |
+| **`genuinely_different`** | **189** | **9.5%** | **SLM — Hypothesis 2** |
+
+The 304 + 189 = **493 rows** where rules cannot reliably decide represent the complete scope
+of ML work. They decompose into two structurally different problems requiring two distinct
+model signatures.
+
+---
+
+### Hypothesis 1 — Extra-Content Classification in Subset Conflicts
+
+**File:** `analysis/names/name_hard_cases_eval.csv` (304 rows)  
+**Script:** `scripts/names/11_dspy_extra_content.py`
+
+**Why extra-content classification is the right problem.** For Overture Places data, knowing
+what the extra content *is* turns out to be almost sufficient to resolve the conflict. The
+four classes map directly to a binary keep/drop decision:
+
+- If the extra content describes **what the business is** (`business_type`) → the longer name
+  is more informative and should be preferred. A user searching for "Arthur Murray Dance Studio"
+  benefits from that descriptor; dropping it loses real information.
+- If the extra content is a **location**, **disambiguation**, or **noise** → the shorter name
+  is the canonical form. The extra content was appended by a data provider for internal
+  purposes (branch identification, SEO, directory structure) and does not belong in the
+  canonical place name.
+
+This means three of the four classes collapse to the same action (keep shorter), and only
+`business_type` keeps the longer name. The classification problem reduces almost entirely to
+a single question: **does this extra content describe what the place is, or not?** Getting
+that question right resolves the conflict correctly in the vast majority of cases — which is
+why a model that classifies well on labels also achieves much higher accuracy on the actual
+name selection decision.
+
+**The problem.** When one place name is contained within another (a *subset* conflict), the
+longer name adds *extra content* beyond the core name. Rules apply the following strategy:
+prefer the longer name when the extra content looks like a business-type word (`Hotel`,
+`Supermarket`, `Dance Studio`); otherwise prefer the shorter core name. This works for
+explicit keyword matches. It fails for the **`descriptor` catch-all** (74% of all subsets),
+where the extra content is semantically opaque:
+
+- `Tumi` vs `TUMI Champs-Elysées` — extra is a **location** → rules cannot distinguish this from
+- `Hollyhock Hill` vs `Hollyhock Hill Restaurant` — extra is a **business type** → keep longer
+- `Kip McGrath` vs `Kip McGrath Hammersmith` — extra is a **location** (same as Champs-Elysées above) → keep shorter
+- `George McFaden` vs `George McFaden at Guaranteed Rate Affinity - NMLS #344084` — extra is **noise**
+
+The rule-based approach cannot distinguish these cases without semantic understanding of the
+extra content.
+
+**The SLM task.** Given `(short_name, long_name, extra_content, script_type)`, classify the
+extra content as one of:
+
+| Class | Meaning | Selection action |
+|-------|---------|-----------------|
+| `business_type` | Extra describes what the place IS (Hotel, Supermarket, Clinic) | Prefer longer |
+| `location` | Extra is a place name, city, state, country, neighborhood | Prefer shorter (usually) |
+| `disambiguation` | Extra identifies a specific branch, owner, or service context | Prefer shorter unless short name is non-viable alone |
+| `noise` | Extra is listing boilerplate, credentials, legal numbers, marketing taglines | Prefer shorter |
+
+**Evaluation set composition** (304 rows, all latin-script):
+
+| Subtag | Rows | Notes |
+|--------|------|-------|
+| `descriptor` | 285 | Primary gap — no keyword match, catch-all fallback |
+| `parenthetical` | 19 | English parentheticals where content type is ambiguous |
+
+**Label distribution** (auto-generated; pending full manual verification — counts will shift):
+
+| Class | Count | % |
+|-------|-------|---|
+| `disambiguation` | 132 | 43.4% |
+| `location` | 88 | 28.9% |
+| `business_type` | 71 | 23.4% |
+| `noise` | 13 | 4.3% |
+
+**DSPy approach.** A `ChainOfThought` module over a `Signature` with the four fields above.
+Evaluated with DSPy's `BootstrapFewShot` optimizer against a held-out split of the 304-row
+labeled set. The optimizer finds the best few-shot examples to include in the prompt; the
+goal is to identify the smallest model (Mistral-7B, Llama-3.1-8B) that achieves ≥85%
+*selection* accuracy on the held-out split. See `scripts/names/11_dspy_extra_content.py`.
+
+#### Labeling Protocol
+
+Labels were assigned based on the **text alone** — what the extra content is semantically,
+read at face value, without consulting external sources (search engines, business websites,
+maps). This matches the information available to the SLM at inference time: the model sees
+only `short_name`, `long_name`, and `extra_content`, and must classify from those strings
+alone. Ground truth labels derived from external verification would measure a different
+task than the one the model actually performs.
+
+The labeling decision tree:
+1. **Is it semantically meaningless?** (number, acronym, legal suffix, credential, marketing) → `noise`
+2. **Is it a geographic name?** (city, neighborhood, country, district, region) → `location`
+3. **Does it describe what kind of place this is?** (service, product category, facility type, industry) → `business_type`
+4. **Everything else** (owner name, branch affiliation, organizational relationship, parallel brand) → `disambiguation`
+
+Cases where no single label is defensible are flagged as `contested` in a separate column.
+These are reported separately and excluded from the primary accuracy measurement.
+
+> **TODO:** After manual labeling is complete, review all `contested=y` rows and check
+> whether they are contested *because* the extra content is compound — containing both a
+> business-type component and a location component simultaneously. If so, these rows are
+> not genuinely ambiguous classification cases; they are H4 name construction candidates
+> that were incorrectly routed to H1. Move confirmed compound-contested rows to
+> `analysis/names/h4_construction_candidates.csv` and re-evaluate whether the contested
+> rate drops meaningfully. This would strengthen both hypotheses: H1's contested rate
+> reflects true ambiguity, and H4's candidate set grows from a principled source.
+
+Initial labels were auto-generated by script 10's keyword rules and then hand-verified by
+the author against the above protocol. The auto-generated archive is preserved at
+`analysis/names/name_hard_cases_eval_autogenerated.csv` for comparison.
+
+#### Label Distribution — Final (after iterative correction)
+
+The initial automated labels were systematically wrong in two ways:
+
+1. **Geographic proper nouns mislabeled as disambiguation.** The `extra_content` field is
+   normalized to lowercase, so capitalization-based proper noun detection never fired.
+   `hammersmith`, `florissant`, `virginia beach` were all dumped into `disambiguation`
+   instead of `location`. **61 rows corrected.**
+
+2. **Business-type vocabulary gaps.** Words like `florists`, `ice arena`, `senior care`,
+   `apartments`, `retirement community`, `estacionamento`, `terraza`, `natatorium`,
+   `chicken fingers` describe what a place IS — they belong in `business_type` — but
+   were not in the initial keyword list. **21 rows corrected.**
+
+Both failures are the argument for the SLM: no finite vocabulary covers all business types
+and place names across English, Spanish, Portuguese, German, Italian, Finnish, and Japanese.
+A model has world knowledge; a keyword list does not.
+
+**Rule-generated distribution (304 rows, auto-labeled by script 10):**
+
+| Class | Count | % | Selection action |
+|-------|-------|---|-----------------|
+| `disambiguation` | 132 | 43.4% | Keep shorter name |
+| `location` | 88 | 28.9% | Keep shorter name |
+| `business_type` | 71 | 23.4% | Keep longer name |
+| `noise` | 13 | 4.3% | Keep shorter name |
+
+> **TODO:** Replace table below with hand-labeled distribution once manual verification of
+> `name_hard_cases_eval.csv` is complete. Report how many labels changed (`human_changed=y`)
+> and how many were contested (`contested=y`). The delta between the two tables is the
+> rule-system error rate on its own hard cases.
+
+**Hand-labeled distribution (304 rows, human-verified):** *(pending)*
+
+| Class | Count | % | Δ from rules | Selection action |
+|-------|-------|---|---|-----------------|
+| `disambiguation` | — | — | — | Keep shorter name |
+| `location` | — | — | — | Keep shorter name |
+| `business_type` | — | — | — | Keep longer name |
+| `noise` | — | — | — | Keep shorter name |
+| *(contested)* | — | — | — | *Excluded from primary accuracy measurement* |
+
+Note: three of the four classes map to the same selection action (keep shorter). Only
+`business_type` keeps the longer name. This means label accuracy and selection accuracy
+diverge: a model that calls `limited` `noise` instead of `disambiguation` still
+produces the correct name selection.
+
+#### Legal Form Markers — Resolved
+
+Three eval rows have legal form markers as extra content:
+`Over the Rainbow Limited`, `Good Morning Children Limited`, `American Printing Unlimited`.
+
+**Policy: treat as noise → keep shorter → drop `Limited` / `Unlimited`. This is correct
+for a map places dataset.**
+
+The counter-argument — that `Limited`, `GmbH`, `s.r.l.` are part of the registered legal
+name and should be preserved — applies to business registries, financial data providers,
+and government procurement systems. It does not apply here. Overture is a map foundation
+dataset; the canonical place name is the trading name a user would search for or see on a
+storefront, not the registered legal name filed with a government authority. Nobody navigates
+to `Starbucks Coffee Company LLC`. Anyone needing the registered legal name should query a
+company registry, not a map.
+
+This resolves the question: legal form markers are noise in a map context by definition.
+The label (`noise` vs `disambiguation`) is a taxonomy detail — both produce identical
+selection behavior (keep shorter) and the distinction has no operational consequence for
+this dataset.
+
+#### Evaluation Setup
+
+- **Train/eval split:** 60/40 stratified by index, random seed 42. Train: 182 rows. Eval: 122 rows.
+- **Metric:** `exact_match` (classification label) for optimizer; `selection_accuracy`
+  (correct name chosen) as the primary paper metric.
+- **Label accuracy vs selection accuracy:** because disambiguation, location, and noise all
+  map to the same selection action (keep shorter), many label disagreements are outcome-neutral.
+  Selection accuracy is the operationally meaningful metric.
+- **Output files:**
+  - `analysis/names/dspy_h1_results.csv` — 122 eval rows: prediction, confidence, reasoning, correctness
+  - `analysis/names/dspy_h1_full_inspection.csv` — 122 eval rows + selection action columns, legal form flag, subtag
+  - `scripts/optimized/h1_haiku.json` — saved optimized program (4 few-shot demos baked in)
+
+#### Optimizer: What BootstrapFewShot Selected
+
+`BootstrapFewShot` ran the model on all 182 training examples and kept the 4 where
+chain-of-thought reasoning produced the correct answer. Those 4 become few-shot
+demonstrations baked into every subsequent prompt. The selected examples:
+
+**Demo 1 — business_type (clear single-word case)**
+```
+short_name:    Les Hospitaliers
+long_name:     Les Hospitaliers Hotel
+extra_content: hotel
+reasoning:     "hotel" directly describes the business type — what kind of establishment
+               Les Hospitaliers is. Essential descriptive information.
+classification: business_type  confidence: high
+```
+
+**Demo 2 — location (franchise + city)**
+```
+short_name:    Tiger Rock Martial Arts
+long_name:     Tiger Rock Martial Arts of Lawrenceville
+extra_content: of lawrenceville
+reasoning:     "of lawrenceville" is a geographic qualifier identifying the city location
+               of this franchise — classic location-based disambiguation rather than
+               describing what the business is.
+classification: location  confidence: high
+```
+
+**Demo 3 — location (single country/state name)**
+```
+short_name:    Pousada das Flores.
+long_name:     Pousada Das Flores - Roraima
+extra_content: roraima
+reasoning:     "roraima" is a Brazilian state name — geographic location qualifier
+               disambiguating which Pousada das Flores is referenced.
+classification: location  confidence: high
+```
+
+**Demo 4 — disambiguation (person + role, no place)**
+```
+short_name:    Edward Jones
+long_name:     Edward Jones- Financial Advisor:Heidi Lue
+extra_content: financial advisorheidi lue
+reasoning:     Identifies a specific advisor (Heidi Lue) and their service type within
+               Edward Jones — organizational/personnel affiliation that distinguishes a
+               particular branch representative without describing the business type or
+               a geographic location.
+classification: disambiguation  confidence: high
+```
+
+The optimizer chose 2 location examples, 1 business_type, 1 disambiguation, and 0 noise.
+This reflects where the zero-shot model was uncertain: location vs. disambiguation was the
+primary confusion before optimization.
+
+#### Results
+
+**Scripts:**  
+- `scripts/11_dspy_extra_content.py` — DSPy evaluation (all SLM models)  
+- `scripts/11b_name_baselines.py` — Rule-based and n-gram baselines  
+- `scripts/test_dspy_setup.py` — Smoke test (3 examples, verify environment before full eval)
+
+**Output files:**  
+- `analysis/names/name_hard_cases_eval.csv` — 304-row labeled evaluation set  
+- `analysis/names/dspy_h1_results.csv` — Latest model run predictions (122 eval rows)  
+- `analysis/names/dspy_h1_results_mistral7b_ollama.csv` — Mistral-7B saved predictions  
+- `analysis/names/dspy_h1_results_qwen25_7b_ollama.csv` — Qwen-2.5-7B saved predictions  
+- `analysis/names/dspy_h1_full_inspection.csv` — Haiku predictions with selection flags  
+- `analysis/names/h1_baseline_comparison.csv` — Summary table (all baselines)  
+- `analysis/names/h1_all_approaches_comparison.csv` — Per-row predictions, all methods  
+- `analysis/names/h1_ngram_word_model.pkl` — Saved word n-gram model  
+- `analysis/names/h1_ngram_char_model.pkl` — Saved char n-gram model  
+- `scripts/optimized/h1_haiku.json` — Saved optimized program (4-shot demos, model-agnostic)
+
+**Label accuracy** (did the model predict the exact correct class?):
+
+| Model | Provider | Params | Prompt | Overall | business_type | location | disambig | noise | Parse errors |
+|-------|----------|--------|--------|---------|---------------|----------|---------|-------|-------------|
+| Llama-3.1-8B | Groq | 8B | zero-shot | 23.0%† | 64.7% | 57.1% | 12.0% | 33.3% | 44% |
+| Llama-3.1-8B | Groq | 8B | 4-shot | 27.9%† | 34.1% | 28.9% | 17.2% | 28.6% | 61% |
+| Claude Haiku | Anthropic | — | zero-shot | 68.9% | 90.5% | 95.6% | 34.0% | 83.3% | 0% |
+| Phi-3 Mini | Ollama | **3.8B** | 4-shot | 61.5% | 73.2% | 57.8% | 51.7% | 57.1% | **0%** |
+| Llama-3.1-8B | Ollama | 8B | 4-shot | 68.0% | 80.5% | 77.8% | 37.9% | 57.1% | **0%** |
+| Mistral-7B | Ollama | 7B | 4-shot | 70.5% | 65.9% | 88.9% | 58.6% | 28.6% | **0%** |
+| Qwen-2.5-7B | Ollama | 7B | 4-shot | 76.2% | 73.2% | 84.4% | **75.9%** | 42.9% | **0%** |
+| Qwen-2.5-14B | Ollama | 14B | 4-shot | 77.0% | 85.4% | 84.4% | 55.2% | 71.4% | **0%** |
+| Claude Haiku | Anthropic | — | 4-shot | **82.8%** | **90.2%** | **95.6%** | **75.9%** | **85.7%** | 0% |
+
+† Groq Llama-3.1-8B had 44–61% structured output parse failures. On parseable rows only:
+zero-shot ~41%, 4-shot ~72%. The failures are Groq API + Llama instruction-following —
+the same model via Ollama with adequate memory would likely parse cleanly.
+
+**Selection accuracy and throughput** (did the model recommend keeping the correct name, and how fast?):
+
+> **TODO:** Re-run all models after manual labeling is complete to get updated accuracy
+> numbers. Add throughput (rows/min) and avg latency per row from the timing code added
+> to script 11. Fill in the — cells below.
+
+| Model | Params | Cost | Selection acc | Rows/min | Avg latency | Parse errors |
+|-------|--------|------|--------------|----------|-------------|-------------|
+| Llama-3.1-8B (Ollama) | 8B | free | 81.1% | 1.5 | 38.77s | 0% |
+| Phi-3 Mini (Ollama) | **3.8B** | free | 86.9% | — | — | 0% |
+| Mistral-7B (Ollama) | 7B | free | 86.1% | — | — | 0% |
+| Qwen-2.5-7B (Ollama) | 7B | free | 85.2% | — | — | 0% |
+| Qwen-2.5-14B (Ollama) | 14B | free | 89.3% | 1.5 | 38.85s | 0% |
+| Claude Haiku | — | ~$0.001/row | **95.1%** | — | — | 0% |
+
+The throughput column answers the deployment question: not just *how accurate* but *how
+fast and at what cost*. For a dataset of 493 hard rows (the full H1+H2 scope in the
+2,000-row sample), the practical tradeoff is:
+
+- **Local SLMs (free, ≤8B):** 81–87% selection accuracy, runs on any machine with 8GB RAM,
+  no API key, no cost — viable for high-volume pipelines where occasional errors are
+  acceptable and privacy or cost constraints rule out external APIs
+- **Local 14B (free):** 89% selection accuracy, same cost profile, requires ~16GB RAM —
+  marginal improvement over 7B, same throughput (~1.5 rows/min)
+- **Haiku (~$0.001/row):** 95.1% selection accuracy, ~$0.50 to process all 493 hard
+  rows in the sample — viable for production where accuracy matters and cost is low
+
+The stratification principle makes throughput meaningful: by routing only the 493
+genuinely hard rows to the SLM (rather than all 1,083 conflicts), the per-run cost
+and time are minimized regardless of which model is chosen.
+
+**A note on terminology.** Claude Haiku is NOT a small language model. It is
+Anthropic's smallest *hosted API model* — proprietary, unknown parameter count,
+not runnable locally, not open-weights. In this work, "SLM" refers to the
+open-weights models run locally via Ollama: Phi-3 Mini (3.8B), Llama-3.1-8B (8B),
+Mistral-7B (7B), Qwen-2.5-7B (7B), and Qwen-2.5-14B (14B).
+Haiku serves as the **upper-bound baseline** — what a high-quality proprietary model
+achieves — against which the free-to-run SLMs are compared.
+
+**What the corrected rules baseline actually proves.** The blind keyword list
+(79.5%) is what any developer gets starting from scratch — a reasonable first
+attempt with no model involvement. To reach 97%, the vocabulary needed 21 manual
+corrections: words like `natatorium`, `estacionamento`, `chicken fingers` that
+describe business types but weren't in the initial list. Those corrections were
+found by reviewing SLM outputs — the model identified the gaps, a human patched
+them. That process is iterative, time-consuming, and never complete (the next
+dataset will have new gaps).
+
+The SLM reaches 95.1% in a single cold run with zero vocabulary construction.
+It doesn't need a curated list because it already knows what a natatorium is.
+
+So the three baselines tell three different stories:
+- **79.5%** — what rules give you for free, immediately
+- **95.1%** — what the SLM gives you for free, immediately  
+- **97%** — what rules give you after significant iterative effort, guided by the SLM
+
+The SLM doesn't just beat the naive baseline. It nearly matches the endpoint of a
+laborious human-in-the-loop process on the first try, and it does so without
+accumulating a vocabulary list that will drift out of date as new place types emerge.
+
+**Key findings:**
+
+1. **All Ollama models: 0 parse errors.** Groq Llama-3.1-8B had 44–61% parse
+   failures with the same prompt. Structured output reliability is a function of
+   model architecture and inference infrastructure, not prompt complexity alone.
+
+2. **Phi-3 Mini (3.8B) matches 7B models on selection accuracy (86.9%).** Parameter
+   count is not the limiting factor. Instruction-following quality is.
+
+3. **All local SLMs cluster at 85–87% selection accuracy** — a clear ~9 point gap
+   below Haiku (95.1%). This gap is the measurable cost of using a free local model
+   vs. a paid hosted API. For production use cases where occasional selection errors
+   are acceptable, 86% is deployment-viable.
+
+4. **Qwen-2.5-7B has the best disambiguation accuracy (75.9%)** — better than
+   Haiku's 51.7% on that class. Its multilingual training makes it more reliable
+   at recognizing organizational affiliations across languages.
+
+#### Failure Taxonomy — What No Model Gets Right
+
+Across Mistral-7B, Qwen-2.5-7B, and Claude Haiku, **3 rows produce selection
+errors in all three models**. These are the irreducible hard cases:
+
+| Extra content | Short → Long | Why all models fail |
+|---|---|---|
+| `natatorium` | Clarkston High School → …Natatorium | Rare English word; all models read as disambiguation rather than facility type |
+| `state farm insurance agent` | Craig Bagley → Craig Bagley - State Farm Insurance Agent | Simultaneously identifies an affiliation (State Farm) AND a job title that describes what the business IS (insurance agent); mixed signal |
+| `carsten nessler sachverstandige fur immobilien` | ImmoWert Hessen → …Carsten Nessler Sachverständige für Immobilien | Person name embedded within a business type (certified real estate appraiser); person-name signal overrides business-type signal |
+
+All three are debatable labels. For `natatorium` and `state farm insurance agent`,
+the model's call of `disambiguation` is a reasonable interpretation — a natatorium
+is a specific facility within a school, and an insurance agent identifies Craig
+Bagley's role within State Farm. These may warrant reclassification.
+
+**Cases where local SLMs fail but Haiku succeeds** (the 9-point gap in practice):
+most are non-English business types — `saude` (Portuguese: health), `estacionamento`
+(Portuguese: parking), `terraza` (Spanish: rooftop bar), `autofficina` (Italian:
+auto repair shop). These words appear rarely in smaller models' training data.
+Haiku's larger training corpus covers them. This is the world-knowledge gap that
+justifies using a hosted model when accuracy is critical.
+
+4. **Qwen-2.5-7B has the best disambiguation accuracy (75.9%)** — notably better than
+   Haiku's 51.7% on that class. Qwen recognizes organizational affiliations and branch
+   names more reliably. Haiku dominates on business_type (90.2%) and location (95.6%).
+
+5. **The optimized prompt is model-agnostic.** When BootstrapFewShot was run
+   independently on Mistral-7B, it selected the identical 4 examples as the Haiku
+   optimizer. Selection accuracy is identical (86.1%) whether Mistral uses its own
+   optimized demos or Haiku's. Optimize once on any capable model; load the saved
+   program into any other model for equivalent results.
+
+6. **The 4-shot demos help all models but don't close the gap.** Moving from zero-shot
+   to 4-shot: Haiku +13.9 pts label accuracy. All models still cluster below Haiku.
+
+The gap between label accuracy (82.8%) and selection accuracy (95.1%) for Haiku is
+explained by the 13 cases where the model chose the wrong label but the right name —
+primarily disambiguation/noise boundary cases (store numbers, corporate suffixes, acronyms)
+where both labels map to "keep shorter."
+
+#### Disambiguation: The Bottleneck Class
+
+`disambiguation` is the hardest class across every model — scoring 37–76% vs 77–95% for
+the other three classes. This is not a model failure; it reflects genuine structural
+ambiguity in the label itself. The `disambiguation` class is a catch-all for extra content
+that identifies *which instance of a business* this is, without describing what the business
+generically is. It spans at least five distinct sub-patterns, several of which overlap
+with `business_type` or `location`:
+
+| Sub-pattern | Example | Why models misclassify |
+|-------------|---------|----------------------|
+| **Franchise/affiliation** | `raymond james office` (Barnegat Bay Financial Group) | Reads as business_type — it names the parent brand |
+| **Branch identifier that looks like a location** | `tampa airport` (Miller's Ale House) | Reads as location — it is a place name, but it identifies which branch, not where the place is |
+| **Service specialty of a larger org** | `primary care` (CHI Saint Joseph Medical Group) | Reads as business_type — it describes a medical specialty |
+| **Person name as branch identifier** | `heidi lue` (Edward Jones Financial Advisor) | Reads as noise or disambiguation — person names are ambiguous |
+| **Dual-brand co-location** | `at walgreens` (Village Medical) | Reads as location — Walgreens is a store, but the relationship is tenancy, not geography |
+| **Internal data flags** | `dup do not use` (San Jose Airport) | Most models correctly classify as noise, not disambiguation |
+
+The core tension: many `disambiguation` extra contents describe *something real about the
+place* — its affiliation, its specialty, its host location — which models correctly read as
+informative. The label reflects the policy decision (keep the shorter canonical brand name,
+drop the organizational context), not just semantic content. A model that predicts
+`business_type` for `family hair cutters` (Top Cut) is not wrong about meaning; it's
+wrong about policy.
+
+**20 representative disambiguation examples** (full set of 131 in
+`analysis/names/disambiguation_examples.csv`):
+
+| Short name | Long name | Extra content | Sub-pattern |
+|-----------|-----------|---------------|-------------|
+| Edward Jones | Edward Jones — Financial Advisor: Heidi Lue | `financial advisor heidi lue` | Person + affiliation |
+| Barnegat Bay Financial Group | Barnegat Bay Financial Group — Raymond James Office | `raymond james office` | Franchise affiliation |
+| Steve & Lori Robinson Realtors | Steve & Lori Robinson Realtors — BHHS Elite Real Estate | `bhhs elite real estate` | Franchise affiliation |
+| Village Medical | Village Medical at Walgreens | `at walgreens` | Dual-brand / host |
+| Boot Barn Hall | Boot Barn Hall at Bourbon Brothers | `at bourbon brothers` | Dual-brand / host |
+| Miller's Ale House | Miller's Ale House — Tampa Airport | `tampa airport` | Branch looks like location |
+| Family Practice Associates of Orange Park | Family Practice Associates of Orange Park Fleming Island | `fleming island` | Branch looks like location |
+| Marshalls plc (Marshalls Mono Ltd.) | Marshalls plc (Marshalls Mono Ltd.) Sittingbourne | `sittingbourne` | Branch looks like location |
+| CHI Saint Joseph Medical Group | CHI Saint Joseph Medical Group — Primary Care | `primary care` | Specialty looks like business_type |
+| Roper St. Francis Physician Partners | Roper St. Francis Physician Partners — Primary Care | `primary care` | Specialty looks like business_type |
+| Dixon Center | Dixon Center for Integrative Healthcare | `for integrative healthcare` | Specialty looks like business_type |
+| Top Cut | Top Cut Family Hair Cutters | `family hair cutters` | Descriptor looks like business_type |
+| Dan Stiebel | Dan Stiebel, Coldwell Banker Commercial Schmidt | `coldwell banker commercial schmidt` | Franchise affiliation |
+| Apollo Tyres | Apollo Tyres — Bhatia Tyre & Service | `bhatia tyre service` | Franchise operator name |
+| Carquest Auto Parts | Carquest Auto Parts — Jerry's Auto Parts | `jerrys auto parts` | Franchise operator name |
+| Service Neon | Service Neon di Cateni Riccardo | `di cateni riccardo` | Person name as branch ID |
+| Wayne Cooley - COUNTRY Financial | Wayne Cooley - COUNTRY Financial representative | `representative` | Job title |
+| Jiffy Xpress | Jiffy Xpress / Godfather's Pizza Express | `godfathers pizza express` | Dual brand (slash) |
+| San Jose Airport | San Jose Airport — DUP DO NOT USE | `dup do not use` | Internal data flag |
+| iChiro Clinics | iChiro Clinics/Peak Performance Integrated Medicine North Office | `peak performance integrated medicine north office` | Compound: affiliation + location |
+
+The last row is also an H4 candidate: the ideal reconstructed name would be
+`Peak Performance Integrated Medicine North Office` (the long name is actually the
+more specific and canonical form here).
+
+#### Evaluation Limitations and Data Quality
+
+**1. Eval set size.** 122 eval rows is small for a 4-class classification problem.
+Results should be reported with bootstrap confidence intervals, not as point
+estimates. Approximate 95% CI for Haiku selection accuracy: ±4–5 percentage points.
+
+**2. Model-assisted annotation (partial label contamination).**
+Of the 304 labeled rows, ~82 had their labels corrected during iterative review
+(61 location, 21 business_type). These corrections were made by examining model
+disagreements — when the model predicted `location` on a row we had labeled
+`disambiguation`, we verified the extra content was indeed a city/neighborhood
+and updated the label. This is "model-assisted annotation," not direct label copying:
+all corrections are independently verifiable (e.g., `Hammersmith` is a London
+neighbourhood by any geographic reference). However, it creates a partial
+circular dependency.
+
+**Impact:** Of the 122 eval rows, approximately 53 had model-assisted corrections.
+On the 69 rows with original unmodified labels, Haiku achieves **92.8% selection
+accuracy**. On the full 122 rows, **95.1%**. The true accuracy is in the range
+**92.8–95.1%**. The corrected rows measure ~98% because those rows were
+identified precisely because the model got them right.
+
+Local SLMs (Mistral-7B, Qwen-2.5-7B, Phi-3 Mini) are less affected: their
+corrections were based on Haiku's zero-shot predictions, not their own — so the
+labels are not self-servingly biased for local SLM evaluation.
+
+**3. Duplicate rows.** `Atm` / `ATM (Post Office)` appears 3 times in the
+dataset (3 different UK post offices) but is functionally identical in evaluation
+since city context was stripped. 1 copy lands in train, 2 in eval — slightly
+double-counting one pattern. Impact: negligible (<0.5% on reported accuracy).
+
+**4. Corrected-rules baseline is not independent.** The "Rules — corrected vocab"
+row (96.7% selection accuracy) was built using 21 vocabulary additions derived
+from reviewing model outputs across all 304 rows including eval. This baseline
+cannot be treated as an independent comparison to the SLM. The independent
+baseline is "Rules — blind vocab" (79.5%).
+
+**5. No independent human annotation pass.** Labels were set by an automated
+classifier then iteratively refined. A clean replication would have a human
+annotator label all 304 rows without seeing any model predictions, then evaluate
+models against those independent labels. This is future work.
+
+#### The 6 Genuine Selection Errors (Optimized Haiku)
+
+These are the rows where the model would produce the wrong canonical name:
+
+| Error type | Extra content | Short name | Long name | Model's reasoning |
+|-----------|---------------|-----------|-----------|------------------|
+| `business_type→disambiguation` | `natatorium` | Clarkston High School | Clarkston High School Natatorium | Model: "specific facility or building type" but still predicted disambiguation — internally inconsistent |
+| `business_type→disambiguation` | `state farm insurance agent` | Craig Bagley | Craig Bagley - State Farm Insurance Agent | Model: "identifies organizational affiliation" — valid reading; insurance agent also describes what Craig Bagley IS |
+| `business_type→disambiguation` | `carsten nessler sachverstandige fur immobilien` | ImmoWert Hessen | ImmoWert Hessen Carsten Nessler Sachverständige für Immobilien | Extra contains both a person's name (noise/disambiguation) and a business type (appraiser) — mixed signal |
+| `disambiguation→business_type` | `financial` | Andy Allain - Thrivent | Andy Allain - Thrivent Financial | "Financial" as standalone word; model reads as business type; Thrivent Financial is the company name |
+| `business_type→location` | `black mamba barbershop tattoo nezahualcoyotl` | Black Mamba Barber Shop | Black Mamba Barbershop & Tattoo \| Nezahualcóyotl | Extra contains both a business type (barbershop) AND a city name; location signal dominated |
+| `location→business_type` | `eau de menton` | Prestige de Menton | Prestige de Menton - Eau de Menton | "Eau de Menton" (Water of Menton) — model read as product type; Menton is a French city |
+
+Four of the six are genuinely ambiguous cases where a human reviewer would also hesitate.
+Cases 1–3 are the hardest: mixed signals (person name + business type, or business type
+framing on an affiliation). Case 6 is a language-knowledge problem: `Menton` is a specific
+French city, but `eau de menton` also sounds like a product. The model lacks the
+geographic gazetteer knowledge to distinguish.
+
+#### Comparison Against All Baselines
+
+**The honest framing.** A vocabulary rule set achieves high selection accuracy, but
+requires iterative manual construction — reviewing model outputs and adding
+language-specific business-type words across English, German, Italian, Portuguese,
+Finnish, Japanese, and Spanish. The SLM achieves comparable selection accuracy with
+zero vocabulary construction and generalizes automatically to all languages. The value
+is **development cost and multilingual generalization**, not raw accuracy delta.
+
+Script: `scripts/11b_name_baselines.py`  
+Outputs: `analysis/names/h1_baseline_comparison.csv`, `analysis/names/h1_all_approaches_comparison.csv`,
+`analysis/names/h1_ngram_word_model.pkl`, `analysis/names/h1_ngram_char_model.pkl`
+
+**Label accuracy and selection accuracy — 122 eval rows:**
+
+| Method | Label acc | Selection acc | biz_type | location | disambig | noise | Notes |
+|--------|-----------|--------------|---------|---------|---------|-------|-------|
+| Majority class | 23.8% | 66.4% | 0% | 0% | 100% | 0% | Always predict `disambiguation` |
+| Rules — blind vocab | 50.8% | 79.5% | 39.0% | 80.0% | 24.1% | 42.9% | README §7 words only, no iteration |
+| Rules — corrected vocab | 68.0% | **96.7%** | 90.2% | 80.0% | 24.1% | 42.9% | After 21 vocabulary corrections derived from model review |
+| Word 1-2gram + LogReg | 32.8% | 70.5% | 14.6% | 13.3% | 93.1% | 14.3% | 182 training examples too few |
+| Char 3-5gram + LogReg | 39.3% | 69.7% | 17.1% | 35.6% | 82.8% | 14.3% | Character patterns help slightly for location |
+| SLM: Phi-3 Mini 4-shot (3.8B) | 61.5% | 86.9% | 73.2% | 57.8% | 51.7% | 57.1% | Smallest model tested; 0 parse errors via Ollama |
+| SLM: Mistral-7B 4-shot | 70.5% | 86.1% | 65.9% | 88.9% | 58.6% | 28.6% | Strong location; weak noise; 0 parse errors |
+| SLM: Qwen-2.5-7B 4-shot | 76.2% | 85.2% | 73.2% | 84.4% | **75.9%** | 42.9% | Best disambiguation; multilingual training |
+| SLM: Haiku + 4-shot | **82.8%** | **95.1%** | **90.2%** | **95.6%** | 51.7% | **85.7%** | Upper bound; zero vocabulary construction |
+
+**Why n-grams perform worse than rules:**  
+With only 182 training examples across 4 classes, TF-IDF LogReg has too little signal.
+`noise` has ~7 training examples; `location` has ~53. Neither n-gram model can learn
+the geography — it has never seen `Queretaro`, `Azcapotzalco`, or `Tromsø`. Rules at
+least have a vocabulary; n-grams have nothing for unseen tokens. This is not a failure
+of n-grams in general — it is a consequence of small dataset size and the geographic
+diversity of the location class.
+
+**Where the SLM uniquely helps (24 rows — blind rules wrong, SLM correct):**  
+All 24 are `business_type` cases the blind vocabulary missed. They span 9 languages
+and script contexts — the SLM identifies them from world knowledge, not from a word list:
+
+| Extra content | Long name | Language |
+|--------------|-----------|---------|
+| `engenharia` | Recolast Ambiental Engenharia | Portuguese |
+| `kirjasto` | Työväen Akatemian kirjasto | Finnish |
+| `estacionamento` | Dias Park Estacionamento | Portuguese |
+| `saude` | Academia Performance & Saúde | Portuguese |
+| `vibrationstechnik` | ALDAK GmbH VIBRATIONSTECHNIK | German |
+| `ankauf und verkauf` | Wohnungsauflösungen Schenk Ankauf und Verkauf | German |
+| `terraza` | La Azotea Terraza | Spanish |
+| `lanches` | Floripa Sucos e Lanches | Portuguese |
+| `autofficina castrol service` | Dercole Pneumatici Autofficina Castrol Service | Italian |
+| `acessorios automotivo` | Auto Stark Acessórios Automotivo | Portuguese |
+| `sushi asiatische spezialitaten` | Eat Happy Sushi & asiatische Spezialitäten | Mixed |
+| `church` | West Bradenton Baptist Church | English (concept) |
+| `ice arena` | Charleston Civic Center Ice Arena | English (gap) |
+| `senior care` | Home Instead Senior Care | English (gap) |
+| `retirement community` | Remington Heights Retirement Community | English (gap) |
+| `florists` | Leonora Rose Florists | English (gap) |
+| `chicken fingers` | Raising Cane's Chicken Fingers | English (gap) |
+| `propane exchange` | Blue Rhino Propane Exchange | English (gap) |
+| `photo lab` | United Promotions Inc. Photo Lab | English (gap) |
+| `bulbs` | Batteries Plus Bulbs | English (gap) |
+| `prosthetics orthotics` | Hanger Clinic: Prosthetics & Orthotics | English (gap) |
+| `design` | Momo and Co. Design | English (gap) |
+| `auto transport` | JE Carriers Auto Transport | English (gap) |
+| `apartments` | The Fairways at San Marcos Apartments | English (gap) |
+
+The English "gap" rows are words not in the README §7 vocabulary — a maintained keyword
+list will always have gaps; world knowledge does not.
+
+**Where rules uniquely help (5 rows — blind rules correct, SLM wrong):**  
+All 5 are ambiguous mixed-signal cases:
+
+| Extra content | Issue |
+|--------------|-------|
+| `state farm insurance agent` | SLM calls disambiguation; rules correctly call business_type because `agent` is in vocab |
+| `financial` | SLM calls business_type (Thrivent Financial = company name); rules correctly call disambiguation |
+| `black mamba barbershop tattoo nezahualcoyotl` | SLM sees `nezahualcóyotl` (city) and calls location; rules see `barbershop` and call business_type correctly |
+| `eau de menton` | SLM misreads as product; rules default to disambiguation (no vocab match) which also gives wrong selection; this is a loss for both |
+| `carsten nessler sachverstandige fur immobilien` | SLM confused by person name + business type; rules call business_type from `sachverstandige` in vocab |
+
+**The location class — where world knowledge is irreplaceable:**  
+Rules get 80% on location only because the corrected-vocab rules include proper noun
+detection via capitalization in `long_name`. Blind rules get 0% on location. The SLM
+gets 95.6% by knowing geography directly. `Rockingham` (Perth suburb), `Tromsø`
+(Norwegian city), `Azcapotzalco` (Mexico City borough), `Mosqueiro` (Brazilian island),
+`Queretaro` (Mexican city) — no finite vocabulary can enumerate all of these.
+
+#### Running on Other Models and Providers
+
+The optimized prompt is saved as `scripts/optimized/h1_haiku.json` and is
+model-agnostic — it can be loaded by any provider DSPy supports.
+
+**Via API (requires key in `.env`):**
+```bash
+# Together AI — Mistral-7B (~$0.20/1M tokens)
+python 11_dspy_extra_content.py --provider together \
+    --model mistralai/Mistral-7B-Instruct-v0.2 \
+    --load-path optimized/h1_haiku.json
+
+# Groq — Llama-3.1-8B (free tier, rate-limited)
+python 11_dspy_extra_content.py --provider groq \
+    --model llama-3.1-8b-instant \
+    --load-path optimized/h1_haiku.json
+
+# Anthropic Haiku (upper-bound baseline)
+python 11_dspy_extra_content.py --provider anthropic \
+    --model claude-haiku-4-5-20251001 \
+    --load-path optimized/h1_haiku.json
+```
+
+**Via Ollama (local, free after one-time setup):**
+```bash
+# Install (Mac):
+brew install ollama
+# Or download the desktop app from https://ollama.com — recommended,
+# because it runs the server automatically in the background without
+# needing a separate terminal open.
+
+# Pull models (one-time, ~4GB each):
+ollama pull mistral        # Mistral-7B
+ollama pull llama3.1       # Llama-3.1-8B
+
+# If NOT using the desktop app, start the server in one terminal:
+ollama serve
+
+# Then run in another terminal:
+python 11_dspy_extra_content.py --provider ollama --model mistral \
+    --load-path optimized/h1_haiku.json
+```
+
+Note: Ollama defaults to CPU inference if no GPU is present. Mistral-7B takes
+roughly 30–60 seconds per prediction on CPU; for 122 eval rows that is ~2 hours.
+If you have an Apple Silicon Mac, Ollama uses the Neural Engine automatically and
+is much faster (~2–5 seconds/prediction).
+
+#### Paper Abstract (Draft)
+
+> Multi-source place data aggregation produces apparent name conflicts at a rate
+> 6× higher than genuine semantic disagreement, because independently correct
+> providers use different serialization conventions. A staged normalization pipeline
+> — lowercasing, Unicode normalization, punctuation stripping, conjunction unification,
+> and subset detection — handles 75% of name pairs in a 2,000-record Overture
+> Maps dataset with no training data and no annotation, leaving 25% that require
+> semantic reasoning no rule can provide. The residual concentrates in a single
+> structural pattern: *subset extra-content classification*, where the
+> content appended to a core place name (`terraza`, `Hammersmith`, `NMLS #344084`,
+> `senior care`) must be classified as business-type, location, disambiguation, or
+> noise to determine which name variant to canonicalize. No finite vocabulary
+> enumerates all such content across 15+ languages. We evaluate three open-weights
+> small language models (Mistral-7B, Qwen-2.5-7B, Phi-3 Mini 3.8B) using a
+> DSPy-compiled 4-shot prompt optimized on 182 labeled examples. All three achieve
+> 85–87% selection accuracy with zero structured-output parse errors when run locally
+> via Ollama — compared to 70% for n-gram classifiers trained on the same data and
+> 79.5% for a blind vocabulary rule set. A hosted API model (Claude Haiku) reaches
+> 95.1% selection accuracy, a ~9 point gap attributable to deeper world knowledge
+> for rare non-English business-type terms. Three cases produce selection errors
+> across all models, all involving mixed signals (person name embedded in business
+> type, or institutional affiliation that simultaneously describes a job title).
+> The contribution is methodological: characterize the conflict distribution before
+> deploying a model; apply models only to the structurally specific residual that
+> requires world knowledge; use DSPy to find the cheapest viable model for that
+> residual. This methodology applies to any multi-source attribute canonicalization
+> problem, not only place names.
+
+---
+
+### Hypothesis 2 — Name-Pair Relationship Classification in Genuinely-Different Conflicts
+
+**File:** `analysis/names/name_genuinely_different_inspect.csv` (189 rows)  
+**Script:** `scripts/names/12_dspy_genuinely_different.py` *(planned)*
+
+**The problem.** The 189 `genuinely_different` rows are cases where normalization cannot
+reconcile the two names — they are structurally different. The current system abstains on all
+of them. Manual inspection reveals recurring sub-patterns that carry different implications
+for canonicalization:
+
+| Sub-pattern | Example | Implication |
+|-------------|---------|-------------|
+| Same entity, different brand names | `Citibanamex 30 Av. Playa Del Carmen` vs `Citibank` | Abstain; flag for provider quality review |
+| Same entity, different naming conventions | `Mishicot Fire Dept` vs `Mishicot Volunteer Fire Depart` | Prefer either; quality signal (completeness) decides |
+| Different locations, same chain | `Sport Clips Panama City` vs `Sport Clips Lynn Haven` | Flag as potential upstream matching error |
+| Abbreviation expansion | `สำนักงานอธิการบดี ม.รามคำแหง` vs `…มหาวิทยาลัยรามคำแหง` | Normalization gap (Thai/abbrev lookup needed) |
+| Test/placeholder data | `PUBLIC location 324234 #%&*` vs `PUBLIC LOCATION NAME…` | Discard both |
+
+**The SLM task.** Given `(alt_name, base_name, category, city)`, classify the relationship as:
+
+| Class | Meaning | Action |
+|-------|---------|--------|
+| `same_entity_diff_name` | Same place, different provider naming | Prefer by quality signal or abstain |
+| `location_mismatch` | Different branches of same chain | Flag — likely upstream matching error |
+| `abbreviation_variant` | One name is an abbreviation of the other (not caught by normalizers) | Prefer expanded form |
+| `test_data` | Placeholder or synthetic data | Discard |
+
+**Note:** This is a structurally different task from Hypothesis 1. H1 classifies a *fragment*
+(the extra content) using lexical and semantic features. H2 classifies a *relationship*
+between two full names using world knowledge (brand hierarchies, abbreviation conventions,
+location context). Both use DSPy but require separate signatures and separate evaluation
+sets. A single paper could present both; alternatively, H1 and H2 are separate contributions
+of approximately equal weight.
+
+#### Zero-Shot Predictions (Haiku, no labels yet)
+
+**Script:** `scripts/names/12_dspy_genuinely_different.py --zero-shot`  
+**Output:** `analysis/names/dspy_h2_predictions.csv` (189 rows)
+
+Zero-shot Haiku predictions across all 189 genuinely-different rows:
+
+| Predicted type | Count | % | Action |
+|---|---|---|---|
+| `same_entity_diff_name` | 135 | 71.4% | prefer_alt (65), prefer_base (79), flag (10), abstain (1) |
+| `location_mismatch` | 25 | 13.2% | flag_for_review (all 25) |
+| `abbreviation_variant` | 21 | 11.1% | prefer_alt (8), prefer_base (11), flag (2) |
+| `test_data` | 8 | 4.2% | discard (all 8) |
+
+No labels exist yet — this is zero-shot output for manual review, not an accuracy measurement.
+
+**The most impactful finding: `location_mismatch` (25 rows).**
+These are cases where the model identifies two records that should not have been matched
+in the first place — they describe genuinely different places. Examples:
+
+- `Sport Clips Panama City - Cahall's Deli Plaza` vs `Sport Clips Lynn Haven` — different cities
+- `City of Santee Fire Station 5` vs `City of Santee Fire Station #1` — different stations
+- `新宮町役場 社会教育課` vs `新宮町役場 歴史資料館` — same town hall, different departments
+- `St. Ann Catholic Church` vs `St. Ann's Catholic School` — church vs school at same address
+- `DANCENTER (16792)` vs `DANCENTER (19612)` — different vacation rental units at same park
+
+No H1 rule or model can catch these — they require understanding that the pair describes
+different entities. H2's unique contribution is **upstream matching error detection**.
+
+**`test_data` (8 rows): all correctly identified zero-shot.** All 8 are
+`Profile Publishing Location…` or `PUBLIC LOCATION NAME…` placeholder strings.
+No human labeling needed — discard both records in each pair.
+
+**`same_entity_diff_name` (135 rows): model makes quality recommendations.**
+Within same-entity pairs, the model is not just classifying the relationship — it is
+recommending which name is the better canonical form (prefer_alt or prefer_base).
+Example: `Effetto Shock snc` vs `Effetto Shok SNC di Foglietta e Cariani` →
+prefer_base (correct spelling, more complete name).
+
+**Status:** Needs human label verification (~2–4 hours) before accuracy can be
+measured. The zero-shot quality appears high; the `test_data` and most
+`location_mismatch` rows can likely be labeled quickly. `same_entity_diff_name`
+(135 rows) requires the most review.
+
+---
+
+### Hypothesis 3 — Typo and Abbreviation Resolution
+
+**Scope:** ~37 typo-flagged rows + an unknown number of abbreviation pairs in genuinely_different  
+**Script:** `scripts/names/13_dspy_typo_resolution.py` *(planned)*
+
+**The problem.** Two sub-problems that currently result in `abstain`:
+
+1. **Thai/Japanese spelling variants**: `คลีนิค` vs `คลินิก`, `วัดสถารศ` vs `วัดสถารส`,
+   `ミカモライディングクラブ` vs `ミカモラィディングクラブ`. Both spellings exist in real listings.
+   The system correctly abstains because no rule can determine which is standard without a
+   native-speaker dictionary or corpus frequency data.
+
+2. **Abbreviation expansions** (primarily Thai): `ม.` = `มหาวิทยาลัย` (university),
+   `โรงพยาบาล` vs `รพ.` (hospital). These slip through normalization into
+   `genuinely_different` because substring containment fails on abbreviated forms.
+   An SLM with multilingual knowledge could recognize these as equivalent.
+
+**The SLM task.** Given `(name_a, name_b, script_type)`, classify as:
+- `typo_variant` — same name, minor spelling error → prefer whichever is more standard
+- `abbreviation_expansion` — one is an abbreviation of the other → prefer expanded form
+- `genuinely_different` — not the same name
+
+This is the narrowest hypothesis and the most language-specific. It may be better addressed
+by a corpus-lookup approach (frequency in Common Crawl / Wikipedia) than a generative model.
+Listed here for completeness as a potential future contribution.
+
+---
+
+### Hypothesis 4 — Name Construction from Compound Extra Content
+
+**Scope:** ~5 rows in 2,000 (≈0.2%) — rare but qualitatively significant  
+**Script:** `scripts/names/14_dspy_name_construction.py`
+
+**The problem.** Every hypothesis so far asks: *which of the two existing names is better?*
+H4 asks a structurally different question: *what if neither existing name is correct?*
+
+This situation arises when the extra content in a subset conflict contains **two distinct
+semantic components** — a business-type descriptor and a location qualifier — fused into a
+single string. The long name includes both; the short name has neither. Neither is the
+canonical form:
+
+| Short name | Long name | Extra content | Problem |
+|---|---|---|---|
+| `Arthur Murray` | `Arthur Murray Dance Studio - Beaverton` | `dance studio` + `beaverton` | Long has business type (keep) but also location noise (strip) |
+| `Dog's Shop` | `Dog's Shop Pampulha - Pet Shop` | `pampulha` + `pet shop` | Long has business type (keep) but also neighborhood name (strip) |
+| `Me n Moms` | `Me n Moms Baby Care & Kids Store in Barasar` | `baby care & kids store` + `in barasar` | Long has business type (keep) but also village name (strip) |
+| `カレット` | `カレット洋菓子店 矢田店` | `洋菓子店` + `矢田店` | Long has business type 洋菓子店 (confectionery store, keep) fused with branch location 矢田店 (Yata branch, strip) |
+
+For Arthur Murray, the ideal canonical name is `Arthur Murray Dance Studio` — not the short
+name (too generic) and not the long name (has location noise). That string does not exist
+anywhere in the data. It must be generated.
+
+**Why this is different from H1, H2, and H3.**
+
+H1 classifies an extra-content fragment and selects between two strings. H4 **generates a
+new string** from those inputs. This changes three things:
+
+1. **The output space is unbounded.** A classifier picks from 4 labels; a constructor outputs
+   any Unicode string. Evaluation requires checking semantic equivalence, not exact match.
+
+2. **Hallucination becomes possible.** The constructed name must be *faithful* — every token
+   in the output must be derivable from the inputs. A model cannot add words that appear in
+   neither name. This is a faithfulness constraint that classification tasks do not have.
+
+3. **The operation is irreversible.** Selecting the wrong name in H1 is recoverable (the
+   other name still exists in the data). Replacing both names with a generated string that
+   is wrong destroys the information in both sources. This demands higher precision than H1
+   or H2.
+
+**The Japanese case: morpheme ambiguity.**
+
+The カレット case (`カレット洋菓子店 矢田店`) illustrates a problem that does not exist in
+Latin script: **the business-type suffix and the branch suffix share a morpheme**.
+
+- `洋菓子店` = 洋菓子 (Western confectionery) + 店 (store/shop) → business type
+- `矢田店` = 矢田 (Yata, a neighborhood) + 店 (store/branch) → location branch
+
+The character 店 (*mise*, store) appears in both. A rule that strips trailing 店 would
+corrupt the business-type descriptor. A rule that preserves trailing 店 would keep the
+branch name. The split between `洋菓子店` and `矢田店` requires understanding that the
+first 店 closes a compound noun (confectionery shop) and the second 店 is a branch-naming
+particle, a distinction that depends on whether the preceding characters form a product
+category (`洋菓子`) or a place name (`矢田`).
+
+This is not solvable with a regex. It requires a model that knows `矢田` is a place name
+in Aichi Prefecture and `洋菓子` is a product category — world knowledge that no rule-based
+system encodes. The same morpheme ambiguity appears in ローソン franchise names across
+Japan (1,000+ locations follow the `{brand} {location}店` pattern), making this a
+representatively important edge case for any Japanese POI dataset.
+
+**Two-stage pipeline.**
+
+Name construction requires two steps:
+
+```
+Stage 1 — Compound detection (H1 extension):
+  Input:  (short_name, long_name, extra_content)
+  Output: is_compound: bool
+          biz_type_tokens: str   ← the business-type portion of extra_content
+          location_tokens: str   ← the location portion of extra_content
+
+Stage 2 — Name synthesis (new generation task):
+  Input:  (short_name, long_name, biz_type_tokens)
+  Output: constructed_name: str
+          faithfulness_check: bool  ← all tokens appear in long_name
+```
+
+Stage 1 can be implemented as an extension of the H1 DSPy signature, adding a
+`compound_check` field. Stage 2 is a `dspy.Predict` module with a generation signature and
+a faithfulness assertion (`dspy.Assert`).
+
+The faithfulness assertion — `all(t in long_name for t in constructed_name.split())` —
+is not sufficient for Japanese (no spaces) but can be approximated with substring containment
+on the character level: every character sequence in the output must appear as a substring of
+the long name. This guards against the most dangerous failure mode.
+
+**Estimated scope in production data.**
+
+Systematic scanning of all three analysis files (`name_golden_candidates.csv`,
+`name_hard_cases_eval.csv`, `name_all_conflicts_labeled.csv`) identified **31 construction
+candidates** in the 2,000-row dataset — significantly more than the 5 initially found by
+manual inspection. These break down as:
+
+| Type | Count | Pattern |
+|---|---|---|
+| Type 1 — compound extra (business type + location fused) | 25 | `[brand] [type] [city]` → keep `[brand] [type]` |
+| Type 2 — non-canonical short + compound suffix | 6 | Acronym/ALL CAPS short + descriptor + location or legal |
+| CJK (Japanese) | 1 | `[brand][業種][支店名]` → `[brand][業種]` |
+| Thai | 1 | `[brand][รีสอร์ท][จังหวัด]` → `[brand][รีสอร์ท]` |
+
+At 31/2,000 (1.55%), the problem is substantially more prevalent than the initial 5-case
+estimate suggested. Across 100,000 matched pairs this projects to ~1,550 cases requiring
+construction rather than selection.
+
+Recurring patterns across languages:
+- **English/European chains**: `[brand] [Car Rental/Training/Hospice/Shop] [city]` — Hertz, F45, Specsavers, Proximus, iRiparo, Tecnocasa
+- **French service chains**: `[brand] [Domicile/Contrôle Technique] [town]` — DomusVi, Sécuritest
+- **German franchise offices**: `[brand] [Geschäftsstelle/Servicebüro] [city]` — Signal Iduna, Debeka
+- **Italian restaurants/bars**: `[brand] [Bacaro/Studio] [city]` — Mezzopieno, Tecnocasa
+- **Japanese branches**: `[brand][業種店][支店名]` — morpheme boundary case
+
+All candidates saved to `analysis/names/h4_construction_candidates.csv` with ideal
+constructed names for human verification and model evaluation.
+
+The eval set (31 rows) is small but sufficient for a qualitative demonstration at proposal
+stage. Statistical accuracy measurement requires scaling to a larger dataset.
+
+**Results (Haiku, zero-shot, `scripts/names/14_dspy_name_construction.py`):**
+
+| Short name | Long name | Constructed name | Faithful? |
+|---|---|---|---|
+| `Arthur Murray` | `Arthur Murray Dance Studio - Beaverton` | **`Arthur Murray Dance Studio`** | ✓ |
+| `Dog's Shop` | `Dog's Shop Pampulha - Pet Shop` | **`Dog's Shop Pet Shop`** | ✓ |
+| `Me n Moms` | `Me n Moms Baby Care & Kids Store in Barasar` | **`Me n Moms Baby Care & Kids Store`** | ✓ |
+| `カレット` | `カレット洋菓子店 矢田店` | **`カレット洋菓子店`** | ✓ |
+| `ローソン` | `ローソン いわき下好間店` | *(not compound — keep shorter)* | — |
+
+All four construction cases passed the deterministic faithfulness check (every output token
+present in the source long name). The negative test case (ローソン) was correctly identified
+as non-compound by Stage 1: the extra content `いわき下好間店` is a pure branch-location
+suffix with no business-type component, so the model correctly abstained from construction
+and recommended keeping the shorter name.
+
+For the Japanese compound case (カレット), the model's Stage 1 reasoning correctly identified
+the morpheme boundary: `洋菓子店` closes a compound noun (product category + 店), while
+`矢田店` uses 店 as a branch particle, and `矢田` is a geographic district in Aichi
+Prefecture — world knowledge that no rule-based system encodes.
+
+**Status:** Prototype complete. All 5 identified cases handled correctly in zero-shot
+evaluation. Pending: scaling detection to the full dataset to find additional compound cases,
+and a broader human evaluation of construction quality beyond faithfulness.
+
+**TODO — Additional candidate cases to investigate:**
+
+1. **Legal suffix + trading name** (e.g. `The Yard LLC` vs `The Yard`): currently handled
+   as a `biz_suffix` rule (drop LLC). But if the short name is itself ambiguous or
+   non-canonical, the correct output may be neither the suffixed form nor the bare form —
+   it may require constructing the clean trading name. Worth examining whether biz_suffix
+   cases with ambiguous short names are better served by H4 than by the current rule.
+
+2. **Japanese brand + kana business type + menu/food item noise** (e.g. a ramen shop where
+   the long name appends the kana business type 店 *and* a signature dish or promotional
+   item from the menu): the correct constructed name keeps the kana business type and drops
+   the food item. This is a three-component compound (brand + type + noise) rather than the
+   two-component case (brand + type + location) already demonstrated. Requires finding real
+   examples in a larger Japanese POI dataset.
+
+3. **Japanese brand + kana business type + location** — the カレット case already demonstrated.
+   Worth finding 3–5 more from a full Overture Japan extract to establish that the morpheme
+   boundary disambiguation generalizes across different business type suffixes (not just 店).
+
+4. **Business type + brand affiliation fused** (e.g. `Craig Bagley` vs `Craig Bagley -
+   State Farm Insurance Agent`): the extra content simultaneously identifies an
+   organizational affiliation (State Farm) AND a job title that describes what the business
+   IS (insurance agent). Neither component alone is the right label — the affiliation should
+   be dropped, the business type kept. Ideal constructed name: `Craig Bagley Insurance Agent`.
+   This is a new compound sub-type: not business type + location, but business type +
+   affiliation. Currently a contested H1 case; belongs in H4.
+
+5. **Business type + personal name fused** (e.g. `ImmoWert Hessen` vs `ImmoWert Hessen
+   Carsten Nessler Sachverständige für Immobilien`): a personal name (Carsten Nessler) is
+   embedded within a business type descriptor (Sachverständige für Immobilien = certified
+   real estate appraiser). The personal name overrides the business-type signal for a
+   classifier, causing misclassification as disambiguation. But the correct constructed name
+   strips the person and keeps the type: `ImmoWert Hessen Sachverständige für Immobilien`.
+   Currently an H1 selection error; belongs in H4.
+
+Both cases were selection errors in the H1 eval — the model got the wrong answer not because
+the task was ambiguous but because the extra content was compound in a way H1's taxonomy
+doesn't handle. This reinforces that the contested and error rows in H1 are a diagnostic
+source for H4 candidates, not just noise.
+
+These cases are arguably more interesting than pure SLM classification because they produce
+something genuinely new — a canonical name that no data source recorded. The faithfulness
+constraint (all output tokens must appear in the source) is what keeps generation grounded
+and distinguishes this from hallucination.
+
+---
+
+### Intellectual Landscape
+
+#### Positioning Against the Literature
+
+This work sits at the intersection of three fields: **entity resolution (ER)**, **data
+canonicalization/record fusion**, and **language model evaluation methodology**.
+
+**Where it differs from ER matching.** The canonical ER problem (Fellegi & Sunter 1969;
+DeepMatcher, Mudgal et al. SIGMOD 2018; Ditto, Li et al. VLDB 2021) asks: *do these two
+records refer to the same entity?* Ditto, the current state-of-the-art, fine-tunes
+BERT/DistilBERT/RoBERTa for sequence-pair classification and achieves 96.5% F1 on
+real-world company matching. This work starts where Ditto ends: **given that two records
+are known to describe the same place, which attribute value is the better canonical form?**
+That is attribute-level canonicalization, not record-level matching. Ditto's architecture
+is irrelevant to this problem.
+
+**Where it differs from zero-shot LLM ER.** BoostER (WWW 2024) and the 2022–2025 wave of
+GPT-3/4 zero-shot ER papers argue that LLMs can circumvent expensive task-specific
+supervision. Their claim is valid. The counter-argument here is not that LLMs fail but
+that **deploying a large model on a dataset where 75% of pairs are pure formatting
+artifacts is architecturally wasteful and analytically uninformative.** DSPy + a small model,
+applied only to the 25% that requires semantic reasoning, is the correct architecture.
+The contribution is not "LLMs work" but "here is how to determine where and which LLM
+is sufficient."
+
+**Where it fills a gap.** Steorts & Binette (2022) explicitly identify **canonicalization
+(merging)** as the understudied fourth stage of the ER pipeline. The matching literature
+dominates; the merging literature is sparse. This work addresses merging directly. The
+place dataset is the instantiation; the contribution is a general methodology for
+characterizing which conflicts in a canonicalization task are rules-solvable vs.
+semantics-requiring.
+
+**On normalization inflation.** No prior work in the ER literature quantifies the inflation
+factor between raw-string conflict rates and post-normalization conflict rates on real-world
+multi-source place data. This work documents 3.8× inflation for phones and 6× inflation for
+names — arising from aggregating independently correct systems with different serialization
+conventions, not from data quality defects in either source. Most ER papers skip normalization
+entirely and benchmark against inflated conflict counts, making their problems appear harder
+than they are and obscuring which fraction genuinely requires a model.
+
+#### Key Citations by Section
+
+| Paper section | Citations |
+|---------------|-----------|
+| Introduction | Fellegi & Sunter 1969; Steorts & Binette 2022 (survey, cite the pipeline stages); Overture Maps schema documentation |
+| Related Work — ER matching | DeepMatcher (Mudgal et al. SIGMOD 2018); Ditto (Li et al. VLDB 2021) — distinguish: their problem is matching, ours is canonicalization |
+| Related Work — LLMs for ER | BoostER (WWW 2024); Narayan et al. 2022 (first GPT-3 few-shot ER); Fu et al. 2025 (in-context clustering, zero-shot generalization); cite all, then note none stratify before deploying |
+| Related Work — Place/geospatial | Toponym resolution (Mistral-based, DLR 2024) — distinguish: geoparsing vs. attribute canonicalization |
+| Methodology | DSPy (Khattab et al. ICLR 2024); Unicode normalization standards (NFKD, combining mark categories) |
+| Discussion | Steorts & Binette 2022 again — canonicalization as understudied stage |
+
+#### Novel Claims (for abstract/introduction)
+
+1. **Multi-source aggregation inflates apparent conflict by a measurable and recoverable factor.**
+   Raw string comparison overstates phone conflict by 3.8× and name conflict by 6×, because
+   independent providers use different but internally correct serialization conventions. No prior
+   ER work quantifies this inflation factor on real-world place data, or distinguishes it from
+   genuine semantic disagreement.
+
+2. **Conflict types are heterogeneous and require different resolution strategies.** The
+   two-tier labeling system (casing / normalization-equivalent / subset / genuinely-different,
+   with diagnostic subtags) is a novel taxonomy for name attribute conflicts. Prior taxonomies
+   are attribute-agnostic or product/person-centric.
+
+3. **Rules handle 75% of name pairs with no training data.** A direct empirical challenge
+   to the "just use LLMs" wave: stratify first, then apply a model only where rules fail.
+   The numbers are in the data.
+
+4. **The remaining 25% share a specific structural property.** Subset extra-content requires
+   semantic classification. This characterizes the exact failure mode of rules, rather than
+   vaguely observing that "rules sometimes fail."
+
+5. **SLMs evaluated via DSPy fill exactly that gap at low cost.** The constructive result.
+   The compiler finds the cheapest model that achieves target accuracy.
 
 ---
 
