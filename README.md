@@ -1557,44 +1557,42 @@ primary confusion before optimization.
 
 | Model | Provider | Params | Best prompt | Overall | business_type | location | disambig | noise | Parse errors |
 |-------|----------|--------|--------|---------|---------------|----------|---------|-------|-------------|
-| Phi-3 Mini | Ollama | **3.8B** | v3 (random search) | 68.9% | 72.1% | 70.5% | 67.9% | 42.9% | **0%** |
-| Mistral-7B | Ollama | 7B | v1 (greedy) | 73.0% | 74.4% | 79.5% | 64.3% | 57.1% | **0%** |
-| Llama-3.1-8B | Ollama | 8B | v3 (random search) | 77.0% | 95.3% | 77.3% | 46.4% | 85.7% | **0%** |
-| Qwen-2.5-7B | Ollama | 7B | v3 (random search) | 78.7% | 86.0% | 79.5% | 67.9% | 71.4% | **0%** |
-| Qwen-2.5-14B | Ollama | 14B | zero-shot | 82.0% | 93.0% | 95.5% | 42.9% | 85.7% | **0%** |
-| Qwen-2.5-14B | Ollama | 14B | v1 (greedy) | 84.4% | 90.7% | 95.5% | 57.1% | **85.7%** | **0%** |
+| Phi-3 Mini | Ollama | **3.8B** | v3 (Haiku random search) | 68.9% | 72.1% | 70.5% | 67.9% | 42.9% | **0%** |
+| Mistral-7B | Ollama | 7B | own-optimized (greedy) | 81.1% | 79.1% | 90.9% | 71.4% | 71.4% | **0%** |
+| Llama-3.1-8B | Ollama | 8B | v3 (Haiku random search) | 77.0% | 95.3% | 77.3% | 46.4% | 85.7% | **0%** |
+| Qwen-2.5-7B | Ollama | 7B | v3 (Haiku random search) | 78.7% | 86.0% | 79.5% | 67.9% | 71.4% | **0%** |
+| Qwen-2.5-14B | Ollama | 14B | v1 (Haiku greedy) | 84.4% | 90.7% | 95.5% | 57.1% | **85.7%** | **0%** |
 | Claude Haiku | Anthropic | — | zero-shot | 86.1% | 93.0% | **97.7%** | 57.1% | **85.7%** | 0% |
 | Claude Haiku | Anthropic | — | v3 (random search) | **86.9%** | **93.0%** | **100.0%** | **60.7%** | **85.7%** | 0% |
 
-All rows use human-verified labels. Each model shows its best-performing prompt variant.
-Groq results removed — 44–61% structured output parse failures made those numbers
-unreliable; Llama-3.1-8B runs cleanly via Ollama.
+All rows use human-verified labels. Each model shows its best-performing prompt variant
+across all approaches tried (see Finding 6 for the full comparison matrix).
+Groq results removed — 44–61% structured output parse failures; Llama-3.1-8B runs cleanly via Ollama.
 
 **Selection accuracy and throughput** (did the model recommend keeping the correct name, and how fast?):
 
 | Model | Params | Cost | Best prompt | Selection acc | Rows/min | Avg latency | Parse errors |
 |-------|--------|------|------------|--------------|----------|-------------|-------------|
-| Phi-3 Mini (Ollama) | **3.8B** | free | v1 (greedy) | 86.9% | 19.7 | 3.05s | 0% |
-| Mistral-7B (Ollama) | 7B | free | v1 (greedy) | 87.7% | 7.3 | 8.20s | 0% |
-| Llama-3.1-8B (Ollama) | 8B | free | v3 (random search) | 89.3% | 17.7 | 3.39s | 0% |
-| Qwen-2.5-7B (Ollama) | 7B | free | v3 (random search) | 92.6% | 19.5 | 3.08s | 0% |
-| Qwen-2.5-14B (Ollama) | 14B | free | zero-shot | **94.3%** | 5.8 | 10.33s | 0% |
+| Phi-3 Mini (Ollama) | **3.8B** | free | v1 (Haiku greedy) | 86.9% | 19.7 | 3.05s | 0% |
+| Llama-3.1-8B (Ollama) | 8B | free | v3 (Haiku random search) | 89.3% | 17.7 | 3.39s | 0% |
+| Mistral-7B (Ollama) | 7B | free | own-optimized (greedy) | 91.8% | 15.8 | 3.80s | 0% |
+| Qwen-2.5-7B (Ollama) | 7B | free | v3 (Haiku random search) | 92.6% | 19.5 | 3.08s | 0% |
+| Qwen-2.5-14B (Ollama) | 14B | free | zero-shot or own-optimized | **93.4%** | 11.2 | 5.35s | 0% |
 | Claude Haiku | — | ~$0.001/row | zero-shot | **95.9%** | — | — | 0% |
 
-Each model shows its best-performing prompt variant. Throughput measured on Apple Silicon
-(no-cache run via Ollama). Haiku throughput omitted — API latency varies with network and
-batch size and is not comparable to local inference.
+Each model shows its best-performing prompt variant across all approaches tried. Throughput
+measured on Apple Silicon (no-cache run via Ollama). Haiku throughput omitted — API latency
+varies with network and batch size and is not comparable to local inference.
 
 The throughput column answers the deployment question: not just *how accurate* but *how
 fast and at what cost*. For a dataset of 493 hard rows (the full H1+H2 scope in the
 2,000-row sample), the practical tradeoff is:
 
-- **Local SLMs (free, ≤8B):** 86–93% selection accuracy, runs on any machine with 8GB RAM,
-  no API key, no cost — viable for high-volume pipelines where occasional errors are
-  acceptable and privacy or cost constraints rule out external APIs. Throughput ~18–20
-  rows/min on Apple Silicon for 3.8B–8B models (CPU-only inference).
-- **Local 14B (free):** 94.3% selection accuracy, same cost profile, requires ~16GB RAM —
-  strong improvement over 7B models, ~5.8 rows/min on Apple Silicon.
+- **Local SLMs (free, ≤8B):** 87–93% selection accuracy with the right prompt, runs on
+  any machine with 8GB RAM, no API key, no cost. Throughput ~16–21 rows/min on Apple
+  Silicon. Prompt choice matters significantly — see Finding 6 for the full comparison.
+- **Local 14B (free):** 93.4% selection accuracy, same cost profile, requires ~16GB RAM —
+  strong improvement over 7B models, ~11 rows/min on Apple Silicon.
 - **Haiku (~$0.001/row):** 95.9% selection accuracy, ~$0.50 to process all 493 hard
   rows in the sample — viable for production where accuracy matters and cost is low
 
@@ -1619,13 +1617,13 @@ found by reviewing SLM outputs — the model identified the gaps, a human patche
 them. That process is iterative, time-consuming, and never complete (the next
 dataset will have new gaps).
 
-Qwen-2.5-14B reaches 94.3% in a single cold run with zero vocabulary construction —
+Qwen-2.5-14B reaches 93.4% in a single cold run with zero vocabulary construction —
 running locally, for free, with no API key. It doesn't need a curated list because
 it already knows what a natatorium is.
 
 So the three baselines tell three different stories:
 - **79.5%** — what rules give you for free, immediately
-- **94.3%** — what a free local 14B SLM gives you, immediately
+- **93.4%** — what a free local 14B SLM gives you, immediately
 - **97%** — what rules give you after significant iterative effort, guided by the SLM
 
 The SLM doesn't just beat the naive baseline. It nearly matches the endpoint of a
@@ -1641,11 +1639,11 @@ accumulating a vocabulary list that will drift out of date as new place types em
 2. **Phi-3 Mini (3.8B) matches 7B models on selection accuracy (86.9%).** Parameter
    count is not the limiting factor. Instruction-following quality is.
 
-3. **Local ≤8B SLMs range from 86–93% selection accuracy.** The gap vs. Haiku (95.9%)
-   is 3–10 points depending on model choice. Qwen-2.5-7B (7B, free) reaches 92.6%
-   with the v3 prompt — within 3 points of Haiku. Qwen-2.5-14B (free, local) at 94.3%
-   is within 2 points of Haiku: the size jump from 7B to 14B narrows the gap further,
-   and a 14B model running locally for free competes directly with a paid hosted API.
+3. **Local ≤8B SLMs reach 87–93% selection accuracy with the right prompt.** The gap
+   vs. Haiku (95.9%) is 3–9 points depending on model and prompt choice. With own
+   optimization, Mistral-7B reaches 91.8% and Qwen-2.5-7B reaches 92.6% with Haiku v3
+   — both within 4 points of Haiku. Qwen-2.5-14B (free, local) at 93.4% is within 2.5
+   points of Haiku, and runs completely free with no API key required.
 
 4. **Qwen-2.5-7B has the best disambiguation accuracy among ≤8B models.** With the v1
    prompt, it reaches 75.0% disambiguation accuracy; with v3 it trades some disambiguation
@@ -1680,26 +1678,46 @@ justifies using a hosted model when accuracy is critical.
 5. **The v1 optimized prompt is model-agnostic for greedy optimization.** When
    BootstrapFewShot was run independently on Mistral-7B, it selected the identical 4
    examples as the Haiku optimizer. Selection accuracy is identical (87.7%) whether
-   Mistral uses its own optimized demos or Haiku's for the v1 prompt.
+   Mistral uses its own optimized demos or Haiku's for the v1 greedy approach.
 
-6. **Prompt sensitivity varies substantially across models.** The v3 prompt
-   (BootstrapFewShotWithRandomSearch, 8 candidates, demos drawn from Haiku runs) does not
-   uniformly improve all models — selection accuracy deltas vs. zero-shot/v1:
+6. **Demo source and search strategy interact non-trivially with model capability.**
+   We tested three prompt configurations for each local model: (a) Haiku v1 — greedy
+   BootstrapFewShot optimized on Haiku; (b) Haiku v3 — BootstrapFewShotWithRandomSearch
+   on Haiku (8 candidate sets); (c) own-optimized — greedy BootstrapFewShot run
+   separately for each model using that model as teacher. Full selection accuracy matrix:
 
-   | Model | v1 / best non-v3 | v3 | Delta |
-   |-------|-----------------|-----|-------|
-   | Phi-3 Mini | 86.9% | 83.6% | **−3.3 pts** |
-   | Mistral-7B | 87.7% | 86.1% | **−1.6 pts** |
-   | Llama-3.1-8B | — | 89.3% | (only v3 measured) |
-   | Qwen-2.5-7B | 86.9% | 92.6% | **+5.7 pts** |
-   | Qwen-2.5-14B | 93.4% | — | zero-shot 94.3% best |
+   | Model | Haiku v1 | Haiku v3 | Own greedy | Best |
+   |-------|----------|----------|-----------|------|
+   | Phi-3 Mini | **86.9%** | 83.6% | 79.5% | Haiku v1 |
+   | Mistral-7B | 87.7% | 86.1% | **91.8%** | Own greedy |
+   | Llama-3.1-8B | — | **89.3%** | 86.1% | Haiku v3 |
+   | Qwen-2.5-7B | 86.9% | **92.6%** | 87.7% | Haiku v3 |
+   | Qwen-2.5-14B | 93.4% | — | **93.4%** | Tied |
 
-   The v3 demos contain Haiku's reasoning chains and reflect Haiku's strengths: strong
-   world knowledge of multilingual business types. Models with similar multilingual training
-   (Qwen-2.5-7B) benefit from this scaffolding. Models with less multilingual coverage
-   (Phi-3 Mini, Mistral-7B) are confused by reasoning chains built on knowledge they
-   lack. **Each model ideally needs its own BootstrapFewShot run against human-verified
-   labels** rather than inheriting Haiku's optimized demos.
+   No single approach wins across all models. Key observations:
+
+   - **Mistral gains the most from own optimization (+4.1 pts).** Its own demos produce
+     the best label accuracy (81.1%) of any 7B model by a wide margin.
+
+   - **Phi-3 is actively harmed by own optimization (−7.4 pts).** Greedy
+     BootstrapFewShot picks the *first* successful training examples. Phi-3 only needed
+     12 attempts to find 4 successes — and those 4 happened to include no noise examples.
+     Its own demos produced 0% noise accuracy on eval. This is a known failure mode of
+     greedy bootstrap: it finds *easy* examples, not *informative* ones.
+
+   - **Haiku v3 random search beats per-model greedy for Qwen-2.5-7B and Llama-3.1-8B.**
+     Searching 8 candidate demo sets (even with Haiku as the teacher) finds better demos
+     than a single greedy pass with the target model. The diversity of the search matters
+     more than the source of the teacher model for these architectures.
+
+   - **Qwen-2.5-14B is insensitive to demo source** — zero-shot, Haiku v1, and own
+     greedy all tie at 93.4% selection accuracy. The model is capable enough that demos
+     add little marginal value.
+
+   The correct approach for rigorous per-model optimization would be
+   BootstrapFewShotWithRandomSearch run separately for each model — combining the
+   diversity of random search with the authenticity of the model's own reasoning chains.
+   We did not run this due to time cost (~6h per model on Apple Silicon).
 
 The gap between label accuracy (86.1%) and selection accuracy (95.9%) for Haiku (zero-shot)
 is explained by the 5 cases where the model chose the wrong label but the right name —
@@ -1990,7 +2008,7 @@ is much faster (~2–5 seconds/prediction).
 > enumerates all such content across 15+ languages. We evaluate three open-weights
 > small language models (Mistral-7B, Qwen-2.5-7B, Phi-3 Mini 3.8B, Llama-3.1-8B,
 > Qwen-2.5-14B) using DSPy-compiled prompts (greedy BootstrapFewShot and random-search
-> variants) optimized on 182 labeled examples. ≤8B models achieve 86–93% selection
+> variants) optimized on 182 labeled examples. ≤8B models achieve 87–93% selection
 > accuracy with zero structured-output parse errors when run locally via Ollama —
 > compared to 70% for n-gram classifiers trained on the same data and 79.5% for a
 > blind vocabulary rule set. Qwen-2.5-14B (14B, free, local) reaches 94.3% selection

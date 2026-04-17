@@ -379,7 +379,9 @@ def main():
     parser.add_argument("--save-path",  default=None,                   help="Path to save optimized program JSON")
     parser.add_argument("--load-path",  default=None,                   help="Path to load saved program JSON")
     parser.add_argument("--max-train",  type=int, default=None,         help="Cap training set size (for cost control)")
-    parser.add_argument("--eval-path",  default=EVAL_PATH,              help="Path to evaluation CSV")
+    parser.add_argument("--eval-path",    default=EVAL_PATH,              help="Path to evaluation CSV")
+    parser.add_argument("--results-path", default=RESULTS_PATH,           help="Path to save per-row results CSV (default: dspy_h1_results.csv)")
+    parser.add_argument("--summary-path", default=SUMMARY_PATH,           help="Path to save summary CSV (default: dspy_h1_summary.csv)")
     args = parser.parse_args()
 
     # ── Configure LM ─────────────────────────────────────────────────────────
@@ -433,10 +435,10 @@ def main():
     summary = print_summary(results)
 
     # ── Save outputs ───────────────────────────────────────────────────────────
-    results.to_csv(RESULTS_PATH, index=False)
-    summary.to_csv(SUMMARY_PATH, index=False)
-    print(f"\nResults saved to: {RESULTS_PATH}")
-    print(f"Summary saved to: {SUMMARY_PATH}")
+    results.to_csv(args.results_path, index=False)
+    summary.to_csv(args.summary_path, index=False)
+    print(f"\nResults saved to: {args.results_path}")
+    print(f"Summary saved to: {args.summary_path}")
 
 
 if __name__ == "__main__":
