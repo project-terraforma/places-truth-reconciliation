@@ -1,0 +1,260 @@
+short_name,long_name,extra_content,script_type,correct_answer,predicted,confidence,reasoning,correct
+JE Carriers,JE Carriers Auto Transport,auto transport,latin,business_type,business_type,high,"]
+The extra content ""auto transport"" is a business type that helps to specify what services JE Carriers offers.",1
+Iglesia Fe Y Esperanza,Iglesia Fe y Esperanza Pinares,pinares,latin,location,location,high,"]
+The extra content ""Pinares"" is a geographic qualifier that identifies the specific location of the church, Iglesia Fe y Esperanza. It helps to differentiate this church from others with the same name.",1
+West Bradenton Baptist,West Bradenton Baptist Church,church,latin,business_type,business_type,high,"]
+The extra content ""church"" is not a location or disambiguation, but it does describe what KIND of place this is (a religious institution). As such, it falls under business_type.",1
+Monkey Puzzle Day Nursery,Monkey Puzzle Day Nursery West Norwood,west norwood,latin,location,location,high,"]
+The extra content ""West Norwood"" is a location qualifier, as it specifies the neighborhood or district where Monkey Puzzle Day Nursery is located. It helps to identify the geographical context of the business.",1
+Recolast Ambiental,Recolast Ambiental Engenharia,engenharia,latin,business_type,disambiguation,high,"]
+]
+The extra content ""Engenharia"" is a professional designation, specifically the Portuguese word for ""Engineering"". This drives the decision to classify it as disambiguation, because it specifies the nature of the core business ""Recolast Ambiental"".",0
+Virginia Coffee Roastery,Virginia Coffee Roastery & Eatery,eatery,latin,business_type,business_type,high,"]
+The extra content ""eatery"" describes the nature of the business (it's a place to eat), which is a type of business. The long name gives us more information about what kind of place this is, making it a business_type.",1
+Clarkston High School,Clarkston High School Natatorium,natatorium,latin,business_type,business_type,high,"]
+The extra content ""natatorium"" is a specific type of facility within Clarkston High School, which falls under the category of business_type. It specifies that this place is a swimming pool or aquatic center at the high school. Therefore, it adds essential information to the shorter name.",1
+Mint House Greenville,Mint House Greenville - West End,west end,latin,location,location,high,"]
+The extra content ""West End"" in this case is a location, specifically a neighborhood or district within Greenville. It helps to identify where Mint House is situated.",1
+The UPS Store,The UPS Store 7313,7313,latin,disambiguation,noise,high,"]
+The extra content ""7313"" does not provide useful information about what kind of place The UPS Store is, where it is located, or how to disambiguate multiple UPS Stores. Instead, it appears to be a store number. This leads to the classification of noise.",0
+Clifton And Lewis Insurance,Clifton and Lewis Insurance Group,group,latin,disambiguation,disambiguation,high,"]
+The extra content ""group"" is used to denote a larger organization that contains multiple branches or entities. Here, it helps disambiguate between Clifton and Lewis Insurance being a single location or part of a wider network. This classification is ""disambiguation"".",1
+Bluebird Care,Bluebird Care Epsom & Kingston,epsom kingston,latin,location,location,high,"]
+]
+The extra content ""Epsom & Kingston"" is a location qualifier that specifies the geographic area where Bluebird Care operates. This helps to disambiguate this business from others with the same name.",1
+Pieology Pizzeria,"Pieology Pizzeria Aina Haina, Honolulu, HI",aina haina honolulu hi,latin,location,location,high,"]
+The extra content ""Aina Haina, Honolulu, HI"" provides a location qualifier specifying the neighborhood (Aina Haina), city (Honolulu), and state (HI). This is classified as location.",1
+Gary Ritter Violin,Gary Ritter Violin Viola Cello,viola cello,latin,disambiguation,noise,high,"]
+The extra content ""viola cello"" adds instrument type descriptions that do not differentiate or disambiguate the core name ""Gary Ritter Violin"". It does not indicate the location, business type, or any other kind of specialized information about this establishment. Therefore, it can be classified as noise.",0
+POLE DANCE AVEC MOI,Pole Dance avec Moi Marseille,marseille,latin,location,location,high,"]
+The extra content ""Marseille"" is a geographic location, specifically a city in France. This helps to differentiate this Pole Dance avec Moi from others by providing context about where it's located.",1
+Schlotzsky's,"Schlotzsky's (Colony Way - Madison, MS)",colony way madison ms,latin,location,location,high,"]
+The extra content ""Colony Way - Madison, MS"" provides a location qualifier that specifies where the Schlotzsky's restaurant is situated.",1
+West Coast Hifi,West Coast Hi-Fi Rockingham,rockingham,latin,location,location,high,"]
+The extra content ""Rockingham"" is a geographic qualifier that identifies the location of West Coast Hi-Fi. It helps to differentiate this business from others named West Coast Hi-Fi.",1
+Vape Haus,Vape Haus Queretaro,queretaro,latin,location,location,high,"]
+The extra content ""Queretaro"" is a geographic qualifier, specifically a state or region in Mexico. This drives the decision to classify it as location.",1
+Allison Hunt MD,"Allison Hunt, MD, FACOG",facog,latin,disambiguation,noise,high,"]
+The extra content ""FACOG"" is a professional credential that identifies Allison Hunt as a Fellow of the American College of Obstetricians and Gynecologists. This does not contribute to disambiguation nor location identification, it merely offers additional professional information about the person, so it falls under the category of noise.",0
+Hamburguesas Al Carbon,Hamburguesas al Carbon Torreon,torreon,latin,location,location,high,"]
+The extra content ""Torreon"" is a geographic qualifier, specifically a city name in Mexico. This drives the decision to classify it as location.",1
+Vighna Bamboo Briyani,Vighna Bamboo Briyani - JB,jb,latin,location,location,high,"]
+The extra content ""JB"" is a geographic qualifier that specifies the location of the Vighna Bamboo Briyani. This classification is considered a location.",1
+Florería Rosa Pastel,Florería Rosa Pastel P. Peñasco,p penasco,latin,location,location,high,"]
+The extra content ""p penasco"" is a location qualifier as it specifies the geographic location of the florist shop. This helps to identify where the Florería Rosa Pastel is situated.",1
+Boot Barn Hall,Boot Barn Hall at Bourbon Brothers,at bourbon brothers,latin,disambiguation,disambiguation,high,"]
+]
+The extra content ""at Bourbon Brothers"" is a disambiguation as it specifies a specific location or establishment associated with Boot Barn Hall. It helps to differentiate this Boot Barn Hall from others.",1
+Atm,ATM (Post Office),post office,latin,disambiguation,noise,high,"]
+The extra content ""post office"" does not provide information about what kind of place the ATM is, nor does it specify a location. Instead, it seems to be associated with the post office in a broader sense but doesn't disambiguate or add semantic value. Therefore, it can be classified as noise.",0
+Marathon Gas,Marathon Gas & DQ,dq,latin,disambiguation,noise,high,"]
+The extra content ""dq"" is a marketing tagline, as it refers to Dairy Queen, another business that is associated with this Marathon Gas location. This does not provide any essential information about the nature of the business or its location.",0
+Planet Fitness,"Planet Fitness - Manassas, VA",manassas va,latin,location,location,high,"]
+The extra content ""Manassas, VA"" is a location qualifier, specifically a city and state in the United States. This helps to identify where the Planet Fitness gym is situated.",1
+Raising Cane's,Raising Cane's Chicken Fingers,chicken fingers,latin,business_type,business_type,high,"]
+The extra content ""Chicken Fingers"" describes a specific menu item that is served at Raising Cane's, which helps to differentiate this chain from others. It adds semantic value by specifying what kind of restaurant it is (in this case, a fast-food chicken restaurant). Therefore, it belongs in the ""business_type"" category.",1
+La Azotea,La Azotea Terraza,terraza,latin,business_type,business_type,high,"]
+The extra content ""terraza"" describes the specific type of place La Azotea is, a rooftop or open-air terrace. This helps to differentiate it from other places that might share the same name.",1
+bergwerk IT GmbH,bergwerk IT GmbH | Webentwicklung & IT-Infrastruktur,webentwicklung itinfrastruktur,latin,disambiguation,business_type,high,"]
+The extra content ""webentwicklung & it-infrastruktur"" describes what services this business offers, specifically web development and IT infrastructure. It helps to identify the nature of the business.",0
+Hospital São Domingos,Hospital São Domingos- Exames,exames,latin,disambiguation,business_type,high,"]
+The extra content ""exames"" is a specific service provided by the hospital, thus it falls under the category of 'business_type'.",0
+Parc Clichy-Batignolles,Parc Clichy-Batignolles Martin Luther King,martin luther king,latin,location,disambiguation,high,"]
+The extra content ""Martin Luther King"" is a disambiguation, as it identifies a specific park within Parc Clichy-Batignolles. It specifies that there's a Martin Luther King park within this larger park.",0
+Canal Video,Canal Vidéo Laryan 82 Franchisé indépendant,laryan 82 franchise independant,latin,disambiguation,disambiguation,high,"]
+]
+The extra content ""Laryan 82 Franchisé indépendant"" provides disambiguation, specifically that this is an independent franchise location. It does not describe what kind of place it is or its location.",1
+Calico Jacks,Calico Jack's Bistro,bistro,latin,business_type,business_type,high,"]
+The extra content ""bistro"" describes what kind of place Calico Jacks is, specifically a restaurant or dining establishment.",1
+Over The Rainbow,Over the Rainbow Limited,limited,latin,disambiguation,noise,high,"]
+The extra content ""limited"" is a standard legal identifier that does not provide any semantic value or context, so it can be classified as noise. It doesn't specify what kind of place Over The Rainbow is, nor does it provide any location details. Therefore, the core name ""Over The Rainbow"" should be kept as the canonical form for this case.",0
+Colourfence Garden Fencing,ColourFence Garden Fencing - Isle Of Wight,isle of wight,latin,location,location,high,"]
+The extra content ""Isle of Wight"" is a location qualifier, specifying where ColourFence Garden Fencing is situated.",1
+Leonora Rose,Leonora Rose Florists,florists,latin,business_type,disambiguation,high,"]
+The extra content ""florists"" provides disambiguation as it clarifies what kind of business Leonora Rose is. It helps to differentiate this Leonora Rose from others, since it specifies that it's a florist shop rather than an individual.",0
+Service Neon,Service Neon di Cateni Riccardo,di cateni riccardo,latin,disambiguation,disambiguation,high,"]
+The extra content ""di Cateni Riccardo"" is a disambiguation, as it identifies the specific owner of Service Neon (Riccardo Cateni). This helps to differentiate this business from others with the same core name.",1
+Wing Sing,Wing Sing Bar,bar,latin,business_type,business_type,high,"]
+The extra content ""bar"" is a business type that describes what kind of place Wing Sing is, specifically a bar.",1
+Spectron Desarrollo,Spectron Desarrollo S.C.,sc,latin,noise,noise,high,"]
+]
+The extra content ""sc"" is an abbreviation of Sociedad Civil, a legal form of organization in Mexico. This information does not help to determine what kind of place Spectron Desarrollo is or its location; instead, it provides additional but non-essential information about the organizational structure. Therefore, it is classified as noise.",1
+Charleston Civic Center,Charleston Civic Center Ice Arena,ice arena,latin,business_type,business_type,high,"]
+The extra content ""ice arena"" specifies what kind of venue Charleston Civic Center is. It provides information about the services offered at this location, helping to differentiate it from other civic centers.",1
+Hotel Olimpia,Hotel Olimpia  Silvi Marina TE,silvi marina te,latin,location,location,high,"]
+The extra content ""silvi marina te"" is a geographic qualifier, providing information about the location of Hotel Olimpia. It specifies the city and region where the hotel is situated.",1
+Murphy USA,Murphy USA #6583,6583,latin,disambiguation,noise,high,"]
+The extra content ""6583"" does not provide any meaningful information about the nature of Murphy USA, its location, or disambiguation. It appears to be a location identifier within the business, such as a store number.",0
+Home Instead,Home Instead Senior Care,senior care,latin,business_type,disambiguation,high,"]
+]
+The extra content ""senior care"" is a disambiguation term that describes the specific service offered by Home Instead. It clarifies that this business specializes in senior care, which helps to differentiate it from other businesses with the same name (like Home Depot or Home Goods).",0
+Forst und Garten,Forst und Garten Diehl,diehl,latin,disambiguation,disambiguation,high,"]
+The extra content ""Diehl"" does not provide any information about the type of business or its location. However, it does help to differentiate this Forst und Garten from others by identifying a specific branch or owner, making it disambiguation.",1
+The Flying Locksmiths,The Flying Locksmiths - Los Angeles West,los angeles west,latin,location,location,high,"]
+The extra content ""Los Angeles West"" is a location qualifier that describes the geographical region where The Flying Locksmiths are situated. This qualifier serves to differentiate this business from other locations, making it a location classifier.",1
+Lonches Amparito,Lonches Amparito Tránsito,transito,latin,location,location,high,"]
+The extra content ""transito"" is a location qualifier, as it specifies a street or road name. It helps to identify where Lonches Amparito is situated.",1
+En-spire Nutrition,En-spire Nutrition Centennial,centennial,latin,location,location,high,"]
+The extra content ""Centennial"" is a geographic qualifier, as it specifies the location of En-spire Nutrition. It helps to identify where the business is situated.",1
+Auto Stark,Auto Stark Acessórios Automotivo,acessorios automotivo,latin,business_type,business_type,high,"]
+]
+The extra content ""acessorios automotivo"" describes the specific kind of business associated with Auto Stark, making it a business type.",1
+Kyle Citty,"Kyle Citty, M.D.",md,latin,noise,noise,high,"]
+The extra content ""M.D."" is a professional credential that adds no semantic value to the core name ""Kyle Citty"".",1
+Työväen Akatemia,Työväen Akatemian kirjasto,n kirjasto,latin,business_type,location,high,"]
+]
+The extra content ""n kirjasto"" is a location, specifically a library or study hall attached to Työväen Akatemia. It helps identify a specific location within the institution.",0
+Craig Bagley,Craig Bagley - State Farm Insurance Agent,state farm insurance agent,latin,business_type,disambiguation,high,"]
+The extra content ""state farm insurance agent"" disambiguates Craig Bagley by specifying that he is an agent of State Farm Insurance, which helps to differentiate him from other people named Craig Bagley.",0
+Andy Allain - Thrivent,Andy Allain - Thrivent Financial,financial,latin,disambiguation,disambiguation,high,"]
+The extra content ""financial"" is a disambiguation as it provides more information about the nature of the business. It specifically identifies that Thrivent Financial is a financial institution, helping to distinguish it from other businesses with the same name.",1
+Tractor Supply,Tractor Supply Co.,co,latin,noise,noise,high,"]
+The extra content ""Co."" is a standard corporate suffix that does not provide additional information about what kind of place Tractor Supply is, nor does it specify a location. Instead, it merely indicates the legal structure of the company.",1
+Mary Print,Mary Print Sardegna,sardegna,latin,location,location,high,"]
+The extra content ""Sardegna"" is a geographic qualifier, specifying the location of Mary Print. It helps to identify where Mary Print's business is situated.",1
+Cella Café,Cella Café Bar & Restaurant,bar restaurant,latin,business_type,business_type,high,"]
+The extra content ""bar restaurant"" describes what kind of place Cella Café is, specifically a bar and a restaurant. It helps to identify that this is not just a café but a café that also offers a bar and restaurant services.",1
+Floripa Sucos,Floripa Sucos e Lanches,e lanches,latin,business_type,disambiguation,high,"]
+The extra content ""e lanches"" is not a business type or location, but it does specify that this establishment serves more than just juices (sucos), as it also offers meals (lanches). Therefore, this is classified as disambiguation.",0
+Green Leaf's,Green Leaf's Beyond Great Salads,beyond great salads,latin,noise,business_type,high,"]
+The extra content ""beyond great salads"" describes the specific type of service provided by Green Leaf's (salads), making it a business_type.",0
+Wayne Cooley - COUNTRY Financial,Wayne Cooley - COUNTRY Financial representative,representative,latin,disambiguation,disambiguation,high,"]
+The extra content ""representative"" is disambiguation because it specifies that Wayne Cooley is a representative of COUNTRY Financial, providing clarification about his role within the business.",1
+Code Ninjas,Code Ninjas Virginia Beach,virginia beach,latin,location,location,high,"]
+The extra content ""Virginia Beach"" is a geographic qualifier, specifically a city name. This helps to identify where Code Ninjas is situated.",1
+Barnegat Bay Financial Group,Barnegat Bay Financial Group - Raymond James Office,raymond james office,latin,disambiguation,business_type,high,"]
+The extra content ""Raymond James Office"" adds information about the business type, as it specifies that this Barnegat Bay Financial Group is associated with Raymond James, a well-known financial services firm.",0
+West Herr Cadillac,West Herr Cadillac of East Aurora,of east aurora,latin,location,location,high,"]
+]
+The extra content ""of East Aurora"" is a geographic qualifier, indicating the specific location of the Cadillac dealership. This helps to differentiate it from other West Herr Cadillac locations, making it a location classification.",1
+Academia Performance,Academia Performance & Saúde,saude,latin,business_type,location,high,"]
+The extra content ""saude"" is a location that specifies a type of facility related to health care.",0
+American Printing,American Printing Unlimited,unlimited,latin,disambiguation,business_type,high,"]
+The extra content ""unlimited"" does not specify what kind of place American Printing is or provide any geographic information. However, it adds additional context about the scale or extent of the business without being a location qualifier or disambiguating term. Therefore, it falls under the category of business_type.",0
+Batteries Plus,Batteries Plus Bulbs,bulbs,latin,business_type,business_type,high,"]
+The extra content ""bulbs"" describes a product category that Batteries Plus offers, making it a business type.",1
+Marine Corps Exchange,Marine Corps Exchange (MCX),mcx,latin,disambiguation,disambiguation,high,"]
+]
+The extra content ""MCX"" is a brand name or a specific branch identifier for the Marine Corps Exchange, so it's classified as disambiguation.",1
+Dias Park,Dias Park Estacionamento,estacionamento,latin,business_type,location,high,"]
+The extra content ""estacionamento"" adds a geographic qualifier that refers to a parking lot, making this a location.",0
+Results Physiotherapy,"Results Physiotherapy Nashville, Tennessee - West",nashville tennessee west,latin,location,location,high,"]
+The extra content ""Nashville, Tennessee - West"" is a location qualifier, as it specifies the geographic location of the business. It helps to identify where Results Physiotherapy is situated.",1
+Momo and Co.,Momo and Co. Design,design,latin,business_type,business_type,high,"]
+The extra content ""design"" describes what type of business this is, specifically a design firm. It helps to differentiate this Momo and Co. from other businesses with similar names.",1
+The Vineyard Church,The Vineyard Church Bloomington-Normal,bloomingtonnormal,latin,location,location,high,"]
+The extra content ""Bloomington-Normal"" is a location qualifier, as it specifies the geographic location of the church. It helps to identify where The Vineyard Church is situated.",1
+Full Steam,Full Steam Tromso,tromso,latin,location,location,high,"]
+The extra content ""Tromso"" is a geographic qualifier, specifying the location of Full Steam. This helps to differentiate this Full Steam from others located in other places.",1
+Poorvika Mobiles,Poorvika Mobiles Cuddalore - Opp to Bus Stand,cuddalore opp to bus stand,latin,noise,location,high,"]
+The extra content ""Cuddalore opp to bus stand"" is a location that identifies the specific geographical area where Poorvika Mobiles is located. This extra content helps to differentiate this Poorvika Mobiles from others by providing essential location information.",0
+Industria Pizzeria,Industria Pizzeria + Bar,bar,latin,business_type,business_type,high,"]
+The extra content ""bar"" is a business type that describes what kind of place Industria Pizzeria is, specifically a pizzeria with a bar. This helps to differentiate this Industria Pizzeria from others.",1
+Black Mamba Barber Shop & Tatto,Black Mamba Barbershop & Tattoo | Nezahualcóyotl,black mamba barbershop tattoo nezahualcoyotl,latin,business_type,noise,high,"]
+The extra content includes two distinct parts: ""barbershop"" and ""tattoo"". However, neither of these terms are specific enough to determine the business type of Black Mamba. The location ""Nezahualcóyotl"" does not provide any useful information about the business either. Therefore, it cannot be classified as business_type or location.",0
+Good Morning Children,Good Morning Children Limited,limited,latin,disambiguation,noise,high,"]
+The extra content ""limited"" does not provide essential information about what kind of place Good Morning Children is or where it's located. It seems to be a legal business entity identifier, which falls under the category of noise.",0
+Kip McGrath,Kip McGrath Hammersmith,hammersmith,latin,location,location,high,"]
+The extra content ""Hammersmith"" is a location qualifier, specifically a neighborhood or district within London. This helps to identify the specific branch of Kip McGrath that is being referred to.",1
+Volker Rentel GmbH,Volker Rentel GmbH Heizung- und Sanitärtechnik,heizung und sanitartechnik,latin,business_type,business_type,high,"]
+The extra content ""Heizung- und Sanitärtechnik"" provides a description of what kind of business Volker Rentel GmbH operates, specifically in heating and sanitary technology.",1
+Hanger Clinic,Hanger Clinic: Prosthetics & Orthotics,prosthetics orthotics,latin,business_type,business_type,high,"]
+The extra content ""prosthetics & orthotics"" helps to clarify what kind of services this clinic offers, so it is classified as a business_type.",1
+Esfiha Chic,Esfiha Chic - Vila Arcádia,vila arcadia,latin,location,location,high,"]
+The extra content ""Vila Arcádia"" is a location that identifies where Esfiha Chic is situated. This helps to differentiate this Esfiha Chic from others, but it does not indicate what kind of business it is. Therefore, the classification is location.",1
+Cerrajeria Lionel,Cerrajería Lionel Centrito,centrito,latin,location,disambiguation,high,"]
+The extra content ""Centrito"" specifies a particular location or branch of Cerrajeria Lionel. It helps to differentiate this Cerrajeria Lionel from others, making it a disambiguation.",0
+The Fairways at San Marcos,The Fairways at San Marcos Apartments,apartments,latin,business_type,business_type,high,"]
+The extra content ""apartments"" describes what kind of place The Fairways at San Marcos is, specifically an apartment complex. This classification helps to identify the nature of the business beyond its core name.",1
+UBS Vila Elvira,UBS Vila Elvira - São José Do Rio Preto,sao jose do rio preto,latin,location,location,high,"]
+The extra content ""São José do Rio Preto"" is a location, specifically a city in Brazil. It helps to identify where UBS Vila Elvira is situated.",1
+Elite Picture Framing,Elite Picture Framing Adelaide,adelaide,latin,location,location,high,"]
+The extra content ""Adelaide"" is a geographic qualifier, specifically a city in Australia. This drives the decision to classify it as location.",1
+Aldak GmbH,ALDAK GmbH VIBRATIONSTECHNIK,vibrationstechnik,latin,business_type,business_type,high,"]
+The extra content ""vibrationstechnik"" describes a specific service or function related to the core name Aldak GmbH. This suggests it's a business_type classification.",1
+Centro Comunitário,Centro Comunitario Taiaçu,taiacu,latin,location,location,high,"]
+The extra content ""taiacu"" is a geographic qualifier, specifically a neighborhood or community name within the city.",1
+Dercole Pneumatici,Dercole Pneumatici Autofficina Castrol Service,autofficina castrol service,latin,business_type,business_type,high,"]
+The extra content ""autofficina castrol service"" specifies that Dercole Pneumatici is associated with Castrol Service, a car maintenance service. This extra information identifies the type of business and therefore classifies it as 'business_type'.",1
+Hollyhock Hill,Hollyhock Hill Restaurant,restaurant,latin,business_type,business_type,high,"]
+The extra content ""restaurant"" describes what KIND of place Hollyhock Hill is, so it falls under business_type.",1
+Management Factory Corporate Advisory GmbH,Management Factory Corporate Advisory GmbH - Valtus,valtus,latin,disambiguation,disambiguation,high,"]
+The extra content ""Valtus"" is a disambiguation, as it specifies a specific branch or affiliate of Management Factory Corporate Advisory GmbH (MFCAG). It helps to differentiate this MFCAG from others.",1
+Princeton Radiology,Princeton Radiology - Monroe,monroe,latin,location,location,high,"]
+]
+The extra content ""Monroe"" is a location qualifier, as it specifies the geographic location of the Princeton Radiology. It helps to identify where the business is situated.",1
+Carquest Auto Parts,Carquest Auto Parts - Jerry's Auto Parts,jerrys auto parts,latin,disambiguation,disambiguation,high,"]
+The extra content ""Jerry's Auto Parts"" is a specific instance or franchise of Carquest Auto Parts. This helps to identify this business as unique, and therefore it falls under disambiguation.",1
+Tempe Veterinary,Tempe Veterinary Hospital,hospital,latin,business_type,business_type,high,"]
+The extra content ""hospital"" describes what kind of place Tempe Veterinary is, specifically a hospital for animals. This drives the decision to classify it as business_type.",1
+Atm,ATM (Post Office),post office,latin,disambiguation,noise,high,"]
+The extra content ""post office"" does not provide information about what kind of place the ATM is, nor does it specify a location. Instead, it seems to be associated with the post office in a broader sense but doesn't disambiguate or add semantic value. Therefore, it can be classified as noise.",0
+Brooklyn Basketball Academy,Brooklyn Basketball Academy (BBA),bba,latin,disambiguation,disambiguation,high,"]
+]
+The extra content ""bba"" in this case is an abbreviation that describes a specific branch or franchise of Brooklyn Basketball Academy. It identifies a particular instance of the business, so it can be classified as disambiguation.",1
+Master Mechanic,Master Mechanic Pickering,pickering,latin,location,location,high,"]
+The extra content ""Pickering"" is a location qualifier, as it specifies the geographic location of the Master Mechanic business. It helps to identify where the business is situated.",1
+Boost Mobile,Boost Mobile Local Moline,local moline,latin,location,location,high,"]
+The extra content ""local moline"" is a location qualifier, as it specifies the geographic location of the Boost Mobile store. It helps to identify where the store is situated in relation to other locations.",1
+Cookie Cutters Haircuts for Kids,Cookie Cutters Haircuts for Kids - Beverly Hills,beverly hills,latin,location,location,high,"]
+The extra content ""Beverly Hills"" is a location qualifier, as it specifies the geographic location of the business. It helps to identify where Cookie Cutters Haircuts for Kids is situated.",1
+Mail Boxes ETC.,Mail Boxes Etc. UK,uk,latin,location,location,high,"]
+]
+The extra content ""UK"" in this case is a geographic qualifier, as it specifies that the Mail Boxes Etc. is located in the United Kingdom. It helps to differentiate this location from others with the same core name.",1
+Learn And Play Montessori School,Learn and Play Montessori School - Peralta,peralta,latin,location,location,high,"]
+The extra content ""Peralta"" is a location qualifier, as it specifies the geographic location of the Montessori school. It helps to identify where the Learn and Play Montessori School is situated.",1
+Liceo Scientifico Isacco Newton,Liceo Scientifico Isacco Newton (succursale),succursale,latin,disambiguation,location,high,"]
+The extra content ""succursale"" is a location that specifically indicates a branch or subdivision of Liceo Scientifico Isacco Newton, and it helps to differentiate this school from others.",0
+Prestige de Menton,Prestige de Menton - Eau de Menton,eau de menton,latin,location,business_type,high,"]
+The extra content ""eau de Menton"" is a product qualifier, indicating that this Prestige de Menton is related to water from the town of Menton. It provides additional information about the specific product offered by the business.",0
+ImmoWert Hessen,ImmoWert Hessen Carsten Nessler Sachverständige für Immobilien,carsten nessler sachverstandige fur immobilien,latin,business_type,disambiguation,high,"]
+The extra content ""Carsten Nessler Sachverständige für Immobilien"" provides disambiguation as it identifies a specific person, Carsten Nessler, who is a real estate appraiser (Sachverständige für Immobilien). It specifies that this ImmoWert Hessen is associated with him, which helps to differentiate it from other similar businesses.",0
+United Promotions Inc,United Promotions Inc. Photo Lab,photo lab,latin,business_type,business_type,high,"]
+The extra content ""photo lab"" describes what kind of services are provided at United Promotions Inc, making it a business type.",1
+The Home Depot,The Home Depot México,mexico,latin,location,location,high,"]
+The extra content ""Mexico"" is a location qualifier, specifically a country. This helps to identify where The Home Depot is situated in this case.",1
+APEC Hospital de la Ceguera,Apec Hospital De La Ceguera Azcapotzalco,azcapotzalco,latin,location,location,high,"]
+The extra content ""Azcapotzalco"" is a geographic location, specifically a borough or district in Mexico City. This drives the decision to classify it as location.",1
+Smartphone Solutions,Smartphone Solutions Sunbury,sunbury,latin,location,location,high,"]
+]
+The extra content ""Sunbury"" is a geographic qualifier, specifically a town or city. This drives the decision to classify it as location.",1
+Vitality Integrated Programs,Vitality Integrated Programs (VIP),vip,latin,disambiguation,disambiguation,high,"]
+The extra content ""VIP"" in this case describes a specific branch, organizational affiliation, or franchise/parallel brand of Vitality Integrated Programs. It is not a place name, nor a business type; thus it falls under the classification of disambiguation.",1
+See's Candies,See's Candies Chocolate Shop,chocolate shop,latin,business_type,business_type,high,"]
+The extra content ""chocolate shop"" describes what KIND of place See's Candies is, a chocolate shop. Knowing this helps to differentiate it from other businesses that might share the core name ""See's Candies.""",1
+Bad & Meer,Bad & Meer Fachmarkt für Heizung & Sanitär,fachmarkt fur heizung sanitar,latin,business_type,business_type,high,"]
+The extra content ""Fachmarkt für Heizung & Sanitär"" is a business type, as it specifies that Bad & Meer is a plumbing supply store. The name adds essential information about what kind of place this is, making it clear that the longer name should be kept.",1
+Royce Rolls,Royce Rolls Cafe,cafe,latin,business_type,disambiguation,high,"]
+The extra content ""cafe"" provides disambiguation, as it specifies the business type. It helps to differentiate this Royce Rolls from others, such as Royce Cars or any other context where Royce might be found.",0
+Waterbury Career Academy,Waterbury Career Academy High School,high school,latin,business_type,business_type,high,"]
+The extra content ""high school"" provides a more specific description of what kind of place Waterbury Career Academy is, i.e., it's a high school. This justifies its classification as business_type.",1
+Village Medical,Village Medical at Walgreens,at walgreens,latin,disambiguation,disambiguation,high,"]
+The extra content ""at Walgreens"" identifies this location as a branch or affiliate of Walgreens, a pharmacy chain. This helps to disambiguate the place name, and indicates that Village Medical is not just any medical facility but one located within a Walgreens.",1
+Remington Heights,Remington Heights Retirement Community,retirement community,latin,business_type,business_type,high,"]
+The extra content ""retirement community"" provides information about what kind of place Remington Heights is, so it's classified as business_type.",1
+Vegano Bio,Vegano Bio - Shop Online Prodotti Vegani,shop online prodotti vegani,latin,noise,noise,high,"]
+The extra content ""Shop Online Prodotti Vegani"" is a marketing tagline that adds no semantic value, as it doesn't provide any essential information about the nature of the business or its location.",1
+De Giovannini,De Giovannini Secondo di Cozzi Pier Secondo,secondo di cozzi pier secondo,latin,disambiguation,disambiguation,high,"]
+The extra content ""secondo di Cozzi Pier Secondo"" is a personal name, which helps to disambiguate this specific De Giovannini from others. It provides information about the family lineage and an individual associated with the business.",1
+El Dorado Hills Sports Club,El Dorado Hills Sports Club and Spa,and spa,latin,business_type,business_type,high,"]
+The extra content ""and spa"" is a business type that provides additional information about the services offered by El Dorado Hills Sports Club.",1
+Extended Stay America,Extended Stay America Los Angeles / Arcadia,los angeles arcadia,latin,location,location,high,"]
+The extra content ""Los Angeles / Arcadia"" provides geographic information about the location of Extended Stay America, specifically its proximity to both Los Angeles and Arcadia. It helps to identify where the business is situated, classifying it as a location.",1
+Oh My Goodness,Oh My Goodness OMG,omg,latin,disambiguation,noise,high,"]
+]
+The extra content ""omg"" is an informal abbreviation that does not contribute to identifying what kind of place this is, where it is located, or disambiguating it from others. It is a form of noise because it adds no semantic value.",0
+Miracle Mile Shops,Miracle Mile Shops At Planet Hollywood,at planet hollywood,latin,location,location,high,"]
+The extra content ""at Planet Hollywood"" is a location that identifies the geographic location where Miracle Mile Shops can be found. It provides information about the building or complex in which the shops are located.",1
+Blue Rhino,Blue Rhino Propane Exchange,propane exchange,latin,business_type,business_type,high,"]
+The extra content ""propane exchange"" provides more detail on what kind of business Blue Rhino is, specifically a propane exchange.",1
+Heartland Mortgage Inc - Bobbie Jo Haggard,"Heartland Mortgage Inc. / Bobbie Jo Haggard, NMLS 92472",nmls 92472,latin,noise,disambiguation,high,"]
+The extra content ""NMLS 92472"" is a professional credential appended to the personal name, which helps to identify a specific person associated with Heartland Mortgage Inc. It is not a place name or a business type.",0
+Hotel Farol,Hotel Farol - Mosqueiro,mosqueiro,latin,location,location,high,"]
+The extra content ""Mosqueiro"" is a location qualifier, specifically a town or village in Portugal. This drives the decision to classify it as location.",1
+AdventHealth Medical Group Primary Care,AdventHealth Medical Group Primary Care at Brandon,at brandon,latin,location,location,high,"]
+The extra content ""at Brandon"" provides a location qualifier, indicating the specific geographic area where AdventHealth Medical Group Primary Care is situated. This suggests that it should be classified as location.",1
+Eat Happy,Eat Happy Sushi & asiatische Spezialitäten,sushi asiatische spezialitaten,latin,business_type,business_type,high,"]
+The extra content ""sushi asiatische spezialitaten"" describes what kind of food this place serves, specifically sushi and other Asian specialties. This helps to determine that it is a business type.",1
+Wohnungsauflösungen Schenk,Wohnungsauflösungen Schenk Ankauf und Verkauf,ankauf und verkauf,latin,business_type,business_type,high,"]
+The extra content ""ankauf und verkauf"" (purchase and sale) describes a service provided by this business. It helps to differentiate Wohnungsauflösungen Schenk from others with the same core name, providing more information about what they do. This makes it a case of business_type.",1

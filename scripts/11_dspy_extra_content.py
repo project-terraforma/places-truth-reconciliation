@@ -322,7 +322,7 @@ def print_summary(results: pd.DataFrame) -> pd.DataFrame:
 #  LM SETUP
 # ══════════════════════════════════════════════════════════════════════════════
 
-def configure_lm(provider: str, model: str):
+def configure_lm(provider: str, model: str, cache: bool = True):
     """
     Configure the DSPy language model.
 
@@ -347,19 +347,19 @@ def configure_lm(provider: str, model: str):
         Requires: GROQ_API_KEY in .env
     """
     if provider == "anthropic":
-        lm = dspy.LM(f"anthropic/{model}")
+        lm = dspy.LM(f"anthropic/{model}", cache=cache)
     elif provider == "openai":
-        lm = dspy.LM(f"openai/{model}")
+        lm = dspy.LM(f"openai/{model}", cache=cache)
     elif provider == "ollama":
         # Local inference via Ollama — no API key needed
         # DSPy uses LiteLLM under the hood; Ollama runs at localhost:11434
-        lm = dspy.LM(f"ollama_chat/{model}", api_base="http://localhost:11434")
+        lm = dspy.LM(f"ollama_chat/{model}", api_base="http://localhost:11434", cache=cache)
     elif provider == "together":
-        lm = dspy.LM(f"together_ai/{model}")
+        lm = dspy.LM(f"together_ai/{model}", cache=cache)
     elif provider == "groq":
-        lm = dspy.LM(f"groq/{model}")
+        lm = dspy.LM(f"groq/{model}", cache=cache)
     else:
-        lm = dspy.LM(model)
+        lm = dspy.LM(model, cache=cache)
     dspy.configure(lm=lm)
     print(f"LM configured: {provider}/{model}")
 
@@ -373,6 +373,9 @@ def main():
     parser.add_argument("--provider",   default="ollama",              help="LM provider: ollama|anthropic|together|groq|openai")
     parser.add_argument("--model",      default="mistral",              help="Model name (default: mistral via Ollama)")
     parser.add_argument("--optimize",   action="store_true",            help="Run BootstrapFewShot optimizer")
+    parser.add_argument("--optimize-random", action="store_true",       help="Run BootstrapFewShotWithRandomSearch (tries many demo subsets)")
+    parser.add_argument("--no-cache",    action="store_true",            help="Disable DSPy inference cache (required when comparing models)")
+    parser.add_argument("--num-candidates", type=int, default=8,        help="Number of random candidate sets to try (default: 8)")
     parser.add_argument("--save-path",  default=None,                   help="Path to save optimized program JSON")
     parser.add_argument("--load-path",  default=None,                   help="Path to load saved program JSON")
     parser.add_argument("--max-train",  type=int, default=None,         help="Cap training set size (for cost control)")
@@ -380,7 +383,7 @@ def main():
     args = parser.parse_args()
 
     # ── Configure LM ─────────────────────────────────────────────────────────
-    configure_lm(args.provider, args.model)
+    configure_lm(args.provider, args.model, cache=not args.no_cache)
 
     # ── Load data ─────────────────────────────────────────────────────────────
     print(f"Loading eval set from: {args.eval_path}")
@@ -399,6 +402,16 @@ def main():
     if args.load_path:
         print(f"Loading optimized program from: {args.load_path}")
         module.load(args.load_path)
+    elif args.optimize_random:
+        print(f"Running BootstrapFewShotWithRandomSearch ({args.num_candidates} candidates)...")
+        from dspy.teleprompt import BootstrapFewShotWithRandomSearch
+        optimizer = BootstrapFewShotWithRandomSearch(
+            metric=exact_match,
+            max_bootstrapped_demos=4,
+            max_labeled_demos=4,
+            num_candidate_programs=args.num_candidates,
+        )
+        module = optimizer.compile(module, trainset=train_examples, valset=eval_examples)
     elif args.optimize:
         print("Running BootstrapFewShot optimizer...")
         from dspy.teleprompt import BootstrapFewShot
@@ -408,10 +421,11 @@ def main():
             max_labeled_demos=4,
         )
         module = optimizer.compile(module, trainset=train_examples)
-        if args.save_path:
-            Path(args.save_path).parent.mkdir(parents=True, exist_ok=True)
-            module.save(args.save_path)
-            print(f"Saved optimized program to: {args.save_path}")
+
+    if (args.optimize or args.optimize_random) and args.save_path:
+        Path(args.save_path).parent.mkdir(parents=True, exist_ok=True)
+        module.save(args.save_path)
+        print(f"Saved optimized program to: {args.save_path}")
 
     # ── Evaluate ───────────────────────────────────────────────────────────────
     print(f"\nEvaluating on {len(eval_examples)} held-out examples...")

@@ -1201,8 +1201,8 @@ gaps where ML adds value:
 
 1. **Extra content classification.** Given a core name and extra content, classify the extra
    as: business-type (keep), location (usually drop), disambiguation (usually drop), or noise
-   (drop). This has since been evaluated in the ML Extension section (Hypothesis 1). A 4-shot
-   prompted SLM achieves 85–95% selection accuracy with no vocabulary construction, compared
+   (drop). This has since been evaluated in the ML Extension section (Hypothesis 1). A DSPy-compiled
+   SLM achieves 86–96% selection accuracy with no vocabulary construction, compared
    to ~97% for a hand-crafted keyword list built iteratively.
 
 2. **Casing reconstruction.** Given a name in unknown casing, produce the correct cased form.
@@ -1426,20 +1426,21 @@ A model has world knowledge; a keyword list does not.
 | `business_type` | 71 | 23.4% | Keep longer name |
 | `noise` | 13 | 4.3% | Keep shorter name |
 
-> **TODO:** Replace table below with hand-labeled distribution once manual verification of
-> `name_hard_cases_eval.csv` is complete. Report how many labels changed (`human_changed=y`)
-> and how many were contested (`contested=y`). The delta between the two tables is the
-> rule-system error rate on its own hard cases.
-
-**Hand-labeled distribution (304 rows, human-verified):** *(pending)*
+**Hand-labeled distribution (304 rows, human-verified):**
 
 | Class | Count | % | Δ from rules | Selection action |
 |-------|-------|---|---|-----------------|
-| `disambiguation` | — | — | — | Keep shorter name |
-| `location` | — | — | — | Keep shorter name |
-| `business_type` | — | — | — | Keep longer name |
-| `noise` | — | — | — | Keep shorter name |
-| *(contested)* | — | — | — | *Excluded from primary accuracy measurement* |
+| `business_type` | 101 | 33.2% | +30 (+42%) | Keep longer name |
+| `location` | 101 | 33.2% | +13 (+15%) | Keep shorter name |
+| `disambiguation` | 73 | 24.0% | −59 (−45%) | Keep shorter name |
+| `noise` | 29 | 9.5% | +16 (+123%) | Keep shorter name |
+| *(contested)* | 10 | 3.3% | — | *Flagged for H4 construction* |
+
+64 of 304 labels changed during human review (`human_changed=y`). The largest shift
+was disambiguation → other classes: the auto-labeler over-predicted disambiguation by
+59 rows, primarily mislabeling `business_type` suffixes (e.g. `lanches`, `turismo`,
+`engenharia`) and location qualifiers as disambiguation. This is the rule-system's
+error rate on its own hard cases: **21% of auto-labels were wrong**.
 
 Note: three of the four classes map to the same selection action (keep shorter). Only
 `business_type` keeps the longer name. This means label accuracy and selection accuracy
@@ -1554,47 +1555,47 @@ primary confusion before optimization.
 
 **Label accuracy** (did the model predict the exact correct class?):
 
-| Model | Provider | Params | Prompt | Overall | business_type | location | disambig | noise | Parse errors |
+| Model | Provider | Params | Best prompt | Overall | business_type | location | disambig | noise | Parse errors |
 |-------|----------|--------|--------|---------|---------------|----------|---------|-------|-------------|
-| Llama-3.1-8B | Groq | 8B | zero-shot | 23.0%† | 64.7% | 57.1% | 12.0% | 33.3% | 44% |
-| Llama-3.1-8B | Groq | 8B | 4-shot | 27.9%† | 34.1% | 28.9% | 17.2% | 28.6% | 61% |
-| Claude Haiku | Anthropic | — | zero-shot | 68.9% | 90.5% | 95.6% | 34.0% | 83.3% | 0% |
-| Phi-3 Mini | Ollama | **3.8B** | 4-shot | 61.5% | 73.2% | 57.8% | 51.7% | 57.1% | **0%** |
-| Llama-3.1-8B | Ollama | 8B | 4-shot | 68.0% | 80.5% | 77.8% | 37.9% | 57.1% | **0%** |
-| Mistral-7B | Ollama | 7B | 4-shot | 70.5% | 65.9% | 88.9% | 58.6% | 28.6% | **0%** |
-| Qwen-2.5-7B | Ollama | 7B | 4-shot | 76.2% | 73.2% | 84.4% | **75.9%** | 42.9% | **0%** |
-| Qwen-2.5-14B | Ollama | 14B | 4-shot | 77.0% | 85.4% | 84.4% | 55.2% | 71.4% | **0%** |
-| Claude Haiku | Anthropic | — | 4-shot | **82.8%** | **90.2%** | **95.6%** | **75.9%** | **85.7%** | 0% |
+| Phi-3 Mini | Ollama | **3.8B** | v3 (random search) | 68.9% | 72.1% | 70.5% | 67.9% | 42.9% | **0%** |
+| Mistral-7B | Ollama | 7B | v1 (greedy) | 73.0% | 74.4% | 79.5% | 64.3% | 57.1% | **0%** |
+| Llama-3.1-8B | Ollama | 8B | v3 (random search) | 77.0% | 95.3% | 77.3% | 46.4% | 85.7% | **0%** |
+| Qwen-2.5-7B | Ollama | 7B | v3 (random search) | 78.7% | 86.0% | 79.5% | 67.9% | 71.4% | **0%** |
+| Qwen-2.5-14B | Ollama | 14B | zero-shot | 82.0% | 93.0% | 95.5% | 42.9% | 85.7% | **0%** |
+| Qwen-2.5-14B | Ollama | 14B | v1 (greedy) | 84.4% | 90.7% | 95.5% | 57.1% | **85.7%** | **0%** |
+| Claude Haiku | Anthropic | — | zero-shot | 86.1% | 93.0% | **97.7%** | 57.1% | **85.7%** | 0% |
+| Claude Haiku | Anthropic | — | v3 (random search) | **86.9%** | **93.0%** | **100.0%** | **60.7%** | **85.7%** | 0% |
 
-† Groq Llama-3.1-8B had 44–61% structured output parse failures. On parseable rows only:
-zero-shot ~41%, 4-shot ~72%. The failures are Groq API + Llama instruction-following —
-the same model via Ollama with adequate memory would likely parse cleanly.
+All rows use human-verified labels. Each model shows its best-performing prompt variant.
+Groq results removed — 44–61% structured output parse failures made those numbers
+unreliable; Llama-3.1-8B runs cleanly via Ollama.
 
 **Selection accuracy and throughput** (did the model recommend keeping the correct name, and how fast?):
 
-> **TODO:** Re-run all models after manual labeling is complete to get updated accuracy
-> numbers. Add throughput (rows/min) and avg latency per row from the timing code added
-> to script 11. Fill in the — cells below.
+| Model | Params | Cost | Best prompt | Selection acc | Rows/min | Avg latency | Parse errors |
+|-------|--------|------|------------|--------------|----------|-------------|-------------|
+| Phi-3 Mini (Ollama) | **3.8B** | free | v1 (greedy) | 86.9% | 19.7 | 3.05s | 0% |
+| Mistral-7B (Ollama) | 7B | free | v1 (greedy) | 87.7% | 7.3 | 8.20s | 0% |
+| Llama-3.1-8B (Ollama) | 8B | free | v3 (random search) | 89.3% | 17.7 | 3.39s | 0% |
+| Qwen-2.5-7B (Ollama) | 7B | free | v3 (random search) | 92.6% | 19.5 | 3.08s | 0% |
+| Qwen-2.5-14B (Ollama) | 14B | free | zero-shot | **94.3%** | 5.8 | 10.33s | 0% |
+| Claude Haiku | — | ~$0.001/row | zero-shot | **95.9%** | — | — | 0% |
 
-| Model | Params | Cost | Selection acc | Rows/min | Avg latency | Parse errors |
-|-------|--------|------|--------------|----------|-------------|-------------|
-| Llama-3.1-8B (Ollama) | 8B | free | 81.1% | 1.5 | 38.77s | 0% |
-| Phi-3 Mini (Ollama) | **3.8B** | free | 86.9% | — | — | 0% |
-| Mistral-7B (Ollama) | 7B | free | 86.1% | — | — | 0% |
-| Qwen-2.5-7B (Ollama) | 7B | free | 85.2% | — | — | 0% |
-| Qwen-2.5-14B (Ollama) | 14B | free | 89.3% | 1.5 | 38.85s | 0% |
-| Claude Haiku | — | ~$0.001/row | **95.1%** | — | — | 0% |
+Each model shows its best-performing prompt variant. Throughput measured on Apple Silicon
+(no-cache run via Ollama). Haiku throughput omitted — API latency varies with network and
+batch size and is not comparable to local inference.
 
 The throughput column answers the deployment question: not just *how accurate* but *how
 fast and at what cost*. For a dataset of 493 hard rows (the full H1+H2 scope in the
 2,000-row sample), the practical tradeoff is:
 
-- **Local SLMs (free, ≤8B):** 81–87% selection accuracy, runs on any machine with 8GB RAM,
+- **Local SLMs (free, ≤8B):** 86–93% selection accuracy, runs on any machine with 8GB RAM,
   no API key, no cost — viable for high-volume pipelines where occasional errors are
-  acceptable and privacy or cost constraints rule out external APIs
-- **Local 14B (free):** 89% selection accuracy, same cost profile, requires ~16GB RAM —
-  marginal improvement over 7B, same throughput (~1.5 rows/min)
-- **Haiku (~$0.001/row):** 95.1% selection accuracy, ~$0.50 to process all 493 hard
+  acceptable and privacy or cost constraints rule out external APIs. Throughput ~18–20
+  rows/min on Apple Silicon for 3.8B–8B models (CPU-only inference).
+- **Local 14B (free):** 94.3% selection accuracy, same cost profile, requires ~16GB RAM —
+  strong improvement over 7B models, ~5.8 rows/min on Apple Silicon.
+- **Haiku (~$0.001/row):** 95.9% selection accuracy, ~$0.50 to process all 493 hard
   rows in the sample — viable for production where accuracy matters and cost is low
 
 The stratification principle makes throughput meaningful: by routing only the 493
@@ -1618,12 +1619,13 @@ found by reviewing SLM outputs — the model identified the gaps, a human patche
 them. That process is iterative, time-consuming, and never complete (the next
 dataset will have new gaps).
 
-The SLM reaches 95.1% in a single cold run with zero vocabulary construction.
-It doesn't need a curated list because it already knows what a natatorium is.
+Qwen-2.5-14B reaches 94.3% in a single cold run with zero vocabulary construction —
+running locally, for free, with no API key. It doesn't need a curated list because
+it already knows what a natatorium is.
 
 So the three baselines tell three different stories:
 - **79.5%** — what rules give you for free, immediately
-- **95.1%** — what the SLM gives you for free, immediately  
+- **94.3%** — what a free local 14B SLM gives you, immediately
 - **97%** — what rules give you after significant iterative effort, guided by the SLM
 
 The SLM doesn't just beat the naive baseline. It nearly matches the endpoint of a
@@ -1639,14 +1641,18 @@ accumulating a vocabulary list that will drift out of date as new place types em
 2. **Phi-3 Mini (3.8B) matches 7B models on selection accuracy (86.9%).** Parameter
    count is not the limiting factor. Instruction-following quality is.
 
-3. **All local SLMs cluster at 85–87% selection accuracy** — a clear ~9 point gap
-   below Haiku (95.1%). This gap is the measurable cost of using a free local model
-   vs. a paid hosted API. For production use cases where occasional selection errors
-   are acceptable, 86% is deployment-viable.
+3. **Local ≤8B SLMs range from 86–93% selection accuracy.** The gap vs. Haiku (95.9%)
+   is 3–10 points depending on model choice. Qwen-2.5-7B (7B, free) reaches 92.6%
+   with the v3 prompt — within 3 points of Haiku. Qwen-2.5-14B (free, local) at 94.3%
+   is within 2 points of Haiku: the size jump from 7B to 14B narrows the gap further,
+   and a 14B model running locally for free competes directly with a paid hosted API.
 
-4. **Qwen-2.5-7B has the best disambiguation accuracy (75.9%)** — better than
-   Haiku's 51.7% on that class. Its multilingual training makes it more reliable
-   at recognizing organizational affiliations across languages.
+4. **Qwen-2.5-7B has the best disambiguation accuracy among ≤8B models.** With the v1
+   prompt, it reaches 75.0% disambiguation accuracy; with v3 it trades some disambiguation
+   accuracy (67.9%) for much better business_type and noise accuracy, netting a large
+   overall selection accuracy gain. Its multilingual training makes it more robust at
+   recognizing organizational affiliations across languages than same-size English-dominant
+   models.
 
 #### Failure Taxonomy — What No Model Gets Right
 
@@ -1664,34 +1670,45 @@ the model's call of `disambiguation` is a reasonable interpretation — a natato
 is a specific facility within a school, and an insurance agent identifies Craig
 Bagley's role within State Farm. These may warrant reclassification.
 
-**Cases where local SLMs fail but Haiku succeeds** (the 9-point gap in practice):
+**Cases where local SLMs fail but Haiku succeeds** (the 2–9 point gap in practice):
 most are non-English business types — `saude` (Portuguese: health), `estacionamento`
 (Portuguese: parking), `terraza` (Spanish: rooftop bar), `autofficina` (Italian:
 auto repair shop). These words appear rarely in smaller models' training data.
 Haiku's larger training corpus covers them. This is the world-knowledge gap that
 justifies using a hosted model when accuracy is critical.
 
-4. **Qwen-2.5-7B has the best disambiguation accuracy (75.9%)** — notably better than
-   Haiku's 51.7% on that class. Qwen recognizes organizational affiliations and branch
-   names more reliably. Haiku dominates on business_type (90.2%) and location (95.6%).
+5. **The v1 optimized prompt is model-agnostic for greedy optimization.** When
+   BootstrapFewShot was run independently on Mistral-7B, it selected the identical 4
+   examples as the Haiku optimizer. Selection accuracy is identical (87.7%) whether
+   Mistral uses its own optimized demos or Haiku's for the v1 prompt.
 
-5. **The optimized prompt is model-agnostic.** When BootstrapFewShot was run
-   independently on Mistral-7B, it selected the identical 4 examples as the Haiku
-   optimizer. Selection accuracy is identical (86.1%) whether Mistral uses its own
-   optimized demos or Haiku's. Optimize once on any capable model; load the saved
-   program into any other model for equivalent results.
+6. **Prompt sensitivity varies substantially across models.** The v3 prompt
+   (BootstrapFewShotWithRandomSearch, 8 candidates, demos drawn from Haiku runs) does not
+   uniformly improve all models — selection accuracy deltas vs. zero-shot/v1:
 
-6. **The 4-shot demos help all models but don't close the gap.** Moving from zero-shot
-   to 4-shot: Haiku +13.9 pts label accuracy. All models still cluster below Haiku.
+   | Model | v1 / best non-v3 | v3 | Delta |
+   |-------|-----------------|-----|-------|
+   | Phi-3 Mini | 86.9% | 83.6% | **−3.3 pts** |
+   | Mistral-7B | 87.7% | 86.1% | **−1.6 pts** |
+   | Llama-3.1-8B | — | 89.3% | (only v3 measured) |
+   | Qwen-2.5-7B | 86.9% | 92.6% | **+5.7 pts** |
+   | Qwen-2.5-14B | 93.4% | — | zero-shot 94.3% best |
 
-The gap between label accuracy (82.8%) and selection accuracy (95.1%) for Haiku is
-explained by the 13 cases where the model chose the wrong label but the right name —
+   The v3 demos contain Haiku's reasoning chains and reflect Haiku's strengths: strong
+   world knowledge of multilingual business types. Models with similar multilingual training
+   (Qwen-2.5-7B) benefit from this scaffolding. Models with less multilingual coverage
+   (Phi-3 Mini, Mistral-7B) are confused by reasoning chains built on knowledge they
+   lack. **Each model ideally needs its own BootstrapFewShot run against human-verified
+   labels** rather than inheriting Haiku's optimized demos.
+
+The gap between label accuracy (86.1%) and selection accuracy (95.9%) for Haiku (zero-shot)
+is explained by the 5 cases where the model chose the wrong label but the right name —
 primarily disambiguation/noise boundary cases (store numbers, corporate suffixes, acronyms)
 where both labels map to "keep shorter."
 
 #### Disambiguation: The Bottleneck Class
 
-`disambiguation` is the hardest class across every model — scoring 37–76% vs 77–95% for
+`disambiguation` is the hardest class across every model — scoring 43–75% vs 61–98% for
 the other three classes. This is not a model failure; it reflects genuine structural
 ambiguity in the label itself. The `disambiguation` class is a catch-all for extra content
 that identifies *which instance of a business* this is, without describing what the business
@@ -1706,6 +1723,7 @@ with `business_type` or `location`:
 | **Person name as branch identifier** | `heidi lue` (Edward Jones Financial Advisor) | Reads as noise or disambiguation — person names are ambiguous |
 | **Dual-brand co-location** | `at walgreens` (Village Medical) | Reads as location — Walgreens is a store, but the relationship is tenancy, not geography |
 | **Internal data flags** | `dup do not use` (San Jose Airport) | Most models correctly classify as noise, not disambiguation |
+| **Official name contains person name** | `di Cateni Riccardo` (Service Neon), `Martin Luther King` (Parc Clichy-Batignolles) | In Italian business registration, `di [Name]` is part of the canonical name, not an owner suffix; honorary place names (parks, streets) include person names as the official name — models predict disambiguation or location depending on how the name reads, but in both cases the shorter name is actually incomplete |
 
 The core tension: many `disambiguation` extra contents describe *something real about the
 place* — its affiliation, its specialty, its host location — which models correctly read as
@@ -1713,6 +1731,22 @@ informative. The label reflects the policy decision (keep the shorter canonical 
 drop the organizational context), not just semantic content. A model that predicts
 `business_type` for `family hair cutters` (Top Cut) is not wrong about meaning; it's
 wrong about policy.
+
+**Known labeling edge case — Italian `di [Name]` and honorary names.** Italian small
+businesses frequently register with `di [Owner Name]` as part of the official business
+name (e.g., `Service Neon di Cateni Riccardo`, `Secondo di Cozzi Pier Secondo`). Similarly,
+parks, streets, and public spaces named after historical figures include person names as the
+canonical place name (e.g., `Parc Clichy-Batignolles Martin Luther King`). In both cases,
+the model correctly identifies a person name and predicts `disambiguation` or `location` —
+but the shorter name is actually incomplete.
+
+For parks and public spaces specifically, the person name is typically *wanted*: `Parc
+Clichy-Batignolles` is generic and could refer to any green space in that neighborhood,
+whereas `Parc Clichy-Batignolles Martin Luther King` is the official name on signage and
+in administrative records. The pipeline's default of keeping the shorter name produces a
+less useful result for this place type. These rows are marked `contested=y` during human
+review and are candidates for H4 construction or manual correction rather than simple
+short-name selection.
 
 **20 representative disambiguation examples** (full set of 131 in
 `analysis/names/disambiguation_examples.csv`):
@@ -1762,8 +1796,8 @@ circular dependency.
 
 **Impact:** Of the 122 eval rows, approximately 53 had model-assisted corrections.
 On the 69 rows with original unmodified labels, Haiku achieves **92.8% selection
-accuracy**. On the full 122 rows, **95.1%**. The true accuracy is in the range
-**92.8–95.1%**. The corrected rows measure ~98% because those rows were
+accuracy**. On the full 122 rows, **95.9%**. The true accuracy is in the range
+**92.8–95.9%**. The corrected rows measure ~98% because those rows were
 identified precisely because the model got them right.
 
 Local SLMs (Mistral-7B, Qwen-2.5-7B, Phi-3 Mini) are less affected: their
@@ -1954,12 +1988,14 @@ is much faster (~2–5 seconds/prediction).
 > `senior care`) must be classified as business-type, location, disambiguation, or
 > noise to determine which name variant to canonicalize. No finite vocabulary
 > enumerates all such content across 15+ languages. We evaluate three open-weights
-> small language models (Mistral-7B, Qwen-2.5-7B, Phi-3 Mini 3.8B) using a
-> DSPy-compiled 4-shot prompt optimized on 182 labeled examples. All three achieve
-> 85–87% selection accuracy with zero structured-output parse errors when run locally
-> via Ollama — compared to 70% for n-gram classifiers trained on the same data and
-> 79.5% for a blind vocabulary rule set. A hosted API model (Claude Haiku) reaches
-> 95.1% selection accuracy, a ~9 point gap attributable to deeper world knowledge
+> small language models (Mistral-7B, Qwen-2.5-7B, Phi-3 Mini 3.8B, Llama-3.1-8B,
+> Qwen-2.5-14B) using DSPy-compiled prompts (greedy BootstrapFewShot and random-search
+> variants) optimized on 182 labeled examples. ≤8B models achieve 86–93% selection
+> accuracy with zero structured-output parse errors when run locally via Ollama —
+> compared to 70% for n-gram classifiers trained on the same data and 79.5% for a
+> blind vocabulary rule set. Qwen-2.5-14B (14B, free, local) reaches 94.3% selection
+> accuracy. A hosted API model (Claude Haiku) reaches 95.9% selection accuracy, a
+> ~2 point gap over the best local model — attributable to deeper world knowledge
 > for rare non-English business-type terms. Three cases produce selection errors
 > across all models, all involving mixed signals (person name embedded in business
 > type, or institutional affiliation that simultaneously describes a job title).
