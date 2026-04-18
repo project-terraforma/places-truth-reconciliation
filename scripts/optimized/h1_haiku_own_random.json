@@ -1,0 +1,83 @@
+{
+  "classify.predict": {
+    "traces": [],
+    "train": [],
+    "demos": [
+      {
+        "augmented": true,
+        "short_name": "First National Bank",
+        "long_name": "First National Bank - Pottsville",
+        "extra_content": "pottsville",
+        "script_type": "latin",
+        "reasoning": "\"Pottsville\" is a city name that specifies the geographic location of this particular branch of First National Bank, making it a location qualifier rather than a business type or organizational identifier.",
+        "classification": "location",
+        "confidence": "high"
+      },
+      {
+        "augmented": true,
+        "short_name": "Norfolk Royale Hotel",
+        "long_name": "Norfolk Royale Hotel Bournemouth",
+        "extra_content": "bournemouth",
+        "script_type": "latin",
+        "reasoning": "The extra content \"bournemouth\" is a geographic location (a coastal town in England) that specifies where this hotel is situated, making it a location qualifier rather than a descriptor of the business type.",
+        "classification": "location",
+        "confidence": "high"
+      },
+      {
+        "short_name": "Jiffy Xpress",
+        "long_name": "Jiffy Xpress / Godfather's Pizza Express",
+        "extra_content": "godfathers pizza express",
+        "script_type": "latin",
+        "correct_answer": "noise"
+      },
+      {
+        "short_name": "Marshalls plc (Marshalls Mono Ltd.)",
+        "long_name": "Marshalls plc (Marshalls Mono Ltd.) Sittingbourne",
+        "extra_content": "sittingbourne",
+        "script_type": "latin",
+        "correct_answer": "disambiguation"
+      }
+    ],
+    "signature": {
+      "instructions": "Classify the semantic role of extra content in a place name subset conflict.\n\nContext: One place name is entirely contained within another. The longer name adds\n\"extra content\" beyond the shorter core name. Your job is to classify what that\nextra content IS — this determines whether to keep the longer or shorter name.\n\nFour classes:\n- business_type: The extra content describes what KIND of place this is.\n  Examples: \"Hotel\", \"Supermarket\", \"Dance Studio\", \"Dental Clinic\", \"Pharmacy\",\n  \"Restaurant\", \"Fachmarkt für Heizung & Sanitär\" (German plumbing supply store),\n  \"Sachverständige für Immobilien\" (certified real estate appraiser).\n  Rule: if you know what the place IS from the extra content, it's business_type.\n  → Select the LONGER name (the business type adds essential information).\n\n- location: The extra content is a place name — city, neighborhood, state, country,\n  street, or geographic qualifier.\n  Examples: \"Champs-Elysées\", \"Florida\", \"Hammersmith\", \"Canada\", \"Marseille\",\n  \"Nashville Tennessee West\", \"Rancho Cucamonga CA\", \"Florissant\".\n  Note: a location that also disambiguates (Kip McGrath Hammersmith — the only Kip\n  McGrath in Hammersmith) is still classified as location.\n  → Select the SHORTER name (the location qualifier is usually directory noise).\n\n- disambiguation: The extra content identifies a specific branch, owner, service list,\n  organizational affiliation, or franchise/parallel brand — without being a place name\n  or a business type.\n  Examples: \"State Farm Insurance Agent\", \"at Guaranteed Rate Affinity\", \"Franchisé\n  indépendant\", \"Coldwell Banker Commercial Schmidt\", \"| Webentwicklung & IT-Infrastruktur\",\n  \"/ Godfather's Pizza Express\", \"Senior Care\", \"Financial Advisor: Heidi Lue\".\n  → Select the SHORTER name (the core name is the canonical form).\n\n- noise: The extra content is listing boilerplate that adds no semantic value — license\n  numbers, professional credentials appended to a personal name, legal ownership\n  notations, marketing taglines, online-channel descriptors, or vintage/batch identifiers.\n  Examples: \"NMLS #344084\", \"M.D.\", \"Inh. Harald H. J. Mählenhoff e.K.\",\n  \"Uno dei Borghi più Belli d'Italia\", \"Shop Online Prodotti Vegani\",\n  \"Small Batch Revival 2011\", \"S.C.\" (Mexican Sociedad Civil), \"Co.\" (Company).\n  → Select the SHORTER name (always).",
+      "fields": [
+        {
+          "prefix": "Short Name:",
+          "description": "The shorter, core place name (the one that is contained within the longer name)"
+        },
+        {
+          "prefix": "Long Name:",
+          "description": "The longer place name that contains the core name plus extra content"
+        },
+        {
+          "prefix": "Extra Content:",
+          "description": "The normalized extra content — what the longer name adds beyond the shorter name. Already lowercased and punctuation-stripped for comparison."
+        },
+        {
+          "prefix": "Script Type:",
+          "description": "Script family of the names: 'latin', 'cjk', or 'thai'"
+        },
+        {
+          "prefix": "Reasoning:",
+          "description": "One sentence explaining why this classification was chosen. Be specific about which word or phrase in extra_content drove the decision."
+        },
+        {
+          "prefix": "Classification:",
+          "description": "One of exactly: business_type, location, disambiguation, noise"
+        },
+        {
+          "prefix": "Confidence:",
+          "description": "One of exactly: high, medium, low"
+        }
+      ]
+    },
+    "lm": null
+  },
+  "metadata": {
+    "dependency_versions": {
+      "python": "3.12",
+      "dspy": "3.1.3",
+      "cloudpickle": "3.1"
+    }
+  }
+}

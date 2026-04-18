@@ -1,0 +1,5 @@
+class,n,accuracy
+business_type,43,0.8604651162790697
+disambiguation,28,0.6071428571428571
+location,44,1.0
+noise,7,0.8571428571428571

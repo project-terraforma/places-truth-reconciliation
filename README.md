@@ -1683,41 +1683,45 @@ justifies using a hosted model when accuracy is critical.
 6. **Demo source and search strategy interact non-trivially with model capability.**
    We tested three prompt configurations for each local model: (a) Haiku v1 — greedy
    BootstrapFewShot optimized on Haiku; (b) Haiku v3 — BootstrapFewShotWithRandomSearch
-   on Haiku (8 candidate sets); (c) own-optimized — greedy BootstrapFewShot run
-   separately for each model using that model as teacher. Full selection accuracy matrix:
+   on Haiku (8 candidate sets); (c) own greedy — greedy BootstrapFewShot with each
+   model as its own teacher; (d) own random — BootstrapFewShotWithRandomSearch with
+   each model as its own teacher (run for Mistral and Haiku). Full selection accuracy:
 
-   | Model | Haiku v1 | Haiku v3 | Own greedy | Best |
-   |-------|----------|----------|-----------|------|
-   | Phi-3 Mini | **86.9%** | 83.6% | 79.5% | Haiku v1 |
-   | Mistral-7B | 87.7% | 86.1% | **91.8%** | Own greedy |
-   | Llama-3.1-8B | — | **89.3%** | 86.1% | Haiku v3 |
-   | Qwen-2.5-7B | 86.9% | **92.6%** | 87.7% | Haiku v3 |
-   | Qwen-2.5-14B | 93.4% | — | **93.4%** | Tied |
+   | Model | Haiku v1 | Haiku v3 | Own greedy | Own random | Best |
+   |-------|----------|----------|-----------|------------|------|
+   | Phi-3 Mini | **86.9%** | 83.6% | 79.5% | — | Haiku v1 |
+   | Mistral-7B | 87.7% | 86.1% | **91.8%** | 89.3% | Own greedy |
+   | Llama-3.1-8B | — | **89.3%** | 86.1% | — | Haiku v3 |
+   | Qwen-2.5-7B | 86.9% | **92.6%** | 87.7% | — | Haiku v3 |
+   | Qwen-2.5-14B | 93.4% | — | 93.4% | — | **94.3%** (zero-shot) |
+   | Haiku | 95.1% | 95.9% | — | 94.3% | **95.9%** (zero-shot/v3) |
 
    No single approach wins across all models. Key observations:
 
-   - **Mistral gains the most from own optimization (+4.1 pts).** Its own demos produce
-     the best label accuracy (81.1%) of any 7B model by a wide margin.
+   - **Mistral gains the most from own optimization (+4.1 pts over Haiku v1)** but own
+     random search (89.3%) is *worse* than own greedy (91.8%). More search didn't help —
+     the stalls during the run likely degraded exploration quality, and with only 122 val
+     rows the optimization signal is noisy for 8-candidate search.
 
-   - **Phi-3 is actively harmed by own optimization (−7.4 pts).** Greedy
-     BootstrapFewShot picks the *first* successful training examples. Phi-3 only needed
-     12 attempts to find 4 successes — and those 4 happened to include no noise examples.
-     Its own demos produced 0% noise accuracy on eval. This is a known failure mode of
-     greedy bootstrap: it finds *easy* examples, not *informative* ones.
+   - **Phi-3 is actively harmed by own optimization (−7.4 pts).** Greedy bootstrap picks
+     the *first* successful examples. Phi-3 only needed 12 attempts to find 4 successes —
+     those 4 included no noise examples, producing 0% noise accuracy on eval. This is
+     a known failure mode: greedy bootstrap finds *easy* examples, not *informative* ones.
 
    - **Haiku v3 random search beats per-model greedy for Qwen-2.5-7B and Llama-3.1-8B.**
-     Searching 8 candidate demo sets (even with Haiku as the teacher) finds better demos
-     than a single greedy pass with the target model. The diversity of the search matters
-     more than the source of the teacher model for these architectures.
+     Searching 8 candidate sets (even with Haiku as teacher) finds better demos than a
+     single greedy pass with the target model.
+
+   - **Haiku own random search (94.3%) is worse than zero-shot (95.9%).** Any demo set
+     hurts Haiku — the model is capable enough that examples constrain rather than guide.
 
    - **Qwen-2.5-14B is insensitive to demo source** — zero-shot, Haiku v1, and own
-     greedy all tie at 93.4% selection accuracy. The model is capable enough that demos
-     add little marginal value.
+     greedy all produce 93.4% selection accuracy. Zero-shot (94.3%) is marginally best.
 
-   The correct approach for rigorous per-model optimization would be
-   BootstrapFewShotWithRandomSearch run separately for each model — combining the
-   diversity of random search with the authenticity of the model's own reasoning chains.
-   We did not run this due to time cost (~6h per model on Apple Silicon).
+   The pattern across all runs: **more optimization is not monotonically better**. With a
+   122-row validation set, the random search optimizer has too little signal to reliably
+   select better demo sets than a single greedy pass. The eval set would need to be
+   substantially larger (300–500 rows) for random search to show consistent gains.
 
 The gap between label accuracy (86.1%) and selection accuracy (95.9%) for Haiku (zero-shot)
 is explained by the 5 cases where the model chose the wrong label but the right name —
