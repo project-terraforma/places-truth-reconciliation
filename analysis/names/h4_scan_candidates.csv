@@ -1,0 +1,65 @@
+short_name,long_name,extra_content,biz_matches,loc_reason,already_in_h4,city,id
+Pharmasave Holyrood,Pharmasave Holyrood Pharmacy and Telehealth Medical Clinic,pharmacy and telehealth medical clinic,"clinic, medical, pharmacy",proper_noun:telehealth,False,Edmonton,08f12ecc8371475e037d414c3de7ba87
+Vegano Bio,Vegano Bio - Shop Online Prodotti Vegani,shop online prodotti vegani,shop,proper_noun:online,False,Pesaro,08f1ea300a1a88660316466765fa0600
+Party City,Party City Southridge Mall,southridge mall,mall,proper_noun:southridge,False,Des Moines,08f260d84244933003336dab587f799b
+Maumelle High School,Maumelle High School Media Center,media center,center,proper_noun:media,False,Maumelle,08f265b4a49aad8403c807ff79640e5b
+Craig Bagley,Craig Bagley - State Farm Insurance Agent,state farm insurance agent,"agent, insurance",proper_noun:state,False,Weatherford,08f26ca313c502a9031d8fb25ecda7a4
+Olive Garden,Olive Garden Italian Restaurant,italian restaurant,restaurant,proper_noun:italian,False,Midland,08f274ca76c9c9810323067e2b9f2f53
+LOOKING GLASS,Looking Glass Beachfront Inn,beachfront inn,inn,proper_noun:beachfront,False,Grand Haven,08f274e2c50a00ae0386ed65974359d1
+Arthur Murray,Arthur Murray Dance Studio - Beaverton,dance studio beaverton,"dance, studio",proper_noun:beaverton,True,Beaverton,08f28f01514b200203d6fc2e65ce45d4
+Olive Garden,Olive Garden Italian Restaurant,italian restaurant,restaurant,proper_noun:italian,False,Montclair,08f29a0ade58944c0388ba4b6839fe2d
+Waterbury Career Academy,Waterbury Career Academy High School,high school,school,proper_noun:high,False,Waterbury,08f2a143a2aea428033ac8f069c43517
+Charleston Civic Center,Charleston Civic Center Ice Arena,ice arena,arena,proper_noun:ice,False,Charleston,08f2a9cae147308803ab0eca95c449e6
+Thomas Sporer,"Thomas Sporer - Ameriprise Financial Services, LLC",ameriprise financial services llc,services,proper_noun:ameriprise,False,Honesdale,08f2aa5b6a3a1c9303ace1cc205565a5
+Me n Moms,Me n Moms Baby Care & Kids Store in Barasar,baby care kids store in barasar,"care, store",spatial_prep,True,Kolkata,08f3cf28a84b06de03f07dff38c60faa
+The Coffee Corner,The Coffee Corner (Hermitage mall),hermitage mall,mall,proper_noun:hermitage,False,Paramaribo,08f5f1c34bc3419903e2d20614543143
+Micronova IT Group,"Micronova IT Group - Internet Leased Lines, Internet Data Center, Managed IT Services",internet leased lines internet data center managed it services,"center, services",proper_noun:internet,False,Bengaluru,08f60145a6114b260336957abd9b35b7
+Dog's Shop,Dog's Shop Pampulha - Pet Shop,pampulha pet shop,shop,proper_noun:pampulha,True,Belo Horizonte,08fa88cd98806c2503508be454babf9f
+Red Wing,Red Wing Shoe Store,shoe store,store,proper_noun:shoe,False,Richmond,1407374883710721
+London Drugs,London Drugs - Heritage Plaza,heritage plaza,plaza,proper_noun:heritage,False,Calgary,281474978634936
+Bad & Meer,Bad & Meer Fachmarkt für Heizung & Sanitär,fachmarkt fur heizung sanitar,fachmarkt,proper_noun:heizung,False,Büdelsdorf,08f1f06ce2a004a40341f2b27fa560e7
+Praxis Fahima Asseily,Praxis Fahima Asseily für alternative Therapien und Seminare,fur alternative therapien und seminare,therapien,proper_noun:seminare,False,Braunschweig,08f1f11618c549ae0318404b974f642c
+Dercole Pneumatici,Dercole Pneumatici Autofficina Castrol Service,autofficina castrol service,autofficina,proper_noun:castrol,False,Cusano Milanino,08f1f99ce166d833032db8b644198dd4
+ImmoWert Hessen,ImmoWert Hessen Carsten Nessler Sachverständige für Immobilien,carsten nessler sachverstandige fur immobilien,"immobilien, sachverstandige",proper_noun:carsten,False,Wiesbaden,08f1fae8de06cb6e0358ad20a5961710
+CHI Saint Joseph Medical Group,CHI Saint Joseph Medical Group - Primary Care,primary care,care,proper_noun:primary,False,Lexington,08f266daddb24aaa03e644de71b831ee
+Matt Nashed,"Matt Nashed, DDS - Arcadia Orthodontist Children's Dentistry",dds arcadia orthodontist childrens dentistry,orthodontist,proper_noun:arcadia,False,Arcadia,08f29a1c328d372d03b6ba86fb07834f
+Hulk Security Systems,"Hulk Security Systems - Intercom, Access Control & Burglary Alarms systems",intercom access control burglary alarms systems,systems,proper_noun:intercom,False,New York,08f2a10725b352a903e6847459c20ef9
+JE Carriers,JE Carriers Auto Transport,auto transport,transport,proper_noun:auto,False,Raleigh,08f2a89646788ce103bbc825196e3aa1
+Blue Rhino,Blue Rhino Propane Exchange,propane exchange,propane,proper_noun:exchange,False,Unityville,08f2aa56ccd0d68e03ba7e02c03f8543
+Roper St. Francis Physician Partners,Roper St. Francis Physician Partners - Primary Care,primary care,care,proper_noun:primary,False,North Charleston,08f44d075801305e03fe2c0f3f1ad2d8
+Black Mamba Barber Shop & Tatto,Black Mamba Barbershop & Tattoo | Nezahualcóyotl,black mamba barbershop tattoo nezahualcoyotl,barbershop,proper_noun:black,False,Nezahualcóyotl,08f4995b926ea6030351c7cdf039096d
+Auto Stark,Auto Stark Acessórios Automotivo,acessorios automotivo,acessorios,proper_noun:automotivo,False,Osasco,08fa810384d58c45034826da81df1a9e
+อิลิแกรนด์ คลินิก เวชกรรม,อิลิแกรนด์ คลินิก เวชกรรม : Elegrand Medical Clinic,elegrand medical clinic,"clinic, medical",proper_noun:elegrand,False,,08f64860d3640c34031c4e86f1f57669
+โรงพยาบาลสวนสัตว์,โรงพยาบาลสวนสัตว์ Animal Farm Veterinary Hospital,animal farm veterinary hospital,veterinary,proper_noun:animal,False,กรุงเทพมหานคร,08f64a484c9a0c5403339a1fcf0ce87c
+Specsavers,Specsavers Opticians and Audiologists - Darlington Victoria Road Sainsbury's,opticians and audiologists darlington victoria road sainsburys,"audiologists, opticians",proper_noun:darlington,True,Darlington,08f19464e2d1b500037d801dd8301885
+Specsavers,Specsavers Opticians And Audiologists - South Woodham Sainsbury's,opticians and audiologists south woodham sainsburys,"audiologists, opticians",proper_noun:and,True,Woodham Ferrers,08f194e39611330b031433f11d58b7da
+Imli,IMLI Restaurant Derby,restaurant derby,restaurant,proper_noun:derby,True,Derby,08f195c82d04140003820a083e057706
+SushiCo,SushiCo | Sushi & Bubble Tea Ede,sushi bubble tea ede,sushi,proper_noun:bubble,True,Ede,08f1969a93ad194003d9ba6cd9e59cbc
+Bindocci,Bindocci Shop Multibrand,shop multibrand,shop,proper_noun:multibrand,False,Perugia,08f1e84ab2d6836603e90f7b6c5c44ff
+Mezzopieno,Mezzopieno Bacaro Venezia,bacaro venezia,bacaro,proper_noun:venezia,True,Venezia,08f1ea541825054a03e000f89601f94c
+PZW,PZW Press- und Zerspanungstechnik Witten GmbH & Co,press und zerspanungstechnik witten gmbh co,zerspanungstechnik,proper_noun:press,True,Witten,08f1f1253491e08a0355c6b41a4f0509
+Wolpertinger,Wolpertinger Brauereiausschank Restaurant,brauereiausschank restaurant,restaurant,proper_noun:brauereiausschank,False,Garmisch-Partenkirchen,08f1f8800d699275039119d3f9bf4e1d
+Ehstandhof,Ehstandhof Pension & Apartments,pension apartments,apartments,proper_noun:pension,False,Uderns,08f1f895b1880a940382fd5955cc8c45
+back2motion,Back2Motion - Praxis für Physiotherapie & Med. Fitness Friedrichshafen,praxis fur physiotherapie med fitness friedrichshafen,"fitness, physiotherapie, praxis",proper_noun:med,True,Friedrichshafen,08f1f8e85aa527990316b84b2abd4965
+iRiparo,iRiparo Store Bollate,store bollate,store,proper_noun:bollate,True,Bollate,08f1f99ce216ca9003fcd409eb1d26dd
+Si-Like,Si-Like Ristorante Cinese,ristorante cinese,ristorante,proper_noun:cinese,False,Genova,08f1f9b08e92a8ed03863143cbe743b8
+Tecnocasa,Tecnocasa Studio Rapallo,studio rapallo,studio,proper_noun:rapallo,True,Rapallo,08f1f9b76a9252050316e85338ec5664
+Proximus,Proximus Shop Sint-Truiden Luikerstraat,shop sinttruiden luikerstraat,shop,proper_noun:luikerstraat,True,Sint-Truiden,08f1fa465b483c7103d703a6c389d372
+Sécuritest,Sécuritest Contrôle Technique Automobile Saint Amand les Eaux,controle technique automobile saint amand les eaux,"automobile, technique",proper_noun:saint,True,Saint-Amand-les-Eaux,08f1fa6d2a82c6c6030a05ff16f85396
+Debeka,Debeka Servicebüro Kelkheim,serviceburo kelkheim,serviceburo,proper_noun:kelkheim,True,Kelkheim (Taunus),08f1faeb9cc4ba1203638ba5e205c186
+Supplay,Supplay Chartres BTP Transport,chartres btp transport,transport,proper_noun:chartres,True,Chartres,08f1fb616050426903dbc4e7d8f3fd21
+Hy-Vee,Hy-Vee Grocery Store,grocery store,store,proper_noun:grocery,False,Sioux Center,08f26018a238d29d03c56d0d299be776
+Sherwin-Williams,Sherwin-Williams Paint Store,paint store,store,proper_noun:paint,False,Lincoln,08f266270c4539260304d8c6b7750c95
+Sherwin-Williams,Sherwin-Williams Paint Store,paint store,store,proper_noun:paint,False,Rockford,08f27594f32db1000333b7abb88b623c
+Sherwin-Williams,Sherwin-Williams Paint Store,paint store,store,proper_noun:paint,False,Plaistow,08f2a3054ea419100343bc22de5b1a6d
+Hertz,Hertz Car Rental - Columbus - Reynoldsburg HLE,car rental columbus reynoldsburg hle,rental,proper_noun:car,True,Columbus,08f2a9560235585103d35ec2f4513b74
+PNC,PNC Private Bank,private bank,bank,proper_noun:private,False,Youngstown,08f2ab174c13156b0390efabde69bef7
+AlignLife,AlignLife - Chiropractic & Natural Health Center,chiropractic natural health center,center,proper_noun:chiropractic,False,Buford,08f44c129ace4aa103315b2ff2b7d340
+PruittHealth,PruittHealth Hospice (Gainesville),hospice gainesville,hospice,proper_noun:gainesville,True,Gainesville,08f44ced4db28ab203f8d981f4da9abd
+Sherwin-Williams,Sherwin-Williams Paint Store,paint store,store,proper_noun:paint,False,Tucson,08f48e80900ad68103a541491b59a68f
+F45,F45 Training Pyrmont,training pyrmont,training,proper_noun:pyrmont,True,Pyrmont,08fbe0e35d9928b503a627126ac33fbe
+Walmart,Walmart Neighborhood Market,neighborhood market,market,proper_noun:neighborhood,False,Aurora,1125899911665302
+ATP,ATP Flight School,flight school,school,proper_noun:flight,True,Daytona Beach,1125899912398662
+Headlight,Headlight Therapists and Psychiatric Services Wasilla,therapists and psychiatric services wasilla,"services, therapists",proper_noun:psychiatric,True,Wasilla,1125899912860477
+Ferfoot,Ferfoot Care Home,care home,care,proper_noun:home,False,Chippenham,1407374887763681
+Miracle-Ear,Miracle-Ear Hearing Aid Center,hearing aid center,center,proper_noun:hearing,False,Waupaca,2251799814325658

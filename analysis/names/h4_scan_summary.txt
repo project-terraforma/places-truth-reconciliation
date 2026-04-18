@@ -1,0 +1,53 @@
+H4 candidate scan — 602 subset rows in name_golden_candidates.csv
+
+Phase results:
+  Compound candidates (biz + loc): 64
+    Already in h4_construction_candidates.csv: 21
+    NEW candidates not yet in h4 set:          43
+  Business-type only (no location signal):     67
+  No signal (unclassifiable by heuristic):     471
+
+New compound candidates:
+  'Pharmasave Holyrood'               | extra='pharmacy and telehealth medical clinic' | biz=clinic, medical, pharmacy | loc=proper_noun:telehealth
+  'Vegano Bio'                        | extra='shop online prodotti vegani' | biz=shop | loc=proper_noun:online
+  'Party City'                        | extra='southridge mall' | biz=mall | loc=proper_noun:southridge
+  'Maumelle High School'              | extra='media center' | biz=center | loc=proper_noun:media
+  'Craig Bagley'                      | extra='state farm insurance agent' | biz=agent, insurance | loc=proper_noun:state
+  'Olive Garden'                      | extra='italian restaurant' | biz=restaurant | loc=proper_noun:italian
+  'LOOKING GLASS'                     | extra='beachfront inn' | biz=inn | loc=proper_noun:beachfront
+  'Olive Garden'                      | extra='italian restaurant' | biz=restaurant | loc=proper_noun:italian
+  'Waterbury Career Academy'          | extra='high school' | biz=school | loc=proper_noun:high
+  'Charleston Civic Center'           | extra='ice arena' | biz=arena | loc=proper_noun:ice
+  'Thomas Sporer'                     | extra='ameriprise financial services llc' | biz=services | loc=proper_noun:ameriprise
+  'The Coffee Corner'                 | extra='hermitage mall' | biz=mall | loc=proper_noun:hermitage
+  'Micronova IT Group'                | extra='internet leased lines internet data center managed it services' | biz=center, services | loc=proper_noun:internet
+  'Red Wing'                          | extra='shoe store' | biz=store | loc=proper_noun:shoe
+  'London Drugs'                      | extra='heritage plaza' | biz=plaza | loc=proper_noun:heritage
+  'Bad & Meer'                        | extra='fachmarkt fur heizung sanitar' | biz=fachmarkt | loc=proper_noun:heizung
+  'Praxis Fahima Asseily'             | extra='fur alternative therapien und seminare' | biz=therapien | loc=proper_noun:seminare
+  'Dercole Pneumatici'                | extra='autofficina castrol service' | biz=autofficina | loc=proper_noun:castrol
+  'ImmoWert Hessen'                   | extra='carsten nessler sachverstandige fur immobilien' | biz=immobilien, sachverstandige | loc=proper_noun:carsten
+  'CHI Saint Joseph Medical Group'    | extra='primary care' | biz=care | loc=proper_noun:primary
+  'Matt Nashed'                       | extra='dds arcadia orthodontist childrens dentistry' | biz=orthodontist | loc=proper_noun:arcadia
+  'Hulk Security Systems'             | extra='intercom access control burglary alarms systems' | biz=systems | loc=proper_noun:intercom
+  'JE Carriers'                       | extra='auto transport' | biz=transport | loc=proper_noun:auto
+  'Blue Rhino'                        | extra='propane exchange' | biz=propane | loc=proper_noun:exchange
+  'Roper St. Francis Physician Partners' | extra='primary care' | biz=care | loc=proper_noun:primary
+  'Black Mamba Barber Shop & Tatto'   | extra='black mamba barbershop tattoo nezahualcoyotl' | biz=barbershop | loc=proper_noun:black
+  'Auto Stark'                        | extra='acessorios automotivo' | biz=acessorios | loc=proper_noun:automotivo
+  'อิลิแกรนด์ คลินิก เวชกรรม'         | extra='elegrand medical clinic' | biz=clinic, medical | loc=proper_noun:elegrand
+  'โรงพยาบาลสวนสัตว์'                 | extra='animal farm veterinary hospital' | biz=veterinary | loc=proper_noun:animal
+  'Bindocci'                          | extra='shop multibrand' | biz=shop | loc=proper_noun:multibrand
+  'Wolpertinger'                      | extra='brauereiausschank restaurant' | biz=restaurant | loc=proper_noun:brauereiausschank
+  'Ehstandhof'                        | extra='pension apartments' | biz=apartments | loc=proper_noun:pension
+  'Si-Like'                           | extra='ristorante cinese' | biz=ristorante | loc=proper_noun:cinese
+  'Hy-Vee'                            | extra='grocery store' | biz=store | loc=proper_noun:grocery
+  'Sherwin-Williams'                  | extra='paint store' | biz=store | loc=proper_noun:paint
+  'Sherwin-Williams'                  | extra='paint store' | biz=store | loc=proper_noun:paint
+  'Sherwin-Williams'                  | extra='paint store' | biz=store | loc=proper_noun:paint
+  'PNC'                               | extra='private bank' | biz=bank | loc=proper_noun:private
+  'AlignLife'                         | extra='chiropractic natural health center' | biz=center | loc=proper_noun:chiropractic
+  'Sherwin-Williams'                  | extra='paint store' | biz=store | loc=proper_noun:paint
+  'Walmart'                           | extra='neighborhood market' | biz=market | loc=proper_noun:neighborhood
+  'Ferfoot'                           | extra='care home' | biz=care | loc=proper_noun:home
+  'Miracle-Ear'                       | extra='hearing aid center' | biz=center | loc=proper_noun:hearing

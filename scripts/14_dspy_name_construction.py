@@ -73,8 +73,10 @@ except ImportError:
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 
-ROOT         = Path(__file__).parent.parent
-RESULTS_PATH = ROOT / "analysis/names/dspy_h4_results.csv"
+ROOT              = Path(__file__).parent.parent
+RESULTS_PATH      = ROOT / "analysis/names/dspy_h4_results.csv"
+FULL_RESULTS_PATH = ROOT / "analysis/names/dspy_h4_full_results.csv"
+CANDIDATES_PATH   = ROOT / "analysis/names/h4_construction_candidates.csv"
 
 
 # ── Compound cases — manually identified in the 2,000-row dataset ─────────────
@@ -318,24 +320,57 @@ def main():
         default="anthropic/claude-haiku-4-5-20251001",
         help="LM to use (default: claude-haiku-4-5-20251001)",
     )
+    parser.add_argument(
+        "--input-csv",
+        default=None,
+        help="CSV of candidates to process (default: uses hardcoded 5 cases). "
+             "Pass path to h4_construction_candidates.csv to run all identified candidates.",
+    )
+    parser.add_argument(
+        "--output",
+        default=None,
+        help="Output CSV path (default: dspy_h4_results.csv for hardcoded cases, "
+             "dspy_h4_full_results.csv for --input-csv)",
+    )
     args = parser.parse_args()
 
     configure_lm(args.model)
 
-    detector   = CompoundDetectorModule()
+    # Load cases — either from CSV or hardcoded list
+    if args.input_csv:
+        df_in = pd.read_csv(args.input_csv)
+        cases = []
+        for _, row in df_in.iterrows():
+            cases.append({
+                "short_name":    row["short_name"],
+                "long_name":     row["long_name"],
+                "extra_content": row["extra_content"],
+                "script_type":   row["script_type"],
+                "note":          f"Ideal: {row['ideal_constructed_name']}  ({row['construction_reason']})",
+                "ideal":         row["ideal_constructed_name"],
+            })
+        out_path = Path(args.output) if args.output else FULL_RESULTS_PATH
+    else:
+        cases = COMPOUND_CASES
+        for c in cases:
+            c.setdefault("ideal", None)
+        out_path = Path(args.output) if args.output else RESULTS_PATH
+
+    detector    = CompoundDetectorModule()
     constructor = NameConstructorModule()
 
     results = []
 
-    print(f"\nProcessing {len(COMPOUND_CASES)} cases...\n")
+    print(f"\nProcessing {len(cases)} cases...\n")
     print("─" * 72)
 
-    for case in COMPOUND_CASES:
+    for case in cases:
         short      = case["short_name"]
         long       = case["long_name"]
         extra      = case["extra_content"]
         script     = case["script_type"]
         note       = case["note"]
+        ideal      = case.get("ideal")
 
         print(f"  Short: {short!r}")
         print(f"  Long:  {long!r}")
@@ -365,6 +400,7 @@ def main():
             "extra_content":     extra,
             "script_type":       script,
             "note":              note,
+            "ideal_constructed_name": ideal,
             "is_compound":       is_compound,
             "biz_type_tokens":   biz_tokens,
             "location_tokens":   loc_tokens,
@@ -423,8 +459,20 @@ def main():
 
     # ── Save ───────────────────────────────────────────────────────────────────
     df = pd.DataFrame(results)
-    df.to_csv(RESULTS_PATH, index=False)
-    print(f"\nSaved → {RESULTS_PATH}")
+
+    # When ideal_constructed_name is available, compute exact-match accuracy
+    if "ideal_constructed_name" in df.columns and df["ideal_constructed_name"].notna().any():
+        constructed_mask = df["action"] == "construct"
+        if constructed_mask.sum() > 0:
+            exact = (
+                df.loc[constructed_mask, "constructed_name"].str.strip() ==
+                df.loc[constructed_mask, "ideal_constructed_name"].str.strip()
+            )
+            print(f"\nExact-match vs ideal: {exact.sum()}/{constructed_mask.sum()} "
+                  f"({exact.mean():.1%}) constructed names match ideal exactly")
+
+    df.to_csv(out_path, index=False)
+    print(f"\nSaved → {out_path}")
 
     # ── Faithfulness audit ────────────────────────────────────────────────────
     constructed_rows = df[df["action"] == "construct"]
