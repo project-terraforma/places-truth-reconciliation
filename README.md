@@ -1703,15 +1703,15 @@ justifies using a hosted model when accuracy is critical.
 
    No single approach wins across all models. Key observations:
 
-   - **Own-model demos appear directionally better than Haiku demos when search strategy
-     is held equal**, but the evidence is weak. Comparing greedy vs greedy: own greedy
-     beats Haiku v1 for Mistral (+4.1pt, 91.8% vs 87.7%) and Qwen-2.5-7B (+0.8pt,
-     87.7% vs 86.9%). The Mistral result is suggestive; the Qwen-2.5-7B result is within
-     the ±4–5pt confidence interval and should not be taken as signal. The cases where
-     Haiku v3 beats own greedy are apples-to-oranges — Haiku v3 used *random search*
-     while own greedy used a single greedy pass. The greedy runs for Qwen-2.5-7B and
-     Llama-3.1-8B found 4 successes in exactly 4 attempts — the first (easiest) training
-     examples, not the most instructive.
+   - **Demo source and search strategy interact.** When comparing greedy vs greedy:
+     own greedy is directionally better for Mistral (+4.1pt, 91.8% vs 87.7%) and
+     Qwen-2.5-7B (+0.8pt, 87.7% vs 86.9%). The Mistral result is suggestive; the
+     Qwen-2.5-7B result is within the ±4–5pt CI. When comparing random search vs random
+     search, the pattern reverses: for Qwen-2.5-7B, Haiku v3 (92.6%) substantially
+     outperforms own random (86.1%), suggesting Haiku produces higher-quality traces
+     that reward deeper search. The greedy runs for Qwen-2.5-7B and Llama-3.1-8B found
+     4 successes in exactly 4 attempts — the first (easiest) training examples, not the
+     most instructive.
 
    - **Own random search underperforms own greedy for both Mistral and Qwen-2.5-7B.**
      Mistral own random (89.3%) is worse than own greedy (91.8%); Qwen-2.5-7B own random
@@ -2056,13 +2056,17 @@ is much faster (~2–5 seconds/prediction).
 > API model (Claude Haiku) reaches 95.9% zero-shot; approximately 53 of 122 eval rows
 > had labels corrected using Haiku's predictions, so the true gap between Haiku and
 > the best local model is uncertain (92.8–95.9% vs 93.4% on contaminated vs clean
-> subsets respectively). Prompt optimization findings: own-model demos appear
-> directionally better than Haiku-derived demos when search strategy is held equal,
+> subsets respectively). Prompt optimization findings: when comparing greedy
+> strategies, own-model demos appear directionally better than Haiku-derived demos,
 > though the deltas are small relative to the ±4–5pt confidence interval on a 122-row
-> eval set. More search is not monotonically better — with a 122-row validation set,
-> random search produces noisier results than greedy selection for most models, and
-> adding demos produced no detectable benefit for the two strongest models (Qwen-2.5-14B
-> and Haiku). Three cases produce selection errors across all models, all involving
+> eval set. When comparing random-search strategies at equal depth, the pattern
+> reverses: Haiku-derived random search (92.6%) substantially outperforms own-model
+> random search (86.1%) for Qwen-2.5-7B, suggesting Haiku produces higher-quality
+> reasoning traces that reward deeper search. In all three models where own random
+> search was run (Mistral, Qwen-2.5-7B, Haiku), own random underperformed own greedy
+> or zero-shot — the 122-row validation set produces too noisy a signal for
+> 8-candidate search to reliably identify better demo sets. Adding demos produced no
+> detectable benefit for the two strongest models (Qwen-2.5-14B and Haiku). Three cases produce selection errors across all models, all involving
 > mixed signals (person name embedded in business type, or institutional affiliation
 > that simultaneously describes a job title). The contribution is methodological:
 > characterize the conflict distribution before deploying a model; apply models only
