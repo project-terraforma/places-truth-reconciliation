@@ -54,12 +54,18 @@ def majority_vote(votes: list[str], threshold: float = 0.0) -> str | None:
     """
     Return the plurality label. If threshold > 0, return None when the top vote
     share is below the threshold (caller treats this as abstain/skip).
+
+    Tie-breaking: when multiple labels share the top count, prefer business_type
+    if it is among the tied labels (selection errors from crossing the
+    business_type boundary are the most impactful). Otherwise take the
+    lexicographically first label for determinism.
     """
     counts = Counter(votes)
-    top_label, top_count = counts.most_common(1)[0]
+    top_count = counts.most_common(1)[0][1]
     if threshold > 0 and top_count / len(votes) < threshold:
         return None
-    return top_label
+    tied = sorted(label for label, c in counts.items() if c == top_count)
+    return "business_type" if "business_type" in tied else tied[0]
 
 
 def main():

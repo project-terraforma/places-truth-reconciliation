@@ -1578,7 +1578,7 @@ Groq results removed — 44–61% structured output parse failures; Llama-3.1-8B
 | Mistral-7B (Ollama) | 7B | free | own-optimized (greedy) | 91.8% | 15.8 | 3.80s | 0% |
 | Qwen-2.5-7B (Ollama) | 7B | free | v3 (Haiku random search) | 92.6% | 19.5 | 3.08s | 0% |
 | Qwen-2.5-14B (Ollama) | 14B | free | zero-shot or own-optimized | **93.4%** | 11.2 | 5.35s | 0% |
-| 4-model ensemble — majority vote | 7–14B | free | per-model best | 93.4% | — | — | 0% |
+| 4-model ensemble — majority vote | 7–14B | free | per-model best | 95.0% | — | — | 0% |
 | 4-model ensemble — routed (≥3/4 agree) | 7–14B | free | per-model best | **98.0%** (82% coverage) | — | — | 0% |
 | Claude Haiku | — | ~$0.001/row | zero-shot | **95.9%** | — | — | 0% |
 
@@ -1773,8 +1773,8 @@ where both labels map to "keep shorter."
    confidence is not.**
 
    A 4-model ensemble (Mistral-7B, Llama-3.1-8B, Qwen-2.5-7B, Qwen-2.5-14B) achieves
-   **93.4% selection accuracy** on majority vote — matching Qwen-2.5-14B alone. Requiring
-   ≥3/4 agreement raises this to **98.0% selection accuracy on 82% of rows** (99/121),
+   **95.0% selection accuracy** on majority vote — exceeding every individual local model.
+   Requiring ≥3/4 agreement raises this to **98.0% selection accuracy on 82% of rows** (99/121),
    with the remaining 22 rows routed to a stronger fallback (Haiku, manual review, or
    rules). Vote agreement distribution:
 
@@ -1912,6 +1912,22 @@ baseline is "Rules — blind vocab" (79.5%).
 classifier then iteratively refined. A clean replication would have a human
 annotator label all 304 rows without seeing any model predictions, then evaluate
 models against those independent labels. This is future work.
+
+**6. Optimizer val set = reported test set (random search and MIPROv2 runs only).**
+`BootstrapFewShotWithRandomSearch` and `MIPROv2` require a validation set to score
+candidate programs. All runs in this paper passed the same 122 held-out rows as
+both optimizer valset and final test set. The optimizer therefore selected whichever
+demo set happened to score best on the reported rows — a form of selection bias that
+optimistically inflates random search and MIPROv2 results by an unknown amount.
+`BootstrapFewShot` (greedy) is unaffected: it uses no valset.
+
+The root cause is dataset size: 304 total rows leave no room for a 3-way split
+(train / optimizer-val / held-out test) without making the test set smaller than
+the current 122 rows. The code now supports `--val-frac 0.25` which carves a
+clean optimizer valset from the training split, keeping eval truly held-out. All
+existing result files used `--val-frac 0.0` (the old behaviour). Re-running
+random search and MIPROv2 with `--val-frac 0.25` and a larger dataset is future
+work.
 
 #### The 6 Genuine Selection Errors (Optimized Haiku)
 
@@ -2111,7 +2127,7 @@ is much faster (~2–5 seconds/prediction).
 > or zero-shot — the 122-row validation set produces too noisy a signal for
 > 8-candidate search to reliably identify better demo sets. Adding demos produced no
 > detectable benefit for the two strongest models (Qwen-2.5-14B and Haiku). A 4-model
-> local ensemble achieves 93.4% selection accuracy on majority vote; requiring ≥3/4
+> local ensemble achieves 95.0% selection accuracy on majority vote; requiring ≥3/4
 > agreement raises this to 98.0% on 82% of rows, with the remaining 18% routed to a
 > stronger fallback — ensemble agreement is a reliable uncertainty proxy while
 > self-reported model confidence is poorly calibrated. Three cases produce selection

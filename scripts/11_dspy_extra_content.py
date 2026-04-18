@@ -206,6 +206,22 @@ def exact_match(example, pred, trace=None):
     return int(pred.classification == example.correct_answer)
 
 
+def selection_match(example, pred, trace=None):
+    """
+    Selection accuracy metric: 1 if both predicted and correct are business_type,
+    or both are not. This is the paper's primary downstream metric — whether the
+    model recommends keeping the right name variant.
+
+    Use this instead of exact_match when optimizing prompts, since it directly
+    targets the outcome we care about: selection errors only occur when the model
+    crosses the business_type / non-business_type boundary. Label errors within
+    {location, disambiguation, noise} are outcome-neutral.
+    """
+    return int(
+        (pred.classification == "business_type") == (example.correct_answer == "business_type")
+    )
+
+
 # ══════════════════════════════════════════════════════════════════════════════
 #  DATA LOADING
 # ══════════════════════════════════════════════════════════════════════════════
@@ -382,6 +398,9 @@ def main():
     parser.add_argument("--proposer-provider", default="anthropic",     help="Provider for MIPROv2 instruction proposer (default: anthropic)")
     parser.add_argument("--proposer-model", default="claude-haiku-4-5-20251001",
                                                                         help="Model for MIPROv2 instruction proposer (default: claude-haiku-4-5-20251001)")
+    parser.add_argument("--metric",      default="label",                help="Optimization metric: label (exact 4-class) or selection (binary name choice)")
+    parser.add_argument("--val-frac",    type=float, default=0.0,        help="Fraction of train set to use as optimizer valset (keeps eval held-out). "
+                                                                              "Default 0.0 uses eval set (old behaviour). Recommended: 0.25 for new runs.")
     parser.add_argument("--no-cache",    action="store_true",            help="Disable DSPy inference cache (required when comparing models)")
     parser.add_argument("--num-candidates", type=int, default=8,        help="Number of random candidate sets to try (default: 8)")
     parser.add_argument("--save-path",  default=None,                   help="Path to save optimized program JSON")
@@ -404,7 +423,33 @@ def main():
     train_examples, eval_examples = train_test_split(examples, TRAIN_FRAC, RANDOM_SEED)
     if args.max_train:
         train_examples = train_examples[:args.max_train]
-    print(f"Train: {len(train_examples)}  |  Eval: {len(eval_examples)}")
+
+    # Optimizer valset: either a held-out slice of train (recommended) or eval itself.
+    # Using eval as valset contaminates the held-out test set when running random search
+    # or MIPROv2 — the optimizer selects whichever demos score best on the reported set.
+    # With --val-frac 0.25, the optimizer sees only ~45 training rows as validation
+    # signal; eval_examples remain truly held-out. Trade-off: smaller bootstrap pool
+    # (137 vs 182 rows). This is the correct approach; --val-frac 0.0 preserves old
+    # (contaminated) behaviour for reproducing existing results.
+    if args.val_frac > 0:
+        split = int(len(train_examples) * (1 - args.val_frac))
+        bootstrap_examples = train_examples[:split]
+        opt_val_examples   = train_examples[split:]
+        print(f"Train: {len(train_examples)}  |  Bootstrap: {len(bootstrap_examples)}"
+              f"  |  Opt-val: {len(opt_val_examples)}  |  Eval (held-out): {len(eval_examples)}")
+    else:
+        bootstrap_examples = train_examples
+        opt_val_examples   = eval_examples   # old behaviour — eval used as valset
+        print(f"Train: {len(train_examples)}  |  Eval: {len(eval_examples)}"
+              f"  (WARNING: eval used as optimizer valset — results for random search / MIPROv2"
+              f" are optimistically biased; use --val-frac 0.25 for clean runs)")
+
+    # Choose optimization metric
+    opt_metric = selection_match if args.metric == "selection" else exact_match
+    if args.metric == "selection":
+        print("Optimization metric: selection accuracy (binary name choice)")
+    else:
+        print("Optimization metric: label accuracy (exact 4-class match)")
 
     # ── Build or load module ───────────────────────────────────────────────────
     module = ExtraContentModule()
@@ -416,18 +461,18 @@ def main():
         print(f"Running BootstrapFewShotWithRandomSearch ({args.num_candidates} candidates)...")
         from dspy.teleprompt import BootstrapFewShotWithRandomSearch
         optimizer = BootstrapFewShotWithRandomSearch(
-            metric=exact_match,
+            metric=opt_metric,
             max_bootstrapped_demos=4,
             max_labeled_demos=4,
             num_candidate_programs=args.num_candidates,
         )
-        module = optimizer.compile(module, trainset=train_examples, valset=eval_examples)
+        module = optimizer.compile(module, trainset=bootstrap_examples, valset=opt_val_examples)
     elif args.optimize_mipro:
         print(f"Running MIPROv2 (auto={args.mipro_auto}, proposer={args.proposer_provider}/{args.proposer_model})...")
         from dspy.teleprompt import MIPROv2
         proposer_lm = make_lm(args.proposer_provider, args.proposer_model, cache=not args.no_cache)
         optimizer = MIPROv2(
-            metric=exact_match,
+            metric=opt_metric,
             prompt_model=proposer_lm,
             auto=args.mipro_auto,
             num_threads=1,
@@ -435,19 +480,19 @@ def main():
         )
         module = optimizer.compile(
             module,
-            trainset=train_examples,
-            valset=eval_examples,
+            trainset=bootstrap_examples,
+            valset=opt_val_examples,
             requires_permission_to_run=False,
         )
     elif args.optimize:
         print("Running BootstrapFewShot optimizer...")
         from dspy.teleprompt import BootstrapFewShot
         optimizer = BootstrapFewShot(
-            metric=exact_match,
+            metric=opt_metric,
             max_bootstrapped_demos=4,
             max_labeled_demos=4,
         )
-        module = optimizer.compile(module, trainset=train_examples)
+        module = optimizer.compile(module, trainset=bootstrap_examples)
 
     if (args.optimize or args.optimize_random or args.optimize_mipro) and args.save_path:
         Path(args.save_path).parent.mkdir(parents=True, exist_ok=True)
