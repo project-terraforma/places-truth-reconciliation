@@ -1698,30 +1698,35 @@ justifies using a hosted model when accuracy is critical.
 
    No single approach wins across all models. Key observations:
 
-   - **Mistral gains the most from own optimization (+4.1 pts over Haiku v1)** but own
-     random search (89.3%) is *worse* than own greedy (91.8%). More search didn't help —
-     the stalls during the run likely degraded exploration quality, and with only 122 val
-     rows the optimization signal is noisy for 8-candidate search.
+   - **Own-model demos beat Haiku demos when search strategy is held equal.** Comparing
+     greedy vs greedy: own greedy beats Haiku v1 for both Mistral (91.8% vs 87.7%) and
+     Qwen-2.5-7B (87.7% vs 86.9%). The cases where Haiku v3 beats own greedy are
+     apples-to-oranges — Haiku v3 used *random search* while own greedy used a single
+     greedy pass. The greedy runs for Qwen-2.5-7B and Llama-3.1-8B found 4 successes in
+     exactly 4 attempts — the first (easiest) training examples, not the most instructive.
+     Own random search for those models was not run; it may well have beaten Haiku v3.
 
-   - **Phi-3 is actively harmed by own optimization (−7.4 pts).** Greedy bootstrap picks
-     the *first* successful examples. Phi-3 only needed 12 attempts to find 4 successes —
-     those 4 included no noise examples, producing 0% noise accuracy on eval. This is
-     a known failure mode: greedy bootstrap finds *easy* examples, not *informative* ones.
-
-   - **Haiku v3 random search beats per-model greedy for Qwen-2.5-7B and Llama-3.1-8B.**
-     Searching 8 candidate sets (even with Haiku as teacher) finds better demos than a
-     single greedy pass with the target model.
+   - **Mistral own random search (89.3%) is worse than own greedy (91.8%).** More search
+     didn't help: occasional stalls during the run degraded exploration quality, and with
+     only 122 val rows the optimization signal is too noisy for 8-candidate search to
+     reliably beat a single greedy pass.
 
    - **Haiku own random search (94.3%) is worse than zero-shot (95.9%).** Any demo set
-     hurts Haiku — the model is capable enough that examples constrain rather than guide.
+     hurts Haiku regardless of how demos are selected — the model is capable enough that
+     examples constrain rather than guide it.
+
+   - **Phi-3 is actively harmed by own greedy (−7.4 pts).** Greedy bootstrap picks the
+     *first* successful examples. Phi-3 needed 12 attempts to find 4 successes — those 4
+     included no noise examples, producing 0% noise accuracy on eval. This is a known
+     failure mode: greedy bootstrap finds *easy* examples, not *informative* ones.
 
    - **Qwen-2.5-14B is insensitive to demo source** — zero-shot, Haiku v1, and own
      greedy all produce 93.4% selection accuracy. Zero-shot (94.3%) is marginally best.
 
    The pattern across all runs: **more optimization is not monotonically better**. With a
    122-row validation set, the random search optimizer has too little signal to reliably
-   select better demo sets than a single greedy pass. The eval set would need to be
-   substantially larger (300–500 rows) for random search to show consistent gains.
+   select better demo sets than a greedy pass. The eval set would need to be substantially
+   larger (300–500 rows) for random search to show consistent gains over greedy.
 
 The gap between label accuracy (86.1%) and selection accuracy (95.9%) for Haiku (zero-shot)
 is explained by the 5 cases where the model chose the wrong label but the right name —
@@ -2009,23 +2014,29 @@ is much faster (~2–5 seconds/prediction).
 > content appended to a core place name (`terraza`, `Hammersmith`, `NMLS #344084`,
 > `senior care`) must be classified as business-type, location, disambiguation, or
 > noise to determine which name variant to canonicalize. No finite vocabulary
-> enumerates all such content across 15+ languages. We evaluate three open-weights
-> small language models (Mistral-7B, Qwen-2.5-7B, Phi-3 Mini 3.8B, Llama-3.1-8B,
-> Qwen-2.5-14B) using DSPy-compiled prompts (greedy BootstrapFewShot and random-search
-> variants) optimized on 182 labeled examples. ≤8B models achieve 87–93% selection
-> accuracy with zero structured-output parse errors when run locally via Ollama —
-> compared to 70% for n-gram classifiers trained on the same data and 79.5% for a
-> blind vocabulary rule set. Qwen-2.5-14B (14B, free, local) reaches 94.3% selection
-> accuracy. A hosted API model (Claude Haiku) reaches 95.9% selection accuracy, a
-> ~2 point gap over the best local model — attributable to deeper world knowledge
-> for rare non-English business-type terms. Three cases produce selection errors
-> across all models, all involving mixed signals (person name embedded in business
-> type, or institutional affiliation that simultaneously describes a job title).
-> The contribution is methodological: characterize the conflict distribution before
-> deploying a model; apply models only to the structurally specific residual that
-> requires world knowledge; use DSPy to find the cheapest viable model for that
-> residual. This methodology applies to any multi-source attribute canonicalization
-> problem, not only place names.
+> enumerates all such content across 15+ languages. We evaluate five open-weights
+> models (Phi-3 Mini 3.8B, Mistral-7B, Llama-3.1-8B, Qwen-2.5-7B, Qwen-2.5-14B)
+> across four DSPy prompt strategies — zero-shot, greedy BootstrapFewShot optimized
+> on a strong teacher (Claude Haiku), random-search BootstrapFewShot on Haiku, and
+> per-model self-optimization — on 182 human-verified training examples. Best-prompt
+> ≤8B models achieve 87–93% selection accuracy with zero structured-output parse
+> errors when run locally via Ollama, compared to 70% for n-gram classifiers and
+> 79.5% for a blind vocabulary rule set. Qwen-2.5-14B (free, local) reaches 93.4%
+> zero-shot. A hosted API model (Claude Haiku) reaches 95.9% zero-shot — a 2.5 point
+> gap over the best local model attributable to deeper world knowledge for rare
+> non-English business-type terms. Prompt optimization findings: own-model demos beat
+> Haiku-derived demos when search strategy is held equal, but more search is not
+> monotonically better — with a 122-row validation set, random search produces noisier
+> results than greedy selection for most models. Zero-shot is the best configuration
+> for both the strongest local model (Qwen-2.5-14B) and the API model (Haiku),
+> suggesting demos constrain capable models rather than guide them. Three cases produce
+> selection errors across all models, all involving mixed signals (person name embedded
+> in business type, or institutional affiliation that simultaneously describes a job
+> title). The contribution is methodological: characterize the conflict distribution
+> before deploying a model; apply models only to the structurally specific residual
+> that requires world knowledge; use DSPy to systematically compare prompt strategies
+> for that residual. This methodology applies to any multi-source attribute
+> canonicalization problem, not only place names.
 
 ---
 
