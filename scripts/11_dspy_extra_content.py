@@ -322,6 +322,22 @@ def print_summary(results: pd.DataFrame) -> pd.DataFrame:
 #  LM SETUP
 # ══════════════════════════════════════════════════════════════════════════════
 
+def make_lm(provider: str, model: str, cache: bool = True):
+    """Return a DSPy LM object without configuring it globally."""
+    if provider == "anthropic":
+        return dspy.LM(f"anthropic/{model}", cache=cache)
+    elif provider == "openai":
+        return dspy.LM(f"openai/{model}", cache=cache)
+    elif provider == "ollama":
+        return dspy.LM(f"ollama_chat/{model}", api_base="http://localhost:11434", cache=cache)
+    elif provider == "together":
+        return dspy.LM(f"together_ai/{model}", cache=cache)
+    elif provider == "groq":
+        return dspy.LM(f"groq/{model}", cache=cache)
+    else:
+        return dspy.LM(model, cache=cache)
+
+
 def configure_lm(provider: str, model: str, cache: bool = True):
     """
     Configure the DSPy language model.
@@ -346,20 +362,7 @@ def configure_lm(provider: str, model: str, cache: bool = True):
         --provider groq --model llama-3.1-8b-instant
         Requires: GROQ_API_KEY in .env
     """
-    if provider == "anthropic":
-        lm = dspy.LM(f"anthropic/{model}", cache=cache)
-    elif provider == "openai":
-        lm = dspy.LM(f"openai/{model}", cache=cache)
-    elif provider == "ollama":
-        # Local inference via Ollama — no API key needed
-        # DSPy uses LiteLLM under the hood; Ollama runs at localhost:11434
-        lm = dspy.LM(f"ollama_chat/{model}", api_base="http://localhost:11434", cache=cache)
-    elif provider == "together":
-        lm = dspy.LM(f"together_ai/{model}", cache=cache)
-    elif provider == "groq":
-        lm = dspy.LM(f"groq/{model}", cache=cache)
-    else:
-        lm = dspy.LM(model, cache=cache)
+    lm = make_lm(provider, model, cache=cache)
     dspy.configure(lm=lm)
     print(f"LM configured: {provider}/{model}")
 
@@ -374,6 +377,11 @@ def main():
     parser.add_argument("--model",      default="mistral",              help="Model name (default: mistral via Ollama)")
     parser.add_argument("--optimize",   action="store_true",            help="Run BootstrapFewShot optimizer")
     parser.add_argument("--optimize-random", action="store_true",       help="Run BootstrapFewShotWithRandomSearch (tries many demo subsets)")
+    parser.add_argument("--optimize-mipro", action="store_true",        help="Run MIPROv2 (optimizes both instruction text and demos)")
+    parser.add_argument("--mipro-auto", default="light",                help="MIPROv2 budget: light|medium|heavy (default: light)")
+    parser.add_argument("--proposer-provider", default="anthropic",     help="Provider for MIPROv2 instruction proposer (default: anthropic)")
+    parser.add_argument("--proposer-model", default="claude-haiku-4-5-20251001",
+                                                                        help="Model for MIPROv2 instruction proposer (default: claude-haiku-4-5-20251001)")
     parser.add_argument("--no-cache",    action="store_true",            help="Disable DSPy inference cache (required when comparing models)")
     parser.add_argument("--num-candidates", type=int, default=8,        help="Number of random candidate sets to try (default: 8)")
     parser.add_argument("--save-path",  default=None,                   help="Path to save optimized program JSON")
@@ -414,6 +422,23 @@ def main():
             num_candidate_programs=args.num_candidates,
         )
         module = optimizer.compile(module, trainset=train_examples, valset=eval_examples)
+    elif args.optimize_mipro:
+        print(f"Running MIPROv2 (auto={args.mipro_auto}, proposer={args.proposer_provider}/{args.proposer_model})...")
+        from dspy.teleprompt import MIPROv2
+        proposer_lm = make_lm(args.proposer_provider, args.proposer_model, cache=not args.no_cache)
+        optimizer = MIPROv2(
+            metric=exact_match,
+            prompt_model=proposer_lm,
+            auto=args.mipro_auto,
+            num_threads=1,
+            verbose=True,
+        )
+        module = optimizer.compile(
+            module,
+            trainset=train_examples,
+            valset=eval_examples,
+            requires_permission_to_run=False,
+        )
     elif args.optimize:
         print("Running BootstrapFewShot optimizer...")
         from dspy.teleprompt import BootstrapFewShot
@@ -424,7 +449,7 @@ def main():
         )
         module = optimizer.compile(module, trainset=train_examples)
 
-    if (args.optimize or args.optimize_random) and args.save_path:
+    if (args.optimize or args.optimize_random or args.optimize_mipro) and args.save_path:
         Path(args.save_path).parent.mkdir(parents=True, exist_ok=True)
         module.save(args.save_path)
         print(f"Saved optimized program to: {args.save_path}")

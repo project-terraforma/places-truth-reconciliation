@@ -1578,6 +1578,7 @@ Groq results removed — 44–61% structured output parse failures; Llama-3.1-8B
 | Mistral-7B (Ollama) | 7B | free | own-optimized (greedy) | 91.8% | 15.8 | 3.80s | 0% |
 | Qwen-2.5-7B (Ollama) | 7B | free | v3 (Haiku random search) | 92.6% | 19.5 | 3.08s | 0% |
 | Qwen-2.5-14B (Ollama) | 14B | free | zero-shot or own-optimized | **93.4%** | 11.2 | 5.35s | 0% |
+| 4-model ensemble (Ollama) | 7–14B | free | majority vote | 93.4% (98.0% @ 82% cov.) | — | — | 0% |
 | Claude Haiku | — | ~$0.001/row | zero-shot | **95.9%** | — | — | 0% |
 
 Each model shows its best-performing prompt variant across all approaches tried. Throughput
@@ -1754,6 +1755,36 @@ The gap between label accuracy (86.1%) and selection accuracy (95.9%) for Haiku 
 is explained by the 5 cases where the model chose the wrong label but the right name —
 primarily disambiguation/noise boundary cases (store numbers, corporate suffixes, acronyms)
 where both labels map to "keep shorter."
+
+7. **Ensemble agreement is a well-calibrated uncertainty proxy; self-reported model
+   confidence is not.**
+
+   A 4-model ensemble (Mistral-7B, Llama-3.1-8B, Qwen-2.5-7B, Qwen-2.5-14B) achieves
+   **93.4% selection accuracy** on majority vote — matching Qwen-2.5-14B alone. Requiring
+   ≥3/4 agreement raises this to **98.0% selection accuracy on 82% of rows** (99/121),
+   with the remaining 22 rows routed to a stronger fallback (Haiku, manual review, or
+   rules). Vote agreement distribution:
+
+   | Agreement | Rows | Selection accuracy |
+   |-----------|------|-------------------|
+   | 4/4 | 76 | 100% |
+   | 3/4 | 23 | 91.3% |
+   | 2/4 | 20 | 75.0% |
+   | 1/4 | 2 | 50.0% |
+
+   The ensemble agreement count is a reliable proxy for difficulty: unanimous predictions
+   are always correct on selection; split predictions (≤2/4) produce errors 25–50% of the
+   time. This creates a principled two-tier routing strategy for production: run all four
+   local models in parallel, use the prediction when ≥3 agree, escalate to a stronger
+   system when they don't.
+
+   By contrast, the per-model self-reported confidence field (`high`/`medium`/`low`) is
+   poorly calibrated: Mistral and Llama-3.1-8B predict "high" on 100% of rows; Qwen
+   models occasionally predict "medium" but with no consistent accuracy correlation.
+   The confidence field cannot reliably identify which rows are hard.
+
+   Script: `scripts/11c_ensemble.py`  
+   Output: `analysis/names/dspy_ensemble_results.csv`
 
 #### Disambiguation: The Bottleneck Class
 
@@ -2066,9 +2097,14 @@ is much faster (~2–5 seconds/prediction).
 > search was run (Mistral, Qwen-2.5-7B, Haiku), own random underperformed own greedy
 > or zero-shot — the 122-row validation set produces too noisy a signal for
 > 8-candidate search to reliably identify better demo sets. Adding demos produced no
-> detectable benefit for the two strongest models (Qwen-2.5-14B and Haiku). Three cases produce selection errors across all models, all involving
-> mixed signals (person name embedded in business type, or institutional affiliation
-> that simultaneously describes a job title). The contribution is methodological:
+> detectable benefit for the two strongest models (Qwen-2.5-14B and Haiku). A 4-model
+> local ensemble achieves 93.4% selection accuracy on majority vote; requiring ≥3/4
+> agreement raises this to 98.0% on 82% of rows, with the remaining 18% routed to a
+> stronger fallback — ensemble agreement is a reliable uncertainty proxy while
+> self-reported model confidence is poorly calibrated. Three cases produce selection
+> errors across all models, all involving mixed signals (person name embedded in
+> business type, or institutional affiliation that simultaneously describes a job
+> title). The contribution is methodological:
 > characterize the conflict distribution before deploying a model; apply models only
 > to the structurally specific residual that requires world knowledge; use DSPy to
 > systematically compare prompt strategies for that residual. This methodology applies

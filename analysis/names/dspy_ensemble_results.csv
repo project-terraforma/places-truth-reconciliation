@@ -1,0 +1,122 @@
+short_name,long_name,extra_content,correct_answer,pred_Mistral-7B,pred_Llama-3.1-8B,pred_Qwen-2.5-7B,pred_Qwen-2.5-14B,ensemble_vote,max_agreement
+JE Carriers,JE Carriers Auto Transport,auto transport,business_type,business_type,business_type,business_type,business_type,business_type,4
+Iglesia Fe Y Esperanza,Iglesia Fe y Esperanza Pinares,pinares,location,location,location,location,location,location,4
+West Bradenton Baptist,West Bradenton Baptist Church,church,business_type,business_type,business_type,business_type,business_type,business_type,4
+Monkey Puzzle Day Nursery,Monkey Puzzle Day Nursery West Norwood,west norwood,location,location,location,location,location,location,4
+Recolast Ambiental,Recolast Ambiental Engenharia,engenharia,business_type,disambiguation,business_type,business_type,business_type,business_type,3
+Virginia Coffee Roastery,Virginia Coffee Roastery & Eatery,eatery,business_type,business_type,business_type,business_type,business_type,business_type,4
+Clarkston High School,Clarkston High School Natatorium,natatorium,business_type,business_type,business_type,business_type,business_type,business_type,4
+Mint House Greenville,Mint House Greenville - West End,west end,location,location,location,location,location,location,4
+The UPS Store,The UPS Store 7313,7313,disambiguation,location,noise,noise,disambiguation,,2
+Clifton And Lewis Insurance,Clifton and Lewis Insurance Group,group,disambiguation,business_type,disambiguation,disambiguation,disambiguation,disambiguation,3
+Bluebird Care,Bluebird Care Epsom & Kingston,epsom kingston,location,location,location,location,location,location,4
+Pieology Pizzeria,"Pieology Pizzeria Aina Haina, Honolulu, HI",aina haina honolulu hi,location,location,location,location,location,location,4
+Gary Ritter Violin,Gary Ritter Violin Viola Cello,viola cello,business_type,disambiguation,business_type,business_type,disambiguation,,2
+POLE DANCE AVEC MOI,Pole Dance avec Moi Marseille,marseille,location,location,location,location,location,location,4
+Schlotzsky's,"Schlotzsky's (Colony Way - Madison, MS)",colony way madison ms,location,location,location,location,location,location,4
+West Coast Hifi,West Coast Hi-Fi Rockingham,rockingham,location,location,location,location,location,location,4
+Vape Haus,Vape Haus Queretaro,queretaro,location,location,location,location,location,location,4
+Allison Hunt MD,"Allison Hunt, MD, FACOG",facog,noise,disambiguation,noise,disambiguation,noise,,2
+Hamburguesas Al Carbon,Hamburguesas al Carbon Torreon,torreon,location,location,location,location,location,location,4
+Vighna Bamboo Briyani,Vighna Bamboo Briyani - JB,jb,location,noise,location,noise,disambiguation,,2
+Florería Rosa Pastel,Florería Rosa Pastel P. Peñasco,p penasco,location,location,noise,disambiguation,disambiguation,,2
+Boot Barn Hall,Boot Barn Hall at Bourbon Brothers,at bourbon brothers,disambiguation,disambiguation,disambiguation,disambiguation,location,disambiguation,3
+Atm,ATM (Post Office),post office,disambiguation,noise,business_type,disambiguation,location,,1
+Marathon Gas,Marathon Gas & DQ,dq,disambiguation,noise,business_type,disambiguation,disambiguation,,2
+Planet Fitness,"Planet Fitness - Manassas, VA",manassas va,location,location,location,location,location,location,4
+Raising Cane's,Raising Cane's Chicken Fingers,chicken fingers,business_type,business_type,business_type,business_type,business_type,business_type,4
+La Azotea,La Azotea Terraza,terraza,business_type,location,business_type,disambiguation,noise,,1
+bergwerk IT GmbH,bergwerk IT GmbH | Webentwicklung & IT-Infrastruktur,webentwicklung itinfrastruktur,disambiguation,disambiguation,business_type,business_type,business_type,business_type,3
+Hospital São Domingos,Hospital São Domingos- Exames,exames,disambiguation,disambiguation,business_type,disambiguation,disambiguation,disambiguation,3
+Parc Clichy-Batignolles,Parc Clichy-Batignolles Martin Luther King,martin luther king,location,disambiguation,disambiguation,noise,location,,2
+Canal Video,Canal Vidéo Laryan 82 Franchisé indépendant,laryan 82 franchise independant,disambiguation,disambiguation,disambiguation,disambiguation,disambiguation,disambiguation,4
+Calico Jacks,Calico Jack's Bistro,bistro,business_type,business_type,business_type,business_type,business_type,business_type,4
+Over The Rainbow,Over the Rainbow Limited,limited,disambiguation,noise,business_type,business_type,noise,,2
+Colourfence Garden Fencing,ColourFence Garden Fencing - Isle Of Wight,isle of wight,location,location,location,location,location,location,4
+Leonora Rose,Leonora Rose Florists,florists,business_type,business_type,business_type,business_type,business_type,business_type,4
+Service Neon,Service Neon di Cateni Riccardo,di cateni riccardo,disambiguation,disambiguation,disambiguation,disambiguation,disambiguation,disambiguation,4
+Wing Sing,Wing Sing Bar,bar,business_type,business_type,business_type,business_type,business_type,business_type,4
+Spectron Desarrollo,Spectron Desarrollo S.C.,sc,noise,noise,noise,noise,noise,noise,4
+Charleston Civic Center,Charleston Civic Center Ice Arena,ice arena,business_type,business_type,business_type,business_type,business_type,business_type,4
+Hotel Olimpia,Hotel Olimpia  Silvi Marina TE,silvi marina te,location,location,location,location,location,location,4
+Murphy USA,Murphy USA #6583,6583,disambiguation,noise,noise,noise,disambiguation,noise,3
+Home Instead,Home Instead Senior Care,senior care,business_type,disambiguation,business_type,disambiguation,business_type,,2
+Forst und Garten,Forst und Garten Diehl,diehl,disambiguation,disambiguation,disambiguation,disambiguation,disambiguation,disambiguation,4
+The Flying Locksmiths,The Flying Locksmiths - Los Angeles West,los angeles west,location,location,location,location,location,location,4
+Lonches Amparito,Lonches Amparito Tránsito,transito,location,location,disambiguation,disambiguation,location,,2
+En-spire Nutrition,En-spire Nutrition Centennial,centennial,location,location,location,location,location,location,4
+Auto Stark,Auto Stark Acessórios Automotivo,acessorios automotivo,business_type,business_type,business_type,business_type,business_type,business_type,4
+Kyle Citty,"Kyle Citty, M.D.",md,noise,noise,noise,noise,noise,noise,4
+Työväen Akatemia,Työväen Akatemian kirjasto,n kirjasto,business_type,noise,business_type,disambiguation,business_type,,2
+Craig Bagley,Craig Bagley - State Farm Insurance Agent,state farm insurance agent,business_type,disambiguation,disambiguation,business_type,disambiguation,disambiguation,3
+Andy Allain - Thrivent,Andy Allain - Thrivent Financial,financial,business_type,business_type,business_type,business_type,disambiguation,business_type,3
+Tractor Supply,Tractor Supply Co.,co,noise,noise,noise,noise,noise,noise,4
+Mary Print,Mary Print Sardegna,sardegna,location,location,location,location,location,location,4
+Cella Café,Cella Café Bar & Restaurant,bar restaurant,business_type,business_type,business_type,business_type,business_type,business_type,4
+Floripa Sucos,Floripa Sucos e Lanches,e lanches,business_type,business_type,business_type,business_type,business_type,business_type,4
+Green Leaf's,Green Leaf's Beyond Great Salads,beyond great salads,business_type,business_type,business_type,business_type,noise,business_type,3
+Wayne Cooley - COUNTRY Financial,Wayne Cooley - COUNTRY Financial representative,representative,disambiguation,disambiguation,disambiguation,disambiguation,disambiguation,disambiguation,4
+Code Ninjas,Code Ninjas Virginia Beach,virginia beach,location,location,location,location,location,location,4
+Barnegat Bay Financial Group,Barnegat Bay Financial Group - Raymond James Office,raymond james office,disambiguation,disambiguation,disambiguation,disambiguation,disambiguation,disambiguation,4
+West Herr Cadillac,West Herr Cadillac of East Aurora,of east aurora,location,location,disambiguation,location,location,location,3
+Academia Performance,Academia Performance & Saúde,saude,business_type,business_type,business_type,business_type,business_type,business_type,4
+American Printing,American Printing Unlimited,unlimited,disambiguation,noise,business_type,noise,noise,noise,3
+Batteries Plus,Batteries Plus Bulbs,bulbs,business_type,business_type,business_type,business_type,business_type,business_type,4
+Marine Corps Exchange,Marine Corps Exchange (MCX),mcx,disambiguation,disambiguation,noise,disambiguation,noise,,2
+Dias Park,Dias Park Estacionamento,estacionamento,business_type,business_type,business_type,noise,business_type,business_type,3
+Results Physiotherapy,"Results Physiotherapy Nashville, Tennessee - West",nashville tennessee west,location,location,location,location,location,location,4
+Momo and Co.,Momo and Co. Design,design,business_type,disambiguation,business_type,business_type,business_type,business_type,3
+The Vineyard Church,The Vineyard Church Bloomington-Normal,bloomingtonnormal,location,location,location,location,location,location,4
+Full Steam,Full Steam Tromso,tromso,location,location,location,location,location,location,4
+Poorvika Mobiles,Poorvika Mobiles Cuddalore - Opp to Bus Stand,cuddalore opp to bus stand,noise,location,disambiguation,location,location,location,3
+Industria Pizzeria,Industria Pizzeria + Bar,bar,business_type,business_type,business_type,business_type,business_type,business_type,4
+Black Mamba Barber Shop & Tatto,Black Mamba Barbershop & Tattoo | Nezahualcóyotl,black mamba barbershop tattoo nezahualcoyotl,business_type,business_type,disambiguation,location,location,,2
+Good Morning Children,Good Morning Children Limited,limited,disambiguation,disambiguation,business_type,disambiguation,noise,,2
+Kip McGrath,Kip McGrath Hammersmith,hammersmith,location,location,location,location,location,location,4
+Volker Rentel GmbH,Volker Rentel GmbH Heizung- und Sanitärtechnik,heizung und sanitartechnik,business_type,business_type,business_type,business_type,business_type,business_type,4
+Hanger Clinic,Hanger Clinic: Prosthetics & Orthotics,prosthetics orthotics,business_type,business_type,business_type,business_type,business_type,business_type,4
+Esfiha Chic,Esfiha Chic - Vila Arcádia,vila arcadia,location,location,location,location,location,location,4
+Cerrajeria Lionel,Cerrajería Lionel Centrito,centrito,location,location,disambiguation,disambiguation,location,,2
+The Fairways at San Marcos,The Fairways at San Marcos Apartments,apartments,business_type,business_type,business_type,business_type,business_type,business_type,4
+UBS Vila Elvira,UBS Vila Elvira - São José Do Rio Preto,sao jose do rio preto,location,location,location,location,location,location,4
+Elite Picture Framing,Elite Picture Framing Adelaide,adelaide,location,location,location,location,location,location,4
+Aldak GmbH,ALDAK GmbH VIBRATIONSTECHNIK,vibrationstechnik,business_type,business_type,business_type,business_type,business_type,business_type,4
+Centro Comunitário,Centro Comunitario Taiaçu,taiacu,location,location,location,location,location,location,4
+Dercole Pneumatici,Dercole Pneumatici Autofficina Castrol Service,autofficina castrol service,business_type,business_type,business_type,disambiguation,business_type,business_type,3
+Hollyhock Hill,Hollyhock Hill Restaurant,restaurant,business_type,business_type,business_type,business_type,business_type,business_type,4
+Management Factory Corporate Advisory GmbH,Management Factory Corporate Advisory GmbH - Valtus,valtus,disambiguation,disambiguation,disambiguation,disambiguation,disambiguation,disambiguation,4
+Princeton Radiology,Princeton Radiology - Monroe,monroe,location,location,location,disambiguation,location,location,3
+Carquest Auto Parts,Carquest Auto Parts - Jerry's Auto Parts,jerrys auto parts,disambiguation,disambiguation,disambiguation,disambiguation,disambiguation,disambiguation,4
+Tempe Veterinary,Tempe Veterinary Hospital,hospital,business_type,business_type,business_type,business_type,business_type,business_type,4
+Brooklyn Basketball Academy,Brooklyn Basketball Academy (BBA),bba,disambiguation,disambiguation,disambiguation,disambiguation,noise,disambiguation,3
+Master Mechanic,Master Mechanic Pickering,pickering,location,location,location,location,location,location,4
+Boost Mobile,Boost Mobile Local Moline,local moline,location,noise,disambiguation,disambiguation,location,,2
+Cookie Cutters Haircuts for Kids,Cookie Cutters Haircuts for Kids - Beverly Hills,beverly hills,location,location,location,location,location,location,4
+Mail Boxes ETC.,Mail Boxes Etc. UK,uk,location,location,location,location,location,location,4
+Learn And Play Montessori School,Learn and Play Montessori School - Peralta,peralta,location,location,location,disambiguation,location,location,3
+Liceo Scientifico Isacco Newton,Liceo Scientifico Isacco Newton (succursale),succursale,disambiguation,disambiguation,disambiguation,disambiguation,disambiguation,disambiguation,4
+Prestige de Menton,Prestige de Menton - Eau de Menton,eau de menton,disambiguation,disambiguation,business_type,business_type,noise,,2
+ImmoWert Hessen,ImmoWert Hessen Carsten Nessler Sachverständige für Immobilien,carsten nessler sachverstandige fur immobilien,disambiguation,disambiguation,business_type,noise,disambiguation,,2
+United Promotions Inc,United Promotions Inc. Photo Lab,photo lab,business_type,disambiguation,business_type,business_type,disambiguation,,2
+The Home Depot,The Home Depot México,mexico,location,location,location,location,location,location,4
+APEC Hospital de la Ceguera,Apec Hospital De La Ceguera Azcapotzalco,azcapotzalco,location,location,location,location,location,location,4
+Smartphone Solutions,Smartphone Solutions Sunbury,sunbury,location,location,noise,location,location,location,3
+Vitality Integrated Programs,Vitality Integrated Programs (VIP),vip,disambiguation,disambiguation,business_type,noise,noise,,2
+See's Candies,See's Candies Chocolate Shop,chocolate shop,business_type,business_type,business_type,business_type,business_type,business_type,4
+Bad & Meer,Bad & Meer Fachmarkt für Heizung & Sanitär,fachmarkt fur heizung sanitar,business_type,business_type,business_type,business_type,business_type,business_type,4
+Royce Rolls,Royce Rolls Cafe,cafe,business_type,business_type,business_type,business_type,business_type,business_type,4
+Waterbury Career Academy,Waterbury Career Academy High School,high school,business_type,business_type,business_type,business_type,business_type,business_type,4
+Village Medical,Village Medical at Walgreens,at walgreens,disambiguation,disambiguation,disambiguation,disambiguation,disambiguation,disambiguation,4
+Remington Heights,Remington Heights Retirement Community,retirement community,business_type,business_type,business_type,business_type,business_type,business_type,4
+Vegano Bio,Vegano Bio - Shop Online Prodotti Vegani,shop online prodotti vegani,noise,noise,noise,noise,noise,noise,4
+De Giovannini,De Giovannini Secondo di Cozzi Pier Secondo,secondo di cozzi pier secondo,disambiguation,disambiguation,disambiguation,disambiguation,disambiguation,disambiguation,4
+El Dorado Hills Sports Club,El Dorado Hills Sports Club and Spa,and spa,business_type,business_type,business_type,business_type,business_type,business_type,4
+Extended Stay America,Extended Stay America Los Angeles / Arcadia,los angeles arcadia,location,location,disambiguation,location,location,location,3
+Oh My Goodness,Oh My Goodness OMG,omg,disambiguation,noise,noise,noise,noise,noise,4
+Miracle Mile Shops,Miracle Mile Shops At Planet Hollywood,at planet hollywood,location,disambiguation,disambiguation,disambiguation,location,disambiguation,3
+Blue Rhino,Blue Rhino Propane Exchange,propane exchange,business_type,business_type,business_type,business_type,business_type,business_type,4
+Heartland Mortgage Inc - Bobbie Jo Haggard,"Heartland Mortgage Inc. / Bobbie Jo Haggard, NMLS 92472",nmls 92472,noise,noise,noise,noise,noise,noise,4
+Hotel Farol,Hotel Farol - Mosqueiro,mosqueiro,location,location,location,location,location,location,4
+AdventHealth Medical Group Primary Care,AdventHealth Medical Group Primary Care at Brandon,at brandon,location,location,disambiguation,location,location,location,3
+Eat Happy,Eat Happy Sushi & asiatische Spezialitäten,sushi asiatische spezialitaten,business_type,business_type,business_type,business_type,business_type,business_type,4
+Wohnungsauflösungen Schenk,Wohnungsauflösungen Schenk Ankauf und Verkauf,ankauf und verkauf,business_type,disambiguation,business_type,business_type,business_type,business_type,3
