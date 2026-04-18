@@ -1700,7 +1700,7 @@ justifies using a hosted model when accuracy is critical.
    | Model | Haiku v1 | Haiku v3 | Own greedy | Own random | MIPROv2 | Best |
    |-------|----------|----------|-----------|------------|---------|------|
    | Phi-3 Mini | **86.9%** | 83.6% | 79.5% | — | — | Haiku v1 |
-   | Mistral-7B | 87.7% | 86.1% | **91.8%** | 89.3% | — | Own greedy |
+   | Mistral-7B | 87.7% | 86.1% | **91.8%** | 89.3% | 88.5% | Own greedy |
    | Llama-3.1-8B | — | **89.3%** | 86.1% | — | — | Haiku v3 |
    | Qwen-2.5-7B | 86.9% | **92.6%** | 87.7% | 86.1% | 89.3% | Haiku v3 |
    | Qwen-2.5-14B | 93.4% | — | 93.4% | — | — | **94.3%** (zero-shot) |
@@ -1751,14 +1751,17 @@ justifies using a hosted model when accuracy is critical.
    select better demo sets than a greedy pass. The eval set would need to be substantially
    larger (300–500 rows) for random search to show consistent gains over greedy.
 
-   - **MIPROv2 (89.3%) beats own greedy and own random for Qwen-2.5-7B but not Haiku
-     v3.** MIPROv2 retained the original hand-written instruction — all 3 generated
-     instruction candidates scored below it — suggesting the instruction was already
-     near-optimal. The gain over own greedy (+1.6pt) came from better demo selection
-     via Bayesian search rather than instruction rewriting. Notably, `business_type`
-     accuracy reached 97.7% (vs 86.0% for Haiku v3), but `disambiguation` remained
-     stuck at 42.9% across all prompt strategies for this model. Mistral MIPROv2 is
-     running; results pending.
+   - **MIPROv2 did not beat the best greedy approach for either model tested.** For
+     Qwen-2.5-7B, MIPROv2 scored 89.3% — better than own greedy (+1.6pt) and own
+     random, but below Haiku v3 (92.6%). For Mistral-7B, MIPROv2 scored 88.5% —
+     worse than own greedy (91.8%) and own random (89.3%). In both cases the optimizer
+     retained the original hand-written instruction (all generated candidates scored
+     lower), confirming the instruction is not the bottleneck. For Mistral, repetition-loop
+     stalls slowed the final eval to 5.2 rows/min (vs the normal ~16), suggesting stalls
+     also corrupted bootstrap traces during optimization — the same confound that hurt
+     Mistral own random. `disambiguation` remained stuck at 42.9–46.4% across all
+     MIPROv2 configurations, consistent with it being a policy-definition problem rather
+     than a prompt-wording problem.
 
    **Note on noise-class figures:** The `noise` class has only 7 eval rows, so every
    percentage point represents ~0.14 rows. Noise accuracy figures (e.g. 85.7% = 6/7,
