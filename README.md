@@ -1689,14 +1689,15 @@ justifies using a hosted model when accuracy is critical.
    BootstrapFewShot optimized on Haiku; (b) Haiku v3 — BootstrapFewShotWithRandomSearch
    on Haiku (8 candidate sets); (c) own greedy — greedy BootstrapFewShot with each
    model as its own teacher; (d) own random — BootstrapFewShotWithRandomSearch with
-   each model as its own teacher (run for Mistral and Haiku). Full selection accuracy:
+   each model as its own teacher (run for Mistral, Qwen-2.5-7B, and Haiku). Full
+   selection accuracy:
 
    | Model | Haiku v1 | Haiku v3 | Own greedy | Own random | Best |
    |-------|----------|----------|-----------|------------|------|
    | Phi-3 Mini | **86.9%** | 83.6% | 79.5% | — | Haiku v1 |
    | Mistral-7B | 87.7% | 86.1% | **91.8%** | 89.3% | Own greedy |
    | Llama-3.1-8B | — | **89.3%** | 86.1% | — | Haiku v3 |
-   | Qwen-2.5-7B | 86.9% | **92.6%** | 87.7% | — | Haiku v3 |
+   | Qwen-2.5-7B | 86.9% | **92.6%** | 87.7% | 86.1% | Haiku v3 |
    | Qwen-2.5-14B | 93.4% | — | 93.4% | — | **94.3%** (zero-shot) |
    | Haiku | 95.1% | 95.9% | — | 94.3% | **95.9%** (zero-shot/v3) |
 
@@ -1710,19 +1711,21 @@ justifies using a hosted model when accuracy is critical.
      Haiku v3 beats own greedy are apples-to-oranges — Haiku v3 used *random search*
      while own greedy used a single greedy pass. The greedy runs for Qwen-2.5-7B and
      Llama-3.1-8B found 4 successes in exactly 4 attempts — the first (easiest) training
-     examples, not the most instructive. Own random search for those models was not run;
-     it may well have beaten Haiku v3.
+     examples, not the most instructive.
 
-   - **Mistral own random search (89.3%) is worse than own greedy (91.8%).** Two
-     compounding factors: (1) Mistral-7B has a known repetition-loop tendency where it
-     occasionally generates text until hitting a context limit, causing latency spikes of
-     30–670 seconds across different runs. During random search, loading different demo
-     combinations into the prompt triggers this more frequently, corrupting some traces in
-     the bootstrap pool. (2) With only 122 val rows, the optimization signal is too noisy
-     for 8-candidate search to reliably identify genuinely better demo sets — the scores
-     ranged 68–80% across candidates, reflecting sampling variance more than real quality
-     differences. Setting a `max_tokens` cap on DSPy's LM would prevent runaway generation
-     and would likely make Mistral own random search more reliable.
+   - **Own random search underperforms own greedy for both Mistral and Qwen-2.5-7B.**
+     Mistral own random (89.3%) is worse than own greedy (91.8%); Qwen-2.5-7B own random
+     (86.1%) is worse than own greedy (87.7%) *and* worse than Haiku v1 (86.9%). The
+     candidate scores during Qwen-2.5-7B optimization ranged 72–80%, confirming high
+     sampling variance rather than genuine quality differences between demo sets. For
+     Mistral, an additional compounding factor is its repetition-loop tendency: it
+     occasionally generates text until hitting a context limit (latency spikes of
+     30–670 seconds), and loading different demo combinations during random search
+     triggers this more frequently, corrupting some traces in the bootstrap pool.
+     Setting a `max_tokens` cap on DSPy's LM would prevent runaway generation. But
+     the core problem for both models is the eval set size: 122 rows produces too
+     noisy a score signal for 8-candidate search to reliably distinguish better demo
+     sets from worse ones.
 
    - **Haiku own random search (94.3%) shows no meaningful difference from zero-shot
      (95.9%).** The 1.6pt gap is within the confidence interval. The observation is that
