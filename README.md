@@ -1578,12 +1578,15 @@ Groq results removed — 44–61% structured output parse failures; Llama-3.1-8B
 | Mistral-7B (Ollama) | 7B | free | own-optimized (greedy) | 91.8% | 15.8 | 3.80s | 0% |
 | Qwen-2.5-7B (Ollama) | 7B | free | v3 (Haiku random search) | 92.6% | 19.5 | 3.08s | 0% |
 | Qwen-2.5-14B (Ollama) | 14B | free | zero-shot or own-optimized | **93.4%** | 11.2 | 5.35s | 0% |
-| 4-model ensemble (Ollama) | 7–14B | free | majority vote | 93.4% (98.0% @ 82% cov.) | — | — | 0% |
+| 4-model ensemble — majority vote | 7–14B | free | per-model best | 93.4% | — | — | 0% |
+| 4-model ensemble — routed (≥3/4 agree) | 7–14B | free | per-model best | **98.0%** (82% coverage) | — | — | 0% |
 | Claude Haiku | — | ~$0.001/row | zero-shot | **95.9%** | — | — | 0% |
 
 Each model shows its best-performing prompt variant across all approaches tried. Throughput
 measured on Apple Silicon (no-cache run via Ollama). Haiku throughput omitted — API latency
-varies with network and batch size and is not comparable to local inference.
+varies with network and batch size and is not comparable to local inference. Ensemble
+throughput omitted — depends on parallelism; with 4 models running in parallel, wall-clock
+time matches the slowest individual model (~5.35s/row for Qwen-2.5-14B).
 
 **Confidence note:** With 122 eval rows the approximate 95% CI on any selection accuracy
 figure is ±4–5 percentage points. Differences smaller than ~5pt between models are within
