@@ -1686,21 +1686,22 @@ justifies using a hosted model when accuracy is critical.
    Mistral uses its own optimized demos or Haiku's for the v1 greedy approach.
 
 6. **Demo source and search strategy interact non-trivially with model capability.**
-   We tested three prompt configurations for each local model: (a) Haiku v1 — greedy
+   We tested five prompt configurations for each local model: (a) Haiku v1 — greedy
    BootstrapFewShot optimized on Haiku; (b) Haiku v3 — BootstrapFewShotWithRandomSearch
    on Haiku (8 candidate sets); (c) own greedy — greedy BootstrapFewShot with each
    model as its own teacher; (d) own random — BootstrapFewShotWithRandomSearch with
-   each model as its own teacher (run for Mistral, Qwen-2.5-7B, and Haiku). Full
-   selection accuracy:
+   each model as its own teacher; (e) MIPROv2 — joint instruction + demo optimization
+   using Haiku as the instruction proposer (light setting: 3 instruction candidates,
+   6 fewshot sets, 10 Bayesian trials). Full selection accuracy:
 
-   | Model | Haiku v1 | Haiku v3 | Own greedy | Own random | Best |
-   |-------|----------|----------|-----------|------------|------|
-   | Phi-3 Mini | **86.9%** | 83.6% | 79.5% | — | Haiku v1 |
-   | Mistral-7B | 87.7% | 86.1% | **91.8%** | 89.3% | Own greedy |
-   | Llama-3.1-8B | — | **89.3%** | 86.1% | — | Haiku v3 |
-   | Qwen-2.5-7B | 86.9% | **92.6%** | 87.7% | 86.1% | Haiku v3 |
-   | Qwen-2.5-14B | 93.4% | — | 93.4% | — | **94.3%** (zero-shot) |
-   | Haiku | 95.1% | 95.9% | — | 94.3% | **95.9%** (zero-shot/v3) |
+   | Model | Haiku v1 | Haiku v3 | Own greedy | Own random | MIPROv2 | Best |
+   |-------|----------|----------|-----------|------------|---------|------|
+   | Phi-3 Mini | **86.9%** | 83.6% | 79.5% | — | — | Haiku v1 |
+   | Mistral-7B | 87.7% | 86.1% | **91.8%** | 89.3% | — | Own greedy |
+   | Llama-3.1-8B | — | **89.3%** | 86.1% | — | — | Haiku v3 |
+   | Qwen-2.5-7B | 86.9% | **92.6%** | 87.7% | 86.1% | 89.3% | Haiku v3 |
+   | Qwen-2.5-14B | 93.4% | — | 93.4% | — | — | **94.3%** (zero-shot) |
+   | Haiku | 95.1% | 95.9% | — | 94.3% | — | **95.9%** (zero-shot/v3) |
 
    No single approach wins across all models. Key observations:
 
@@ -1746,6 +1747,15 @@ justifies using a hosted model when accuracy is critical.
    122-row validation set, the random search optimizer has too little signal to reliably
    select better demo sets than a greedy pass. The eval set would need to be substantially
    larger (300–500 rows) for random search to show consistent gains over greedy.
+
+   - **MIPROv2 (89.3%) beats own greedy and own random for Qwen-2.5-7B but not Haiku
+     v3.** MIPROv2 retained the original hand-written instruction — all 3 generated
+     instruction candidates scored below it — suggesting the instruction was already
+     near-optimal. The gain over own greedy (+1.6pt) came from better demo selection
+     via Bayesian search rather than instruction rewriting. Notably, `business_type`
+     accuracy reached 97.7% (vs 86.0% for Haiku v3), but `disambiguation` remained
+     stuck at 42.9% across all prompt strategies for this model. Mistral MIPROv2 is
+     running; results pending.
 
    **Note on noise-class figures:** The `noise` class has only 7 eval rows, so every
    percentage point represents ~0.14 rows. Noise accuracy figures (e.g. 85.7% = 6/7,
