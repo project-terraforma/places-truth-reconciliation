@@ -1899,31 +1899,23 @@ more specific and canonical form here).
 Results should be reported with bootstrap confidence intervals, not as point
 estimates. Approximate 95% CI for Haiku selection accuracy: ±4–5 percentage points.
 
-**2. Model-assisted label review (weak label dependency).**
-All 304 labeled rows are human-labeled. However, ~82 labels were updated during an
-iterative review process (61 location, 21 business_type): after initial labeling,
-Haiku's predictions were used to flag rows where the model strongly disagreed with
-the annotator. Each flagged row was then independently re-examined by the annotator,
-and corrected where the original label was found to be wrong. This is a standard
-active-annotation pattern: the model identified ambiguous cases; the human made all
-final decisions. All corrections are independently verifiable from geographic
-references (e.g., `Hammersmith` is unambiguously a London neighbourhood) — no
-correction required trusting the model's output.
+**2. Haiku-assisted label review (weak label dependency).**
+All labels are human-assigned. After initial labeling, ~82 were corrected (61 location,
+21 business_type) using Haiku as a disagreement detector: where Haiku's prediction
+differed from the annotator's label, the annotator re-examined the row and updated the
+label if it was wrong. The model flagged which rows to recheck; the human decided the
+correct label. All corrections are independently verifiable (e.g., `Hammersmith` is
+a London neighbourhood by any geographic reference).
 
-The weak dependency: Haiku's *disagreements* guided which rows were re-examined,
-not which answer was chosen. This is a selection bias, not a label-copying
-problem. Still, because Haiku's disagreements are correlated with its own
-errors, the corrected rows slightly favour Haiku's preferred answer class.
+The dependency: rows Haiku disagreed with were more likely to be re-examined, so
+corrected labels skew slightly toward what Haiku preferred. This is a selection bias,
+not label copying — but it means Haiku's accuracy on the corrected subset is
+artificially high.
 
-**Impact:** Of the 122 eval rows, approximately 53 benefited from the label review.
-On the 69 rows with unmodified original labels, Haiku achieves **92.8% selection
-accuracy**. On the full 122 rows, **95.9%**. The true Haiku accuracy is in the range
-**92.8–95.9%**. The corrected rows measure ~98% because the disagreement-based
-selection identified exactly the rows where Haiku's prediction was right and the
-original label was wrong.
-
-Local SLMs are not affected in the same way: their predictions were not used to
-select which rows to review, so no labels were adjusted to favour any local model.
+**Impact:** Of the 122 eval rows, ~53 were reviewed this way. On the 69 unreviewed
+rows, Haiku achieves **92.8% selection accuracy**. On all 122 rows, **95.9%**. True
+Haiku accuracy is bounded **92.8–95.9%**. Local SLMs are unaffected — their
+predictions were not used to select which rows to review.
 
 **3. Duplicate rows.** `Atm` / `ATM (Post Office)` appears 3 times in the
 dataset (3 different UK post offices) but is functionally identical in evaluation
@@ -2139,9 +2131,8 @@ is much faster (~2–5 seconds/prediction).
 > models achieve 87–93% selection accuracy with zero structured-output parse errors when
 > run locally via Ollama, compared to 79.5% for a blind vocabulary rule set.
 > Qwen-2.5-14B (free, local) reaches 93.4% zero-shot. A hosted API model (Claude Haiku)
-> reaches 96.7% with a clean-split optimized program; ~53 of 122 eval rows were
-> re-reviewed after Haiku flagged annotator disagreements, creating a weak label
-> dependency that bounds true Haiku accuracy between 92.8% and 95.9%.
+> reaches 96.7% with an optimized program; ~53 eval labels were re-checked after
+> Haiku flagged annotator disagreements, bounding true Haiku accuracy at 92.8–95.9%.
 > A 4-model local ensemble achieves 95.0%
 > selection accuracy on majority vote; requiring ≥3/4 agreement raises this to 98.0% on
 > 82% of rows, with ensemble disagreement serving as a reliable routing signal for a
