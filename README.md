@@ -1600,7 +1600,7 @@ The throughput column answers the deployment question: not just *how accurate* b
 fast and at what cost*. For a dataset of 493 hard rows (the full H1+H2 scope in the
 2,000-row sample), the practical tradeoff is:
 
-- **Local SLMs (free, ≤8B):** 87–93% selection accuracy with the right prompt, runs on
+- **Local SLMs (free, ≤8B):** 86–92% selection accuracy with the right prompt, runs on
   any machine with 8GB RAM, no API key, no cost. Throughput ~16–21 rows/min on Apple
   Silicon. Prompt choice matters significantly — see Finding 6 for the full comparison.
 - **Local 14B (free):** 93.4% selection accuracy, same cost profile, requires ~16GB RAM —
@@ -1652,11 +1652,11 @@ accumulating a vocabulary list that will drift out of date as new place types em
 2. **Phi-3 Mini (3.8B) matches 7B models on selection accuracy (86.9%).** Parameter
    count is not the limiting factor. Instruction-following quality is.
 
-3. **Local ≤8B SLMs reach 87–93% selection accuracy with the right prompt.** The gap
-   vs. Haiku (96.7% clean) is 4–10 points depending on model and prompt choice. With own
-   optimization, Mistral-7B reaches 91.8% and Qwen-2.5-7B reaches 90.2% with Haiku v3
-   — both within 7 points of Haiku. Qwen-2.5-14B (free, local) at 93.4% is within 3.3
-   points of Haiku, and runs completely free with no API key required.
+3. **Local ≤8B SLMs reach 86–92% selection accuracy with the right prompt.** The gap
+   vs. Haiku (96.7% clean) is 5–11 points depending on model and prompt choice. With own
+   optimization, Mistral-7B reaches 91.8% and Qwen-2.5-7B reaches 90.2% with Haiku v3.
+   Qwen-2.5-14B (free, local, 14B) at 93.4% is within 3.3 points of Haiku, and runs
+   completely free with no API key required.
 
 4. **Qwen-2.5-7B has the best disambiguation accuracy among ≤8B models.** With the v1
    prompt, it reaches 75.0% disambiguation accuracy; with v3 it trades some disambiguation
@@ -2114,7 +2114,52 @@ roughly 30–60 seconds per prediction on CPU; for 122 eval rows that is ~2 hour
 If you have an Apple Silicon Mac, Ollama uses the Neural Engine automatically and
 is much faster (~2–5 seconds/prediction).
 
+#### Figures
+
+![Model × approach selection accuracy](analysis/names/figures/h1_model_comparison.png)
+
+![Per-class label accuracy by model](analysis/names/figures/h1_per_class.png)
+
+![Ensemble progression](analysis/names/figures/h1_ensemble.png)
+
+#### Conclusion
+
+The H1 results support five claims:
+
+1. **Stratification is the load-bearing idea.** Routing only the 25% of name pairs
+   that survive normalization to the model — rather than running all 1,083 conflicts
+   through an LLM — is what makes local SLMs viable. On the full conflict set the
+   per-row cost and latency of any model would be prohibitive; on the 493-row residual
+   it is negligible.
+
+2. **Small local models are sufficient for production.** Free ≤8B models achieve
+   86–92% selection accuracy (Mistral-7B: 91.8%, Qwen-2.5-7B: 90.2%) — a 7–12 point
+   improvement over a blind vocabulary rule set (79.5%) — with zero structured-output
+   parse errors across all runs. Qwen-2.5-14B reaches 93.4% zero-shot with no
+   optimization, matching or exceeding results that required API access and prompt tuning
+   in prior work. These models run free, locally, with no API key.
+
+3. **Disambiguation is the universal bottleneck.** Every model — including Haiku —
+   fails on the disambiguation class (39–71% accuracy). This is not a model capability
+   gap; it is a task definition problem. Disambiguation cases (`Group`, `NMLS #344084`,
+   `Talleres`) require external context — organizational structure, regulatory databases,
+   geographic corpora — that no prompt can supply. The correct treatment is a specialized
+   sub-classifier or abstention, not a stronger LLM.
+
+4. **Ensemble disagreement is a reliable routing signal.** The 4-model majority vote
+   reaches 95.0% selection accuracy. More importantly, requiring ≥3/4 agreement yields
+   98.0% on the 82% of rows where models concur — and identifies the remaining 18% as
+   genuinely uncertain, warranting escalation to a hosted model or human review. This is
+   more useful than a single high-accuracy model: disagreement carries information.
+
+5. **Prompt optimization shows diminishing returns at 122-row eval scale.** Greedy
+   bootstrap improves Mistral-7B (+4.1pt over cross-model demos). Random search with a
+   clean val/test split adds marginal further gains for 7B models but not reliably — the
+   eval set is too small to distinguish better demo sets from sampling noise. A 300–500
+   row eval set would be the minimum to make random search consistently worthwhile.
+
 #### Paper Abstract (Draft)
+*(This abstract covers the full paper including H2–H4, not H1 alone.)*
 
 > Multi-source place data aggregation produces apparent name conflicts at 6× the rate of
 > genuine semantic disagreement, because independently correct providers use different
@@ -2129,7 +2174,7 @@ is much faster (~2–5 seconds/prediction).
 > classification requires a model.
 >
 > We show that small open-weights models running locally for free are sufficient for this
-> task. Five models (3.8B–14B parameters) achieve 87–93% selection accuracy via DSPy —
+> task. Five models (3.8B–14B parameters) achieve 86–92% selection accuracy via DSPy —
 > a 7–14 point improvement over a blind vocabulary rule set (79.5%) — with zero
 > structured-output failures. A 4-model local ensemble reaches 95.0%; requiring ≥3/4
 > agreement raises this to 98.0% on 82% of rows, with disagreement as a reliable signal
