@@ -2118,34 +2118,30 @@ is much faster (~2–5 seconds/prediction).
 
 > Multi-source place data aggregation produces apparent name conflicts at 6× the rate of
 > genuine semantic disagreement, because independently correct providers use different
-> serialization conventions. A staged normalization pipeline handles 75% of name pairs in
-> a 2,000-record Overture Maps dataset with no training data, leaving 25% that require
-> semantic reasoning. The residual concentrates in a single structural pattern —
-> *subset extra-content classification*, where content appended to a core place name
-> (`terraza`, `Hammersmith`, `NMLS #344084`, `senior care`) must be classified as
-> business-type, location, disambiguation, or noise. No finite vocabulary enumerates
-> such content across 15+ languages.
+> serialization conventions. A staged normalization pipeline resolves 75% of name pairs
+> in a 2,000-record Overture Maps dataset with no training data. The remaining 25% are
+> *subset conflicts* — one name is the other with extra content appended (`terraza`,
+> `Hammersmith`, `NMLS #344084`, `senior care`). Classifying that extra content determines
+> the canonical name: **location qualifiers should be dropped** (keep the shorter name);
+> **business-type descriptors should be kept** (keep the longer name). This rule holds
+> consistently across all manually inspected rows, pending external ground-truth
+> verification. No finite vocabulary enumerates such content across 15+ languages, so
+> classification requires a model.
 >
-> We evaluate five open-weights models (Phi-3 Mini 3.8B through Qwen-2.5-14B) across
-> four DSPy prompt strategies on 182 human-verified training examples. Best-prompt ≤8B
-> models achieve 87–93% selection accuracy with zero structured-output parse errors when
-> run locally via Ollama, compared to 79.5% for a blind vocabulary rule set.
-> Qwen-2.5-14B (free, local) reaches 93.4% zero-shot. A hosted API model (Claude Haiku)
-> reaches 96.7% with an optimized program; ~53 eval labels were re-checked after
-> Haiku flagged annotator disagreements, bounding true Haiku accuracy at 92.8–95.9%.
-> A 4-model local ensemble achieves 95.0%
-> selection accuracy on majority vote; requiring ≥3/4 agreement raises this to 98.0% on
-> 82% of rows, with ensemble disagreement serving as a reliable routing signal for a
-> stronger fallback.
+> We show that small open-weights models running locally for free are sufficient for this
+> task. Five models (3.8B–14B parameters) achieve 87–93% selection accuracy via DSPy —
+> a 7–14 point improvement over a blind vocabulary rule set (79.5%) — with zero
+> structured-output failures. A 4-model local ensemble reaches 95.0%; requiring ≥3/4
+> agreement raises this to 98.0% on 82% of rows, with disagreement as a reliable signal
+> to escalate to a stronger model. A 1.55% subset of cases requires name *construction*
+> rather than selection — neither the long nor short name is canonical — and a two-stage
+> generative pipeline achieves 100% faithfulness and 74% exact match against human-verified
+> ideals on 31 such cases.
 >
-> Prompt optimization with greedy BootstrapFewShot shows directional improvement from
-> own-model demos over cross-model demos for Mistral-7B. Random-search optimization with a
-> clean val/test split shows Haiku-derived programs (90.2% for Qwen-2.5-7B, 86.1% for
-> Llama-3.1-8B) matching or exceeding own-greedy baselines, though differences are within
-> the ±4–5pt confidence interval on a 122-row eval set. The core contribution is
-> methodological: characterize the conflict distribution before deploying a model; apply
-> models only to the structurally specific residual; use DSPy to systematically compare
-> prompt strategies. This approach generalizes to any multi-source attribute
+> The core contribution is methodological: characterize the conflict distribution first,
+> apply models only to the structurally specific residual, and use DSPy to compare prompt
+> strategies systematically. This approach avoids deploying large models on rows that
+> normalization already handles, and generalizes to any multi-source attribute
 > canonicalization problem.
 
 ---
