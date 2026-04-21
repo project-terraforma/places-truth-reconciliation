@@ -1581,8 +1581,8 @@ Groq results removed — 44–61% structured output parse failures; Llama-3.1-8B
 | Mistral-7B (Ollama) | 7B | free | own-optimized (greedy) | 91.8% | 15.8 | 3.80s | 0% |
 | Qwen-2.5-7B (Ollama) | 7B | free | v3 clean (Haiku random search)† | 90.2% | 19.5 | 3.08s | 0% |
 | Qwen-2.5-14B (Ollama) | 14B | free | own-optimized (greedy) | **93.4%** | 11.2 | 5.35s | 0% |
-| 4-model ensemble — majority vote | 7–14B | free | per-model best | 95.0% | — | — | 0% |
-| 4-model ensemble — routed (≥3/4 agree) | 7–14B | free | per-model best | **98.0%** (82% coverage) | — | — | 0% |
+| 4-model ensemble — majority vote | 7–14B | free | per-model best | 95.9% | — | — | 0% |
+| 4-model ensemble — routed (≥3/4 agree) | 7–14B | free | per-model best | **98.1%** (89% coverage) | — | — | 0% |
 | Claude Haiku | — | ~$0.001/row | zero-shot | 95.9% | — | — | 0% |
 | Claude Haiku | — | ~$0.001/row | v3 clean (random search)† | **96.7%** | — | — | 0% |
 
@@ -1704,19 +1704,20 @@ justifies using a hosted model when accuracy is critical.
 
    | Model | Haiku v1 | Haiku v3 | Own greedy | Own random | MIPROv2† | Best |
    |-------|----------|----------|-----------|------------|---------|------|
-   | Phi-3 Mini | **86.9%** | 83.6% | 79.5% | — | — | Haiku v1 |
+   | Phi-3 Mini | 86.9% | 83.6% | 79.5% | 81.1% | **87.7%** | MIPROv2 ≈ Haiku v1† |
    | Mistral-7B | 87.7% | 86.1% | **91.8%** | 89.3% | 88.5% | Own greedy |
-   | Llama-3.1-8B | — | 86.1%‡ | 86.1% | — | — | Haiku v3 / Own greedy (tied) |
+   | Llama-3.1-8B | **90.2%** | 86.1%‡ | 86.1% | 88.5% | 86.9% | **Haiku v1** |
    | Qwen-2.5-7B | 86.9% | 90.2%‡ | 87.7% | 86.1% | 89.3% | **Haiku v3** |
    | Qwen-2.5-14B | 93.4% | — | 93.4% | — | — | **93.4%** (all configs) |
    | Haiku | 95.1% | **96.7%**‡ | — | 94.3% | — | **96.7%** (v3 clean) |
 
    ‡ Clean re-run with `--val-frac 0.25` (proper val/test split). Prior contaminated values: Haiku v3 95.9%, Llama 89.3%, Qwen7B 92.6%.
-   † MIPROv2 selected 0 demos for both Mistral-7B and Qwen-2.5-7B — optimizer determined
-   zero-shot outperformed all sampled demo sets on the validation split. The MIPROv2
-   column values are therefore **zero-shot measurements**, not few-shot results.
-   The joint instruction+demo optimization retained the original hand-written instruction
-   for both models (all 3 generated candidates scored lower).
+   † MIPROv2 selected 0 demos for all four local models — the optimizer determined zero-shot
+   outperformed all sampled demo sets on the validation split. The MIPROv2 column values are
+   therefore **zero-shot measurements**, not few-shot results. All 3 generated instruction
+   candidates scored below the original hand-written instruction, which was retained for
+   every model. Phi-3 MIPROv2 (87.7%) is 0.8pt above Haiku v1 (86.9%) — within the ±4–5pt
+   confidence interval; the two configurations are effectively tied.
 
    No single approach wins across all models. Key observations:
 
@@ -1752,10 +1753,19 @@ justifies using a hosted model when accuracy is critical.
      cross-model demo transfer from Haiku to local models is more effective than
      Haiku optimizing for itself.
 
-   - **Phi-3 is actively harmed by own greedy (−7.4 pts).** Greedy bootstrap picks the
-     *first* successful examples. Phi-3 needed 12 attempts to find 4 successes — those 4
-     included no noise examples, producing 0% noise accuracy on eval. This is a known
-     failure mode: greedy bootstrap finds *easy* examples, not *informative* ones.
+   - **Phi-3 is actively harmed by its own optimized prompts.** Own greedy drops 7.4 pts
+     (79.5% vs 86.9%); own random drops 5.8 pts (81.1% vs 86.9%). Greedy bootstrap picks
+     the first successful examples — Phi-3 needed 12 attempts to find 4 successes, producing
+     4 easy examples with no noise coverage (0% noise accuracy on eval). Random search found
+     more diverse candidates but Phi-3's label accuracy still collapsed to 58.2%, suggesting
+     the model is too small to reliably follow optimized few-shot formats that work for
+     larger models. The Haiku v1 prompt remains its best configuration by a clear margin.
+
+   - **Haiku v1 prompt transfers best to Llama-3.1-8B (90.2%).** This is the highest
+     selection accuracy of any local ≤8B model across all configurations tested. Own
+     random (88.5%) is the next best, followed by Haiku v3 and own greedy (both 86.1%).
+     The Haiku v1 prompt — a greedy-bootstrapped program with Haiku as the teacher — appears
+     to include demos that are particularly well-matched to Llama's instruction-following style.
 
    - **Qwen-2.5-14B shows no measurable sensitivity to demo source** — zero-shot, Haiku
      v1, and own greedy all produce exactly 93.4% selection accuracy. All differences
@@ -1767,19 +1777,19 @@ justifies using a hosted model when accuracy is critical.
    select better demo sets than a greedy pass. The eval set would need to be substantially
    larger (300–500 rows) for random search to show consistent gains over greedy.
 
-   - **MIPROv2 selected zero-shot for both models: no demos, original instruction.**
+   - **MIPROv2 selected zero-shot for all four local models: no demos, original instruction.**
      After running joint instruction+demo optimization (3 instruction candidates, 6 fewshot
-     sets, 10 Bayesian trials), the saved programs for both Qwen-2.5-7B and Mistral-7B
-     contain 0 demos — the optimizer found that zero-shot outperformed all sampled demo
-     sets on the validation split. All 3 generated instruction candidates scored below the
-     original hand-written instruction, which was retained. The MIPROv2 column values
-     (89.3% / 88.5%) are therefore **zero-shot measurements**, not the output of
-     few-shot optimization. Neither exceeds the best greedy approach: Qwen-2.5-7B
-     zero-shot (89.3%) is below Haiku v3 clean (90.2%); Mistral-7B zero-shot (88.5%) is
-     below own greedy (91.8%). For Mistral, repetition-loop stalls during optimization
-     (5.2 rows/min vs the normal ~16) likely corrupted some bootstrap candidate scores —
-     the same confound that hurt Mistral own random. `disambiguation` remained stuck at
-     42.9–46.4% across all MIPROv2 configurations, consistent with it being a
+     sets, 10 Bayesian trials), all four saved programs contain 0 demos — the optimizer
+     consistently found that zero-shot outperformed all sampled demo sets on the validation
+     split. All 3 generated instruction candidates scored below the original hand-written
+     instruction, which was retained for every model. The MIPROv2 column values are therefore
+     **zero-shot measurements** across the board. No MIPROv2 result exceeds the model's best
+     greedy approach: Qwen-2.5-7B zero-shot (89.3%) is below Haiku v3 clean (90.2%);
+     Mistral-7B zero-shot (88.5%) is below own greedy (91.8%); Llama-3.1-8B zero-shot
+     (86.9%) is below Haiku v1 (90.2%); Phi-3 zero-shot (87.7%) is within 0.8pt of
+     Haiku v1 (86.9%) — effectively tied. For Mistral, repetition-loop stalls during
+     optimization likely corrupted some bootstrap candidate scores. `disambiguation` remained
+     stuck at 42.9–50.0% across all MIPROv2 configurations, consistent with it being a
      policy-definition problem rather than a prompt-wording problem.
 
    **Note on noise-class figures:** The `noise` class has only 7 eval rows, so every
@@ -1795,17 +1805,18 @@ where both labels map to "keep shorter."
    confidence is not.**
 
    A 4-model ensemble (Mistral-7B, Llama-3.1-8B, Qwen-2.5-7B, Qwen-2.5-14B) achieves
-   **95.0% selection accuracy** on majority vote — exceeding every individual local model.
-   Requiring ≥3/4 agreement raises this to **98.0% selection accuracy on 82% of rows** (99/121),
-   with the remaining 22 rows routed to a stronger fallback (Haiku, manual review, or
+   **95.9% selection accuracy** on majority vote — exceeding every individual local model.
+   Each model contributes its best configuration (Mistral: own greedy; Llama: Haiku v1;
+   Qwen-2.5-7B: Haiku v3 clean; Qwen-2.5-14B: zero-shot).
+   Requiring ≥3/4 agreement raises this to **98.1% selection accuracy on 89% of rows** (108/121),
+   with the remaining 12 rows routed to a stronger fallback (Haiku, manual review, or
    rules). Vote agreement distribution:
 
-   | Agreement | Rows | Selection accuracy |
-   |-----------|------|-------------------|
-   | 4/4 | 76 | 100% |
-   | 3/4 | 23 | 91.3% |
-   | 2/4 | 20 | 75.0% |
-   | 1/4 | 2 | 50.0% |
+   | Agreement | Rows | Coverage | Selection accuracy |
+   |-----------|------|----------|--------------------|
+   | 4/4 | 83 | 69% | 98.8% |
+   | 3/4 | 25 | 21% | 96.0% |
+   | 2/4 (abstain) | 12 | 10% | 75.0% |
 
    The ensemble agreement count is a reliable proxy for difficulty: unanimous predictions
    are always correct on selection; split predictions (≤2/4) produce errors 25–50% of the
@@ -2147,8 +2158,8 @@ The H1 results support five claims:
    sub-classifier or abstention, not a stronger LLM.
 
 4. **Ensemble disagreement is a reliable routing signal.** The 4-model majority vote
-   reaches 95.0% selection accuracy. More importantly, requiring ≥3/4 agreement yields
-   98.0% on the 82% of rows where models concur — and identifies the remaining 18% as
+   reaches 95.9% selection accuracy. More importantly, requiring ≥3/4 agreement yields
+   98.1% on the 89% of rows where models concur — and identifies the remaining 11% as
    genuinely uncertain, warranting escalation to a hosted model or human review. This is
    more useful than a single high-accuracy model: disagreement carries information.
 
@@ -2159,7 +2170,7 @@ The H1 results support five claims:
    row eval set would be the minimum to make random search consistently worthwhile.
 
 #### Paper Abstract (Draft)
-*(This abstract covers the full paper including H2–H4, not H1 alone.)*
+*(This abstract covers H1 and H4. H2 and H3 are ongoing work without full results yet.)*
 
 > Multi-source place data aggregation produces apparent name conflicts at 6× the rate of
 > genuine semantic disagreement, because independently correct providers use different
@@ -2176,12 +2187,12 @@ The H1 results support five claims:
 > We show that small open-weights models running locally for free are sufficient for this
 > task. Five models (3.8B–14B parameters) achieve 86–92% selection accuracy via DSPy —
 > a 7–14 point improvement over a blind vocabulary rule set (79.5%) — with zero
-> structured-output failures. A 4-model local ensemble reaches 95.0%; requiring ≥3/4
-> agreement raises this to 98.0% on 82% of rows, with disagreement as a reliable signal
+> structured-output failures. A 4-model local ensemble reaches 95.9%; requiring ≥3/4
+> agreement raises this to 98.1% on 89% of rows, with disagreement as a reliable signal
 > to escalate to a stronger model. A 1.55% subset of cases requires name *construction*
 > rather than selection — neither the long nor short name is canonical — and a two-stage
-> generative pipeline achieves 100% faithfulness and 74% exact match against human-verified
-> ideals on 31 such cases.
+> generative pipeline achieves 100% faithfulness and 74% exact match against
+> annotator-proposed ideal names on 31 such cases (ideals not yet externally verified).
 >
 > The core contribution is methodological: characterize the conflict distribution first,
 > apply models only to the structurally specific residual, and use DSPy to compare prompt
@@ -2343,7 +2354,7 @@ new string** from those inputs. This changes three things:
    is wrong destroys the information in both sources. This demands higher precision than H1
    or H2.
 
-**Candidate set — 31 construction cases across five language families.**
+**Candidate set — 31 construction cases across three scripts and six languages.**
 
 | Type | Count | Pattern |
 |---|---|---|
@@ -2360,8 +2371,10 @@ Recurring language-specific patterns:
 - **Italian restaurants**: `[brand] [Bacaro / Studio] [city]` — Mezzopieno
 - **Japanese branches**: `[brand][業種店][支店名]` — shared-morpheme ambiguity (see below)
 
-At 1.55% of 2,000 rows, the pattern projects to ~1,550 construction cases per 100,000
-matched pairs — substantial enough to justify a dedicated pipeline stage.
+The 31 candidates were identified through manual review of the 602 subset-conflict rows in
+the golden dataset (5.2% of subset conflicts). Projected across a full 2,000-row dataset at
+that rate, compound construction cases number in the hundreds — substantial enough to justify
+a dedicated pipeline stage rather than treating them as rare exceptions.
 
 ![H4 candidate distribution](analysis/names/figures/h4_candidate_overview.png)
 
@@ -2403,18 +2416,25 @@ For Japanese (no spaces), the assertion uses substring containment at the charac
 
 ![H4 pipeline results](analysis/names/figures/h4_results_summary.png)
 
-- **Stage 1 — Detection: 27/31 compound.** Four rows correctly abstained as `keep_shorter`
-  (pure branch-location suffixes with no business-type component: MDA, ATP, two CIBC bank
-  branches). Stage 1 correctly rejected these: `いわき下好間店` (ローソン) is a pure
-  branch suffix; the model identified `いわき` as a city and `下好間` as a district, both
-  geographic, with no product-type morpheme.
+- **Stage 1 — Detection: 27/31 compound.** Four rows correctly abstained as `keep_shorter`.
+  The two CIBC cases (`branch cash at atm only`, `branch with atm`) have no business-type
+  component — "branch" is an organisational descriptor, not a type. The ATP case (`flight school`)
+  has a business-type component but no location — Stage 1 correctly says "not compound," though
+  the right action for this row is actually H1 "keep longer" (ATP Flight School is the better
+  name). The MDA case (`electromenager discount`) is similar: a business type with no location
+  to strip. Both ATP and MDA are routed back to the prior pipeline rather than constructed.
+  Stage 1 correctly rejected the ローソン case: `いわき下好間店` is a pure branch-location
+  suffix; the model identified `いわき` as a city and `下好間` as a district, both geographic,
+  with no product-type morpheme.
 
 - **Stage 2 — Faithfulness: 27/27 (100%).** Every constructed name passed the deterministic
   token-in-source check. Zero hallucinated tokens across all 27 construction outputs, including
   the two non-Latin script cases.
 
-- **Exact match vs. human-verified ideal: 20/27 (74.1%).** Seven outputs are faithful
-  paraphrases — semantically correct but differing from the ideal in surface form.
+- **Exact match vs. proposed ideal: 20/27 (74.1%).** Seven outputs are faithful
+  paraphrases — semantically correct but differing from the proposed ideal in surface form.
+  The ideal names in `h4_construction_candidates.csv` are annotator-proposed and have not
+  yet been externally verified against ground truth.
 
 **Error analysis — the 7 faithful paraphrases.**
 
@@ -2424,15 +2444,29 @@ For Japanese (no spaces), the assertion uses substring containment at the charac
 |---|---|---|
 | Ampersand vs. "and" | 2 | `Opticians And Audiologists` vs `Opticians & Audiologists` |
 | Casing mismatch | 2 | `IMLI Restaurant` vs `Imli Restaurant`; `LUSH Cosmetics` vs `Lush Cosmetics` |
-| Separator style | 2 | `iChiro Clinics/Peak Performance` vs `iChiro Clinics / Peak Performance` |
+| Separator dropped/spaced | 2 | `SushiCo Sushi & Bubble Tea` vs `SushiCo \| Sushi & Bubble Tea`; `iChiro Clinics/Peak` vs `iChiro Clinics / Peak` |
 | Extra legal suffix retained | 1 | `DEKRA Automobil GmbH Kfz-Prüfstelle` vs `DEKRA Automobil Kfz-Prüfstelle` |
 
-None of these are semantic errors. The casing cases arise because the model copies the
-ALL-CAPS short name rather than the title-cased form from the long name. The ampersand
-cases arise from inconsistent rendering of `&` in the long name itself — the token `&`
-appears in the long name, but the model occasionally spells it out as `and`. All 7 are
-fixable by a post-processing normalization step (case-fold to match long_name, `and` → `&`
-when `&` appears in source).
+None of these are semantic errors, but the surface causes vary:
+
+- **Ampersand**: both Specsavers long names spell out `And`/`and` — `&` never appears in the
+  source. The model is faithful; the proposed ideal uses `&` (likely the official brand form),
+  which the faithfulness constraint prevents the model from producing. This is a real tension:
+  the constraint enforces fidelity to source data but blocks convergence to canonical brand style
+  when sources are inconsistently normalised.
+
+- **Casing**: the model copies the long name's ALL-CAPS form (`IMLI`, `LUSH`) rather than
+  normalising to title case. The ideal proposes title-cased forms (`Imli`, `Lush`) that don't
+  appear in either source name. Resolvable by preferring short-name casing when it is title-cased.
+
+- **Separator**: two distinct sub-cases. For SushiCo, the model drops the `|` entirely
+  (`SushiCo Sushi & Bubble Tea` vs `SushiCo | Sushi & Bubble Tea`) — a structural omission,
+  not just a spacing difference. For iChiro Clinics, the model preserves the `/` but omits
+  surrounding spaces. The SushiCo case is not easily fixed by normalization.
+
+- **Legal suffix**: the model retains `GmbH` because it appears in the long name and the
+  faithfulness constraint doesn't penalise over-inclusion. Fixable with a legal-suffix
+  strip post-pass.
 
 **Conclusion.**
 
@@ -2450,8 +2484,11 @@ rule-based or selection-only approaches. Key findings:
   knowledge — `矢田` as Aichi Prefecture geography — that no vocabulary list encodes.
 
 - **Exact match is not the right primary metric for generation.** 7/27 outputs that differ
-  from the human ideal are qualitatively correct. The meaningful accuracy is 100% faithful +
-  74.1% surface-exact, not 74.1% accuracy. Surface normalization closes most of the gap.
+  from the proposed ideal are qualitatively correct. The meaningful accuracy is 100% faithful +
+  74.1% surface-exact, not 74.1% accuracy. Several of the surface differences (casing, separator)
+  reflect faithfulness to source data rather than model error — the model produced the form that
+  appears in the long name, not the canonical brand form. A normalization post-pass would close
+  most of the gap; the SushiCo separator drop is the hardest case.
 
 - **H4 is a diagnostic tool for H1 failures.** Rows where H1 consistently errs across all
   models (e.g. `Craig Bagley`, `ImmoWert Hessen`) are often compound cases misrouted to
@@ -2466,15 +2503,20 @@ rule-based or selection-only approaches. Key findings:
 
 **Future work.**
 
-1. **Business type + affiliation fused** (e.g. `Craig Bagley` vs `Craig Bagley - State Farm Insurance Agent`): affiliation should be dropped, job title kept. Currently an H1 selection error; correct handling is H4.
+1. **Human verification of proposed ideal names.** The `ideal_constructed_name` column in `h4_construction_candidates.csv` was proposed during analysis and has not been independently verified against external ground truth. Before using exact-match accuracy as a benchmark, each proposed ideal should be confirmed against authoritative sources (brand websites, registry listings, maps).
 
-2. **Business type + personal name fused** (e.g. `ImmoWert Hessen` vs `ImmoWert Hessen Carsten Nessler Sachverständige für Immobilien`): personal name overrides the business-type signal for H1. Correct constructed name strips the person, keeps the type.
+2. **Business type + affiliation fused** (e.g. `Craig Bagley` vs `Craig Bagley - State Farm Insurance Agent`): affiliation should be dropped, job title kept. Currently an H1 selection error; correct handling is H4.
 
-3. **Three-component compounds** (brand + business type + noise item, e.g. Japanese ramen shop with kana type + signature dish appended): requires two-stage stripping. Not present in the 2,000-row dataset; future work with a larger Japanese POI extract.
+3. **Business type + personal name fused** (e.g. `ImmoWert Hessen` vs `ImmoWert Hessen Carsten Nessler Sachverständige für Immobilien`): personal name overrides the business-type signal for H1. Correct constructed name strips the person, keeps the type.
 
-4. **Post-processing normalization layer** for the 7 surface-form error categories (ampersand, casing, separator) to close the gap from 74.1% to expected ~96% surface-exact.
+4. **Three-component compounds** (brand + business type + noise item, e.g. Japanese ramen shop with kana type + signature dish appended): requires two-stage stripping. Not present in the 2,000-row dataset; future work with a larger Japanese POI extract.
 
-5. **Larger eval set.** 31 rows is sufficient for a qualitative demonstration; statistical claims require 150–300 rows with multiple language families represented.
+5. **Post-processing normalization layer** for surface-form errors: prefer short-name casing
+   when it is title-cased; strip legal suffixes (GmbH, LLC, Ltd); preserve separator tokens
+   (`|`, `/`) present in the long name. The SushiCo case (separator dropped entirely) requires
+   explicit token-preservation logic rather than simple normalization.
+
+6. **Larger eval set.** 31 rows is sufficient for a qualitative demonstration; statistical claims require 150–300 rows with multiple language families represented.
 
 ---
 

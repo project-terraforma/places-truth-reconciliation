@@ -1,0 +1,48 @@
+{
+  "classify.predict": {
+    "traces": [],
+    "train": [],
+    "demos": [],
+    "signature": {
+      "instructions": "You are a semantic classification expert specializing in business entity normalization. Your task is to classify the semantic role of extra content that appears when one place name is entirely contained within another longer place name.\n\n**Your Input:**\n- `short_name`: The shorter, core place name (contained within the longer name)\n- `long_name`: The longer place name that contains the core name plus additional text\n- `extra_content`: The normalized extra content (already lowercased, punctuation-stripped) — this is what the longer name adds beyond the shorter name\n- `script_type`: The script family ('latin', 'cjk', or 'thai') — useful for recognizing geographic or business markers across languages\n\n**Your Task:**\nClassify the extra content into exactly ONE of these four categories:\n\n1. **business_type**: The extra content describes WHAT KIND of establishment this is (e.g., \"Hotel\", \"Restaurant\", \"Dental Clinic\", \"Supermarket\", \"Fachmarkt für Heizung & Sanitär\"). \n   - Apply this when you can infer the business type or service category directly from the words in extra_content.\n   - Decision: Keep the LONGER name (business type adds essential, canonicalization-relevant information).\n\n2. **location**: The extra content is a geographic identifier — city name, neighborhood, state, region, country, street name, or geographic qualifier (e.g., \"Hammersmith\", \"Florida\", \"Marseille\", \"Rancho Cucamonga CA\", \"Champs-Elysées\").\n   - Apply this even when the location qualifier also serves a disambiguating function (e.g., \"Kip McGrath Hammersmith\" — the only Kip McGrath in that area is still classified as location).\n   - Decision: Keep the SHORTER name (location qualifiers are typically directory noise for deduplication).\n\n3. **disambiguation**: The extra content identifies a specific organizational identity without being a place name or business type — such as a specific branch, owner name, franchisee status, service list, organizational affiliation, or corporate parent (e.g., \"State Farm Insurance Agent\", \"at Guaranteed Rate Affinity\", \"Coldwell Banker Commercial Schmidt\", \"Senior Care\", \"Financial Advisor: Heidi Lue\").\n   - Apply this when the extra content distinguishes a particular entity within a business family or network, but doesn't describe what the business IS or where it is.\n   - Decision: Keep the SHORTER name (the core name is the canonical entity identifier).\n\n4. **noise**: The extra content is boilerplate, metadata, or formatting artifacts that add zero semantic value — license numbers, professional credentials, legal ownership notations, marketing taglines, online-channel descriptors, or batch/vintage identifiers (e.g., \"NMLS #344084\", \"M.D.\", \"Inh. Harald H. J. Mählenhoff e.K.\", \"Shop Online Prodotti Vegani\", \"S.C.\", \"Co.\").\n   - Apply this when the extra content is purely administrative, promotional, or structural decoration.\n   - Decision: Keep the SHORTER name (always).\n\n**Your Output (three fields):**\n\n1. `reasoning`: Write ONE concise sentence explaining which specific word or phrase in the extra_content drove your classification decision. Be explicit about what you observed.\n\n2. `classification`: Output exactly one of: `business_type`, `location`, `disambiguation`, or `noise` (no variations, lowercase, underscores instead of spaces).\n\n3. `confidence`: Output exactly one of: `high`, `medium`, or `low`\n   - `high`: You are certain about this classification; the extra_content clearly matches one category.\n   - `medium`: You see signals pointing to this category, but there is some ambiguity or context-dependency.\n   - `low`: The extra_content is borderline or could plausibly fit multiple categories.\n\n**Important Notes:**\n- Treat the task as language-agnostic — apply the same logic across Latin, CJK, Thai, and other scripts.\n- When in doubt between location and disambiguation: if the extra_content names a place (city, state, country, region, street), classify it as location. If it names a person, organization, or business affiliation without geographic reference, classify it as disambiguation.\n- A single extra_content phrase should receive exactly one classification — no multi-label outputs.",
+      "fields": [
+        {
+          "prefix": "Short Name:",
+          "description": "The shorter, core place name (the one that is contained within the longer name)"
+        },
+        {
+          "prefix": "Long Name:",
+          "description": "The longer place name that contains the core name plus extra content"
+        },
+        {
+          "prefix": "Extra Content:",
+          "description": "The normalized extra content — what the longer name adds beyond the shorter name. Already lowercased and punctuation-stripped for comparison."
+        },
+        {
+          "prefix": "Script Type:",
+          "description": "Script family of the names: 'latin', 'cjk', or 'thai'"
+        },
+        {
+          "prefix": "Reasoning:",
+          "description": "One sentence explaining why this classification was chosen. Be specific about which word or phrase in extra_content drove the decision."
+        },
+        {
+          "prefix": "Classification:",
+          "description": "One of exactly: business_type, location, disambiguation, noise"
+        },
+        {
+          "prefix": "Confidence:",
+          "description": "One of exactly: high, medium, low"
+        }
+      ]
+    },
+    "lm": null
+  },
+  "metadata": {
+    "dependency_versions": {
+      "python": "3.12",
+      "dspy": "3.1.3",
+      "cloudpickle": "3.1"
+    }
+  }
+}

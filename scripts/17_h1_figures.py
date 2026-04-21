@@ -43,9 +43,9 @@ C = {
 #   "—" → None  |  ‡ = clean re-run
 data = {
     #  model           zeroshot  haiku_v1  haiku_v3  own_greedy  own_random  mipro
-    "Phi-3 Mini\n3.8B":  [None,    86.9,     83.6,     79.5,       None,       None],
+    "Phi-3 Mini\n3.8B":  [None,    86.9,     83.6,     79.5,       81.1,       87.7],
     "Mistral-7B":         [None,    87.7,     86.1,     91.8,       89.3,       88.5],
-    "Llama-3.1-8B":       [None,    None,     86.1,     86.1,       None,       None],
+    "Llama-3.1-8B":       [None,    90.2,     86.1,     86.1,       88.5,       86.9],
     "Qwen-2.5-7B":        [None,    86.9,     90.2,     87.7,       86.1,       89.3],
     "Qwen-2.5-14B":       [93.4,    93.4,     None,     93.4,       None,       None],
     "Haiku\n(API)":       [95.9,    95.1,     96.7,     None,       94.3,       None],
@@ -80,7 +80,7 @@ ax.set_title("H1 Selection Accuracy — All Models × Prompt Strategies\n"
              "(binary metric: correct recommendation to keep longer or shorter name)",
              fontsize=11, pad=10)
 ax.axhline(79.5,  color=C["rule"],     linewidth=1.2, linestyle="--", alpha=0.7, label="Rule baseline (79.5%)", zorder=2)
-ax.axhline(95.0,  color=C["ensemble"], linewidth=1.2, linestyle="--", alpha=0.7, label="Ensemble majority (95.0%)", zorder=2)
+ax.axhline(95.9,  color=C["ensemble"], linewidth=1.2, linestyle="--", alpha=0.7, label="Ensemble majority (95.9%)", zorder=2)
 ax.spines["top"].set_visible(False)
 ax.spines["right"].set_visible(False)
 ax.set_facecolor(C["bg"])
@@ -90,7 +90,7 @@ fig.patch.set_facecolor("white")
 patches = [mpatches.Patch(color=c, label=a.replace("\n", " "))
            for a, c in zip(approaches, colors_app)]
 patches += [plt.Line2D([0], [0], color=C["rule"],     linestyle="--", linewidth=1.5, label="Rule baseline (79.5%)"),
-            plt.Line2D([0], [0], color=C["ensemble"], linestyle="--", linewidth=1.5, label="4-model ensemble (95.0%)")]
+            plt.Line2D([0], [0], color=C["ensemble"], linestyle="--", linewidth=1.5, label="4-model ensemble (95.9%)")]
 ax.legend(handles=patches, fontsize=7.5, ncol=4, loc="lower right",
           framealpha=0.9, edgecolor="#ddd")
 
@@ -159,9 +159,9 @@ print(f"Saved: {out}")
 # ─────────────────────────────────────────────────────────────────────────────
 
 ensemble_steps = [
-    ("Best individual\n(Qwen-2.5-14B)", 93.4,  122, "#3498db"),
-    ("4-model\nmajority vote",          95.0,  122, "#2ecc71"),
-    ("≥3/4 agreement\n(82% coverage)",  98.0,   99, "#e74c3c"),
+    ("Best individual\n(Qwen-2.5-14B)", 93.4,  121, "#3498db"),
+    ("4-model\nmajority vote",          95.9,  121, "#2ecc71"),
+    ("≥3/4 agreement\n(89% coverage)",  98.1,  108, "#e74c3c"),
 ]
 
 fig, ax = plt.subplots(figsize=(6.5, 3.8))
@@ -189,8 +189,8 @@ fig.patch.set_facecolor("white")
 ax.legend(fontsize=9, loc="upper left")
 
 # Annotation: routing implication
-ax.annotate("18% abstained;\nroute to stronger model",
-            xy=(2, 98.0), xytext=(2.35, 94),
+ax.annotate("11% abstained;\nroute to stronger model",
+            xy=(2, 98.1), xytext=(2.35, 94),
             fontsize=8, color="#555",
             arrowprops=dict(arrowstyle="->", color="#999", lw=1.0))
 

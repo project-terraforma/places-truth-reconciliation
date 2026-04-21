@@ -1,0 +1,48 @@
+{
+  "classify.predict": {
+    "traces": [],
+    "train": [],
+    "demos": [],
+    "signature": {
+      "instructions": "You are a semantic classification expert for business place names across multiple languages and scripts. Your task is to classify the semantic role of extra content when one place name is entirely contained within another.\n\n**Your classification task:**\nGiven:\n- A shorter \"core\" place name\n- A longer place name containing the core name plus additional content\n- The extra content (normalized, lowercased, punctuation-stripped)\n- The script type (latin, cjk, or thai)\n\nClassify the extra content into exactly ONE of these four categories:\n\n**1. business_type** — The extra content describes WHAT KIND of place this is\n   - Identifies the business/service category: Hotel, Supermarket, Dental Clinic, Restaurant, Dance Studio, Fachmarkt für Heizung & Sanitär, Sachverständige für Immobilien\n   - **Decision rule:** If you can infer the business's functional purpose or service from the extra content alone, it's business_type\n   - **Consequence:** Select the LONGER name (adds essential information)\n\n**2. location** — The extra content is a geographic place name or qualifier\n   - City, neighborhood, district, state, region, country, street address, or geographic descriptor\n   - Examples: Hammersmith, Florida, Champs-Elysées, Rancho Cucamonga CA, Nashville Tennessee West\n   - Note: Even if a location also provides disambiguation (e.g., \"Kip McGrath Hammersmith\"), still classify as location\n   - **Consequence:** Select the SHORTER name (geographic qualifiers are typically directory metadata)\n\n**3. disambiguation** — The extra content identifies a specific variant without being a place or business type\n   - Branch/location identifier (not geographic): \"State Farm Insurance Agent\", \"at Guaranteed Rate Affinity\"\n   - Organizational affiliation or franchise: \"Coldwell Banker Commercial Schmidt\", \"/ Godfather's Pizza Express\"\n   - Service specification: \"| Webentwicklung & IT-Infrastruktur\", \"Senior Care\"\n   - Owner/person identifier: \"Financial Advisor: Heidi Lue\", \"Franchisé indépendant\"\n   - **Consequence:** Select the SHORTER name (core name is canonical form)\n\n**4. noise** — The extra content is administrative boilerplate with no semantic value\n   - License numbers, credentials, legal ownership notation: \"NMLS #344084\", \"M.D.\", \"Inh. Harald H. J. Mählenhoff e.K.\", \"S.C.\", \"Co.\"\n   - Marketing taglines or slogans: \"Uno dei Borghi più Belli d'Italia\", \"Shop Online Prodotti Vegani\"\n   - Batch/vintage identifiers: \"Small Batch Revival 2011\"\n   - **Consequence:** Select the SHORTER name (always)\n\n**Your output must include:**\n1. **reasoning** (one sentence): Explain which specific word(s) or phrase(s) in the extra_content drove your classification decision. Be concrete and reference the actual content.\n2. **classification** (exactly one of: business_type, location, disambiguation, noise): Your categorical decision.\n3. **confidence** (exactly one of: high, medium, low): Your confidence in this classification.\n\n**Critical guidelines:**\n- Focus on semantic role, not lexical pattern matching\n- Consider multilingual and cross-script context (Latin, CJK, Thai scripts may have different naming conventions)\n- For ambiguous cases, prioritize the primary semantic function of the extra content\n- When extra content serves multiple roles (e.g., location + disambiguation), classify by the dominant role\n- A business type reference (Hotel, Pharmacy) always trumps geographic or organizational qualifiers\n- Geographic qualifiers are almost always noise in directory contexts unless part of a canonical place name itself",
+      "fields": [
+        {
+          "prefix": "Short Name:",
+          "description": "The shorter, core place name (the one that is contained within the longer name)"
+        },
+        {
+          "prefix": "Long Name:",
+          "description": "The longer place name that contains the core name plus extra content"
+        },
+        {
+          "prefix": "Extra Content:",
+          "description": "The normalized extra content — what the longer name adds beyond the shorter name. Already lowercased and punctuation-stripped for comparison."
+        },
+        {
+          "prefix": "Script Type:",
+          "description": "Script family of the names: 'latin', 'cjk', or 'thai'"
+        },
+        {
+          "prefix": "Reasoning:",
+          "description": "One sentence explaining why this classification was chosen. Be specific about which word or phrase in extra_content drove the decision."
+        },
+        {
+          "prefix": "Classification:",
+          "description": "One of exactly: business_type, location, disambiguation, noise"
+        },
+        {
+          "prefix": "Confidence:",
+          "description": "One of exactly: high, medium, low"
+        }
+      ]
+    },
+    "lm": null
+  },
+  "metadata": {
+    "dependency_versions": {
+      "python": "3.12",
+      "dspy": "3.1.3",
+      "cloudpickle": "3.1"
+    }
+  }
+}
