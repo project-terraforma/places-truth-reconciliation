@@ -1676,10 +1676,7 @@ errors in all three models**. These are the irreducible hard cases:
 | `state farm insurance agent` | Craig Bagley → Craig Bagley - State Farm Insurance Agent | Simultaneously identifies an affiliation (State Farm) AND a job title that describes what the business IS (insurance agent); mixed signal |
 | `carsten nessler sachverstandige fur immobilien` | ImmoWert Hessen → …Carsten Nessler Sachverständige für Immobilien | Person name embedded within a business type (certified real estate appraiser); person-name signal overrides business-type signal |
 
-All three are debatable labels. For `natatorium` and `state farm insurance agent`,
-the model's call of `disambiguation` is a reasonable interpretation — a natatorium
-is a specific facility within a school, and an insurance agent identifies Craig
-Bagley's role within State Farm. These may warrant reclassification.
+The `natatorium` label is debatable — a natatorium is a specific facility within a school and the model's disambiguation call is a reasonable interpretation that may warrant reclassification. The other two are confirmed errors: external verification establishes that `Craig Bagley - State Farm Insurance Agent` and `ImmoWert Hessen Carsten Nessler Sachverständige für Immobilien` are the correct canonical names.
 
 **Cases where local SLMs fail but Haiku succeeds** (the 2–9 point gap in practice):
 most are non-English business types — `saude` (Portuguese: health), `estacionamento`
@@ -1967,7 +1964,7 @@ These are the rows where the model would produce the wrong canonical name:
 | Error type | Extra content | Short name | Long name | Model's reasoning |
 |-----------|---------------|-----------|-----------|------------------|
 | `business_type→disambiguation` | `natatorium` | Clarkston High School | Clarkston High School Natatorium | Model: "specific facility or building type" but still predicted disambiguation — internally inconsistent |
-| `business_type→disambiguation` | `state farm insurance agent` | Craig Bagley | Craig Bagley - State Farm Insurance Agent | Model: "identifies organizational affiliation" — valid reading; insurance agent also describes what Craig Bagley IS |
+| `business_type→disambiguation` | `state farm insurance agent` | Craig Bagley | Craig Bagley - State Farm Insurance Agent | Model: "identifies organizational affiliation" — external verification confirms the longer name is canonical; the disambiguation prediction is wrong |
 | `business_type→disambiguation` | `carsten nessler sachverstandige fur immobilien` | ImmoWert Hessen | ImmoWert Hessen Carsten Nessler Sachverständige für Immobilien | Extra contains both a person's name (noise/disambiguation) and a business type (appraiser) — mixed signal |
 | `disambiguation→business_type` | `financial` | Andy Allain - Thrivent | Andy Allain - Thrivent Financial | "Financial" as standalone word; model reads as business type; Thrivent Financial is the company name |
 | `business_type→location` | `black mamba barbershop tattoo nezahualcoyotl` | Black Mamba Barber Shop | Black Mamba Barbershop & Tattoo \| Nezahualcóyotl | Extra contains both a business type (barbershop) AND a city name; location signal dominated |
@@ -2505,7 +2502,7 @@ rule-based or selection-only approaches. Key findings:
 
 1. **Human verification of proposed ideal names.** The `ideal_constructed_name` column in `h4_construction_candidates.csv` was proposed during analysis and has not been independently verified against external ground truth. Before using exact-match accuracy as a benchmark, each proposed ideal should be confirmed against authoritative sources (brand websites, registry listings, maps).
 
-2. **Business type + affiliation fused** (e.g. `Craig Bagley` vs `Craig Bagley - State Farm Insurance Agent`): affiliation should be dropped, job title kept. Currently an H1 selection error; correct handling is H4.
+2. **Business type + affiliation fused** (e.g. `George McFaden` vs `George McFaden at Guaranteed Rate Affinity - NMLS #344084`): affiliation should be kept, regulatory noise stripped. Currently an H1 selection error; correct handling is H4. Note: `Craig Bagley - State Farm Insurance Agent` is NOT this subtype — external verification confirms the full long name is the canonical business name; the model's disambiguation prediction is simply wrong.
 
 3. **Business type + personal name fused** (e.g. `ImmoWert Hessen` vs `ImmoWert Hessen Carsten Nessler Sachverständige für Immobilien`): personal name overrides the business-type signal for H1. Correct constructed name strips the person, keeps the type.
 
