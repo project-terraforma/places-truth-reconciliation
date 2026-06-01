@@ -23,7 +23,7 @@ import pandas as pd
 # Best-run file for each model (file, label)
 MODEL_FILES = {
     "Mistral-7B":     "../analysis/names/dspy_own_mistral.csv",           # own greedy 91.8% sel
-    "Llama-3.1-8B":   "../analysis/names/dspy_h1_v3_llama3.1_8b.csv",     # haiku v3  89.3% sel
+    "Llama-3.1-8B":   "../analysis/names/dspy_h1_v3_llama3.1_8b.csv",     # haiku v3  90.1% sel (best for ensemble diversity)
     "Qwen-2.5-7B":    "../analysis/names/dspy_h1_v3_qwen2.5_7b.csv",      # haiku v3  92.6% sel
     "Qwen-2.5-14B":   "../analysis/names/dspy_own_qwen2.5_14b.csv",        # own greedy 93.4% sel
 }

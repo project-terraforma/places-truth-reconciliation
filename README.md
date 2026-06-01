@@ -1577,12 +1577,12 @@ Groq results removed — 44–61% structured output parse failures; Llama-3.1-8B
 | Model | Params | Cost | Best prompt | Selection acc | Rows/min | Avg latency | Parse errors |
 |-------|--------|------|------------|--------------|----------|-------------|-------------|
 | Phi-3 Mini (Ollama) | **3.8B** | free | v1 (Haiku greedy) | 86.9% | 19.7 | 3.05s | 0% |
-| Llama-3.1-8B (Ollama) | 8B | free | v3 clean (Haiku random search)† | 86.1% | 10.9 | 5.51s | 0% |
+| Llama-3.1-8B (Ollama) | 8B | free | v1 (Haiku greedy) | 90.2% | 10.9 | 5.51s | 0% |
 | Mistral-7B (Ollama) | 7B | free | own-optimized (greedy) | 91.8% | 15.8 | 3.80s | 0% |
 | Qwen-2.5-7B (Ollama) | 7B | free | v3 clean (Haiku random search)† | 90.2% | 19.5 | 3.08s | 0% |
 | Qwen-2.5-14B (Ollama) | 14B | free | own-optimized (greedy) | **93.4%** | 11.2 | 5.35s | 0% |
-| 4-model ensemble — majority vote | 7–14B | free | per-model best | 95.9% | — | — | 0% |
-| 4-model ensemble — routed (≥3/4 agree) | 7–14B | free | per-model best | **98.1%** (89% coverage) | — | — | 0% |
+| 4-model ensemble — majority vote | 7–14B | free | per-model best | 95.0% | — | — | 0% |
+| 4-model ensemble — routed (≥3/4 agree) | 7–14B | free | per-model best | **98.0%** (82% coverage) | — | — | 0% |
 | Claude Haiku | — | ~$0.001/row | zero-shot | 95.9% | — | — | 0% |
 | Claude Haiku | — | ~$0.001/row | v3 clean (random search)† | **96.7%** | — | — | 0% |
 
@@ -1592,7 +1592,7 @@ varies with network and batch size and is not comparable to local inference. Ens
 throughput omitted — depends on parallelism; with 4 models running in parallel, wall-clock
 time matches the slowest individual model (~5.35s/row for Qwen-2.5-14B).
 
-**Confidence note:** With 122 eval rows the approximate 95% CI on any selection accuracy
+**Confidence note:** With 121 eval rows the approximate 95% CI on any selection accuracy
 figure is ±4–5 percentage points. Differences smaller than ~5pt between models are within
 noise and should not be interpreted as a reliable ranking. See Evaluation Limitations below.
 
@@ -1802,18 +1802,19 @@ where both labels map to "keep shorter."
    confidence is not.**
 
    A 4-model ensemble (Mistral-7B, Llama-3.1-8B, Qwen-2.5-7B, Qwen-2.5-14B) achieves
-   **95.9% selection accuracy** on majority vote — exceeding every individual local model.
-   Each model contributes its best configuration (Mistral: own greedy; Llama: Haiku v1;
-   Qwen-2.5-7B: Haiku v3 clean; Qwen-2.5-14B: zero-shot).
-   Requiring ≥3/4 agreement raises this to **98.1% selection accuracy on 89% of rows** (108/121),
-   with the remaining 12 rows routed to a stronger fallback (Haiku, manual review, or
+   **95.0% selection accuracy** on majority vote — exceeding every individual local model.
+   Each model contributes its best configuration for ensemble diversity (Mistral: own greedy;
+   Llama: Haiku v3; Qwen-2.5-7B: Haiku v3; Qwen-2.5-14B: own greedy).
+   Requiring ≥3/4 agreement raises this to **98.0% selection accuracy on 82% of rows** (99/121),
+   with the remaining 18% routed to a stronger fallback (Haiku, manual review, or
    rules). Vote agreement distribution:
 
    | Agreement | Rows | Coverage | Selection accuracy |
    |-----------|------|----------|--------------------|
-   | 4/4 | 83 | 69% | 98.8% |
-   | 3/4 | 25 | 21% | 96.0% |
-   | 2/4 (abstain) | 12 | 10% | 75.0% |
+   | 4/4 | 76 | 63% | 100.0% |
+   | 3/4 | 23 | 19% | 91.3% |
+   | 2/4 (abstain) | 20 | 17% | 85.0% |
+   | 1/4 (abstain) | 2 | 2% | 50.0% |
 
    The ensemble agreement count is a reliable proxy for difficulty: unanimous predictions
    are always correct on selection; split predictions (≤2/4) produce errors 25–50% of the
@@ -2155,12 +2156,12 @@ The H1 results support five claims:
    sub-classifier or abstention, not a stronger LLM.
 
 4. **Ensemble disagreement is a reliable routing signal.** The 4-model majority vote
-   reaches 95.9% selection accuracy. More importantly, requiring ≥3/4 agreement yields
-   98.1% on the 89% of rows where models concur — and identifies the remaining 11% as
+   reaches 95.0% selection accuracy. More importantly, requiring ≥3/4 agreement yields
+   98.0% on the 82% of rows where models concur — and identifies the remaining 18% as
    genuinely uncertain, warranting escalation to a hosted model or human review. This is
    more useful than a single high-accuracy model: disagreement carries information.
 
-5. **Prompt optimization shows diminishing returns at 122-row eval scale.** Greedy
+5. **Prompt optimization shows diminishing returns at 121-row eval scale.** Greedy
    bootstrap improves Mistral-7B (+4.1pt over cross-model demos). Random search with a
    clean val/test split adds marginal further gains for 7B models but not reliably — the
    eval set is too small to distinguish better demo sets from sampling noise. A 300–500
@@ -2184,8 +2185,8 @@ The H1 results support five claims:
 > We show that small open-weights models running locally for free are sufficient for this
 > task. Five models (3.8B–14B parameters) achieve 86–92% selection accuracy via DSPy —
 > a 7–14 point improvement over a blind vocabulary rule set (79.5%) — with zero
-> structured-output failures. A 4-model local ensemble reaches 95.9%; requiring ≥3/4
-> agreement raises this to 98.1% on 89% of rows, with disagreement as a reliable signal
+> structured-output failures. A 4-model local ensemble reaches 95.0%; requiring ≥3/4
+> agreement raises this to 98.0% on 82% of rows, with disagreement as a reliable signal
 > to escalate to a stronger model. A 1.55% subset of cases requires name *construction*
 > rather than selection — neither the long nor short name is canonical — and a two-stage
 > generative pipeline achieves 100% faithfulness and 74% exact match against
