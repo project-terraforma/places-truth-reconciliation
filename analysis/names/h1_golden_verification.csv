@@ -139,130 +139,130 @@ St Michaels Church of England Infant School,St Michael's Church of England Infan
 Innovent GmbH,Innovent GmbH Greifswald,greifswald,location,Innovent GmbH,Greifswald,Baustraße 32,Baustr. 32,,,,,
 Victoria coiffure,Victoria Coiffure Florissant,florissant,location,Victoria coiffure,Genève,Route de Florissant 62,Route de Florissant 62,Victoria coiffure,shorter,yes,,Check w/ Sri
 Hollyhock Hill,Hollyhock Hill Restaurant,restaurant,business_type,Hollyhock Hill Restaurant,Indianapolis,8110 N College Ave,8110 N College Ave,Hollyhock Hill,shorter,no,,Check w/ Sri
-En-spire Nutrition,En-spire Nutrition Centennial,centennial,location,En-spire Nutrition,Centennial,8168 S Holly St,8168 S Holly St Ste B,,,,,
+En-spire Nutrition,En-spire Nutrition Centennial,centennial,location,En-spire Nutrition,Centennial,8168 S Holly St,8168 S Holly St Ste B,En-spire Nutrition,shorter,yes,,Check w/ Sri
 Clarkston High School,Clarkston High School Natatorium,natatorium,business_type,Clarkston High School Natatorium,Clarkston,6093 Flemings Lake Rd,6093 Fleming Lake Rd,Clarkston High School Natatorium,longer,yes,,Check w/ Sri
-The Breakwater,The Breakwater Apartments,apartments,business_type,The Breakwater Apartments,Huntington Beach,16761 Viewpoint Ln,16761 Viewpoint Ln,,,,,
-Presto! ATM,Presto! ATM at Publix®,at publix,disambiguation,Presto! ATM,Lakeland,1617 US Hwy 98 S,1617 Bartow Rd,,,,,
-AdventHealth Medical Group Primary Care,AdventHealth Medical Group Primary Care at Brandon,at brandon,location,AdventHealth Medical Group Primary Care,Brandon,428 W Brandon Blvd,428 W Brandon Blvd,,,,,
-Doctors Care,Doctors Care - Bluffton,bluffton,location,Doctors Care,Bluffton,64 Bluffton Rd,64 Bluffton Rd,,,,,
-United Promotions Inc,United Promotions Inc. Photo Lab,photo lab,business_type,United Promotions Inc. Photo Lab,Charlotte,433 Lawton Rd,433 Lawton Rd,,,,,
-Mint House Greenville,Mint House Greenville - West End,west end,location,Mint House Greenville,Greenville,366 Field St,366 Field St,,,,,
+The Breakwater,The Breakwater Apartments,apartments,business_type,The Breakwater Apartments,Huntington Beach,16761 Viewpoint Ln,16761 Viewpoint Ln,The Breakwater Apartments,longer,yes,"Brand website, Yelp","Check w/ Sri, place type labels?, not Yelp, not Zillow, not Apartments.com"
+Presto! ATM,Presto! ATM at Publix®,at publix,disambiguation,Presto! ATM,Lakeland,1617 US Hwy 98 S,1617 Bartow Rd,Presto! ATM,shorter,yes,"Brand website, Google Maps",
+AdventHealth Medical Group Primary Care,AdventHealth Medical Group Primary Care at Brandon,at brandon,location,AdventHealth Medical Group Primary Care,Brandon,428 W Brandon Blvd,428 W Brandon Blvd,AdventHealth Medical Group Primary Care,shorter,yes,,Check w/ Sri
+Doctors Care,Doctors Care - Bluffton,bluffton,location,Doctors Care,Bluffton,64 Bluffton Rd,64 Bluffton Rd,Doctors Care,shorter,yes,"Google Maps, Mapquest",Name change
+United Promotions Inc,United Promotions Inc. Photo Lab,photo lab,business_type,United Promotions Inc. Photo Lab,Charlotte,433 Lawton Rd,433 Lawton Rd,United Promotions Inc,shorter,no,"Brand website, FaceBook, Instagram, Google Maps, Yelp","Check w/ Sri, place type labels?"
+Mint House Greenville,Mint House Greenville - West End,west end,location,Mint House Greenville,Greenville,366 Field St,366 Field St,Mint House Greenville,shorter,yes,"Brand website, Google Maps","Permanently closed, new name/location"
 Circo Rolex,Circo Rolex los Mochis,los mochis,location,Circo Rolex,,,,,,,,
-Florería Rosa Pastel,Florería Rosa Pastel P. Peñasco,p penasco,location,Florería Rosa Pastel,Puerto Peñasco,"Calle Constitución, De la Reforma,",avenida Constitución,,,,,
-Suspensiones México,Suspensiones México Semi Nuevo,semi nuevo,business_type,Suspensiones México Semi Nuevo,Puebla,Avenida Reforma Sur 2512,Av. Reforma,,,,,
-Servicio Condesa de Zacatecas,Servicio Condesa de Zacatecas Est. 13915,est 13915,noise,Servicio Condesa de Zacatecas,Tlalnepantla de Baz,Avenida Santa Rosa 3,Av. Santa Rosa 1,,,,,
+Florería Rosa Pastel,Florería Rosa Pastel P. Peñasco,p penasco,location,Florería Rosa Pastel,Puerto Peñasco,"Calle Constitución, De la Reforma,",avenida Constitución,Florería Rosa Pastel,shorter,yes,Google Maps,
+Suspensiones México,Suspensiones México Semi Nuevo,semi nuevo,business_type,Suspensiones México Semi Nuevo,Puebla,Avenida Reforma Sur 2512,Av. Reforma,Suspensiones México,shorter,no,"Brand website, Google Maps","Notable example, good example, bad example, edge case"
+Servicio Condesa de Zacatecas,Servicio Condesa de Zacatecas Est. 13915,est 13915,noise,Servicio Condesa de Zacatecas,Tlalnepantla de Baz,Avenida Santa Rosa 3,Av. Santa Rosa 1,Servicio Condesa de Zacatecas,shorter,yes,Brand website,
 PT. Bayu Maritim Berkah,PT. Bayu Maritim Berkah - Offshore,offshore,business_type,PT. Bayu Maritim Berkah - Offshore,Jakarta,"21, Jalan Tambak",Jalan Tambak No. 21A-B,,,,,
-Recolast Ambiental,Recolast Ambiental Engenharia,engenharia,business_type,Recolast Ambiental Engenharia,Guarulhos,"Rua São Paulo de Oliveira, 587","Rua do Gaivota Preta, 201",,,,,
-The Fairways at San Marcos,The Fairways at San Marcos Apartments,apartments,business_type,The Fairways at San Marcos Apartments,Chandler,777 W Chandler Blvd,777 W Chandler Blvd,,,,,
+Recolast Ambiental,Recolast Ambiental Engenharia,engenharia,business_type,Recolast Ambiental Engenharia,Guarulhos,"Rua São Paulo de Oliveira, 587","Rua do Gaivota Preta, 201",Recolast Ambiental,shorter,no,,"Check w/ Sri, place type labels?"
+The Fairways at San Marcos,The Fairways at San Marcos Apartments,apartments,business_type,The Fairways at San Marcos Apartments,Chandler,777 W Chandler Blvd,777 W Chandler Blvd,The Fairways at San Marcos Apartments,longer,yes,"Brand website, Google Maps",
 Abbington Landing,Abbington Landing Apartments,apartments,business_type,Abbington Landing Apartments,Newport News,961 Marcus Dr,961 Marcus Dr,,,,,
-Mail Boxes Etc,Mail Boxes Etc. Greenwich,greenwich,location,Mail Boxes Etc,London,151 Trafalgar Rd,151 Trafalgar Rd,,,,,
-Elk River Medical,Elk River Medical Associates,associates,business_type,Elk River Medical Associates,Banner Elk,150 Park Ave,150 Park Ave,,,,,
-Fossil Store,"Fossil Store, Markville",markville,location,Fossil Store,Markham,5000 Highway 7 East,"5000 Highway 7 East, #2125",,,,,
-Työväen Akatemia,Työväen Akatemian kirjasto,n kirjasto,business_type,Työväen Akatemian kirjasto,Kauniainen,Vanha Turuntie 14,Vanha Turuntie 14,,,,,
-le buzz,Le Buzz Sportsbar,sportsbar,business_type,Le Buzz Sportsbar,Calais,45 Rue Royale,45 rue Royale,,,,,
-Auto Klinika d.o.o.,Auto Klinika doo Arandjelovac,arandjelovac,location,Auto Klinika d.o.o.,Aranđelovac,Vozda Karadjordja 97,Улица Вожда Карађорђа 97,,,,,
-Die Goldschmiede,"Die Goldschmiede, Kaufmann",kaufmann,disambiguation,Die Goldschmiede,Lübbecke,Scharrnstraße 4,Lange Str. 31,,,,,
-Möbel Martin,Möbel Martin GmbH & Co,gmbh co,noise,Möbel Martin,Bexbach,Gewerbering 1,Gewerbering 0,,,,,
-Ewald Scheler,Ewald Scheler Bohrfirma,bohrfirma,business_type,Ewald Scheler Bohrfirma,Coburg,Pommernstr. 6,Pommernstr.  6,,,,,
+Mail Boxes Etc,Mail Boxes Etc. Greenwich,greenwich,location,Mail Boxes Etc,London,151 Trafalgar Rd,151 Trafalgar Rd,Mail Boxes Etc,shorter,yes,,Check w/ Sri
+Elk River Medical,Elk River Medical Associates,associates,business_type,Elk River Medical Associates,Banner Elk,150 Park Ave,150 Park Ave,Elk River Medical,shorter,no,"Brand website, Google Maps","Check w/ Sri, Notable example, good example, bad example, edge case, not facebook, no yelp, not webmd"
+Fossil Store,"Fossil Store, Markville",markville,location,Fossil Store,Markham,5000 Highway 7 East,"5000 Highway 7 East, #2125",Fossil Store,shorter,yes,"Brand website, Yelp, MapQuest",Permanently closed
+Työväen Akatemia,Työväen Akatemian kirjasto,n kirjasto,business_type,Työväen Akatemian kirjasto,Kauniainen,Vanha Turuntie 14,Vanha Turuntie 14,Työväen Akatemia,shorter,no,"Brand website, FaceBook, Instagram, Google Maps","Notable example, good example, bad example, edge case"
+le buzz,Le Buzz Sportsbar,sportsbar,business_type,Le Buzz Sportsbar,Calais,45 Rue Royale,45 rue Royale,Le Buzz Sportsbar,longer,yes,"Instagram, MapQuest, FaceBook, TripAdvisor, Calais-Guide.co.uk,",Permanently closed
+Auto Klinika d.o.o.,Auto Klinika doo Arandjelovac,arandjelovac,location,Auto Klinika d.o.o.,Aranđelovac,Vozda Karadjordja 97,Улица Вожда Карађорђа 97,Auto Klinika d.o.o.,shorter,yes,"Brand website, Google Maps",
+Die Goldschmiede,"Die Goldschmiede, Kaufmann",kaufmann,disambiguation,Die Goldschmiede,Lübbecke,Scharrnstraße 4,Lange Str. 31,Die Goldschmiede,shorter,yes,"Brand website, Google Maps",
+Möbel Martin,Möbel Martin GmbH & Co,gmbh co,noise,Möbel Martin,Bexbach,Gewerbering 1,Gewerbering 0,,,,,"Check w/ Sri, hardcoded"
+Ewald Scheler,Ewald Scheler Bohrfirma,bohrfirma,business_type,Ewald Scheler Bohrfirma,Coburg,Pommernstr. 6,Pommernstr.  6,Ewald Scheler Bohrfirma,longer,yes,"Brand website, Google Maps",
 CSL Plasma,CSL Plasma Frankfurt,frankfurt,location,CSL Plasma,Frankfurt am Main,Stiftstraße 9,Stiftstraße 9-17,CSL Plasma,shorter,yes,Brand website,"Check w/ Sri, not Facebook"
-American Printing,American Printing Unlimited,unlimited,disambiguation,American Printing,Easton,201 Northampton St,102 Northampton Street,,,,,
+American Printing,American Printing Unlimited,unlimited,disambiguation,American Printing,Easton,201 Northampton St,102 Northampton Street,American Printing Unlimited,longer,no,"Brand website, Google Maps",
 Charleston Civic Center,Charleston Civic Center Ice Arena,ice arena,business_type,Charleston Civic Center Ice Arena,Charleston,200 Civic Center Dr,200 Civic Center Dr,,,,,
-POLE DANCE AVEC MOI,Pole Dance avec Moi Marseille,marseille,location,POLE DANCE AVEC MOI,Marseille,207 Route des Trois Lucs à la Valentine,207 Route des Trois Lucs à la Valentine,,,,,
-Andy Allain - Thrivent,Andy Allain - Thrivent Financial,financial,business_type,Andy Allain - Thrivent Financial,Slidell,2594 Front St,2594 Front St,,,,,
-Austin Lone Star,Austin Lone Star RV Resort,rv resort,business_type,Austin Lone Star RV Resort,Austin,7009 S Interstate 35,7009 S I-35,,,,,
-Vape Haus,Vape Haus Queretaro,queretaro,location,Vape Haus,Santiago de Querétaro,Calle Salvador Galván 47,Salvador Galván 20,,,,,
+POLE DANCE AVEC MOI,Pole Dance avec Moi Marseille,marseille,location,POLE DANCE AVEC MOI,Marseille,207 Route des Trois Lucs à la Valentine,207 Route des Trois Lucs à la Valentine,,,,,"Check w/ Sri, very mismatched"
+Andy Allain - Thrivent,Andy Allain - Thrivent Financial,financial,business_type,Andy Allain - Thrivent Financial,Slidell,2594 Front St,2594 Front St,,,,,"Check w/ Sri, place type labels?"
+Austin Lone Star,Austin Lone Star RV Resort,rv resort,business_type,Austin Lone Star RV Resort,Austin,7009 S Interstate 35,7009 S I-35,,,,,"Check w/ Sri, edge case, notable case"
+Vape Haus,Vape Haus Queretaro,queretaro,location,Vape Haus,Santiago de Querétaro,Calle Salvador Galván 47,Salvador Galván 20,Vape Haus,shorter,yes,"Yelp, Instagram",
 La gran carpa,La Gran Carpa del Chavo,del chavo,disambiguation,La gran carpa,,,,,,,,
-Sai Ram Tiffins,Sai Ram Tiffins and Meals,and meals,business_type,Sai Ram Tiffins and Meals,,Vittal Rao Nagar Road,Vittal Rao Nagar Road,,,,,
-Sulminas Viagens,Sulminas Viagens e Turismo,e turismo,business_type,Sulminas Viagens e Turismo,Poços de Caldas,"Rua Rio Grande do Sul, 1006",Junqueiras 550,,,,,
-Floripa Sucos,Floripa Sucos e Lanches,e lanches,business_type,Floripa Sucos e Lanches,Florianópolis,"Rua Jerônimo Coelho, 90",Rua Deodoro,,,,,
-Master Mechanic,Master Mechanic Pickering,pickering,location,Master Mechanic,Pickering,1211 Kingston Road,1211 Kingston Road,,,,,
+Sai Ram Tiffins,Sai Ram Tiffins and Meals,and meals,business_type,Sai Ram Tiffins and Meals,,Vittal Rao Nagar Road,Vittal Rao Nagar Road,Sai Ram Tiffins and Meals,longer,yes,Google Maps,
+Sulminas Viagens,Sulminas Viagens e Turismo,e turismo,business_type,Sulminas Viagens e Turismo,Poços de Caldas,"Rua Rio Grande do Sul, 1006",Junqueiras 550,Sulminas Viagens,shorter,no,Google Maps,"Notable example, good example, bad example, edge case"
+Floripa Sucos,Floripa Sucos e Lanches,e lanches,business_type,Floripa Sucos e Lanches,Florianópolis,"Rua Jerônimo Coelho, 90",Rua Deodoro,,,,,"Notable example, good example, bad example, edge case"
+Master Mechanic,Master Mechanic Pickering,pickering,location,Master Mechanic,Pickering,1211 Kingston Road,1211 Kingston Road,Master Mechanic,shorter,yes,Brand website,Check w/ Sri
 Nurse Next Door Senior Home Care Services,Nurse Next Door Senior Home Care Services - Calgary,calgary,location,Nurse Next Door Senior Home Care Services,Calgary,"4411 6 Street Southeast, #180",180 4411 6 Street SE,Nurse Next Door Senior Home Care Services,shorter,yes,"Brand website, Google Maps",Check w/ Sri
 Learn And Play Montessori School,Learn and Play Montessori School - Peralta,peralta,location,Learn And Play Montessori School,Fremont,4511 Peralta Blvd,4511 Peralta Blvd,Learn And Play Montessori School,shorter,yes,"Brand website, Google Maps",Check w/ Sri
 Leonora Rose,Leonora Rose Florists,florists,business_type,Leonora Rose Florists,Leeds,31a Oldfield Lane,"Within Asda, Oldfield Lane",Leonora Rose,shorter,no,"Brand website, Google Maps","Check w/ Sri, another hard-coded place type?"
-Management Factory Corporate Advisory GmbH,Management Factory Corporate Advisory GmbH - Valtus,valtus,disambiguation,Management Factory Corporate Advisory GmbH,Wien,Lothringerstraße 14 / 4. Stock,Lothringerstraße 14 / 4. Stock,,,,,
-Poradnia Medycyny Pracy,"Poradnia Medycyny Pracy ""Jeżyce""",jezyce,location,Poradnia Medycyny Pracy,Poznań,ulica Juliusza Słowackiego 43,Słowackiego 43,,,,,
-Parrocchia San Francesco di Paola,"Parrocchia San Francesco di Paola ""SanFra""",sanfra,noise,Parrocchia San Francesco di Paola,Civitavecchia,"Via San Francesco di Paola, 15","Via Santa Barbara, 3-5",,,,,
-Mary Print,Mary Print Sardegna,sardegna,location,Mary Print,,"Via Dei Gerani, SNC",Via dei Gerani,,,,,
-En Vogue,EN VOGUE Coiffure,coiffure,business_type,EN VOGUE Coiffure,Zürich,Bahnhofstrasse 35,Bahnhofstr.,,,,,
+Management Factory Corporate Advisory GmbH,Management Factory Corporate Advisory GmbH - Valtus,valtus,disambiguation,Management Factory Corporate Advisory GmbH,Wien,Lothringerstraße 14 / 4. Stock,Lothringerstraße 14 / 4. Stock,Management Factory Corporate Advisory GmbH,shorter,yes,"Brand website, Google Maps",
+Poradnia Medycyny Pracy,"Poradnia Medycyny Pracy ""Jeżyce""",jezyce,location,Poradnia Medycyny Pracy,Poznań,ulica Juliusza Słowackiego 43,Słowackiego 43,Poradnia Medycyny Pracy,shorter,yes,,"Check w/ Sri, also many same problems in same area"
+Parrocchia San Francesco di Paola,"Parrocchia San Francesco di Paola ""SanFra""",sanfra,noise,Parrocchia San Francesco di Paola,Civitavecchia,"Via San Francesco di Paola, 15","Via Santa Barbara, 3-5",Parrocchia San Francesco di Paola,shorter,yes,Google Maps,
+Mary Print,Mary Print Sardegna,sardegna,location,Mary Print,,"Via Dei Gerani, SNC",Via dei Gerani,Mary Print,shorter,yes,"Brand website, Google Maps",
+En Vogue,EN VOGUE Coiffure,coiffure,business_type,EN VOGUE Coiffure,Zürich,Bahnhofstrasse 35,Bahnhofstr.,EN VOGUE Coiffure,longer,yes,"Brand website, Google Maps",H3
 Blake Fulenwider Chevrolet GMC,Blake Fulenwider Chevrolet GMC Eastland,eastland,location,Blake Fulenwider Chevrolet GMC,Eastland,1245 E Main St,1245 E Main St,Blake Fulenwider Chevrolet GMC,shorter,yes,Brand website,"Check w/ Sri, not Google Maps"
 Rocky Hill,Rocky Hill Mountain,mountain,noise,Rocky Hill,,Rocky hill drive,Rocky hill drive,Rocky Hill,shorter,yes,Google Maps,"Check w/ Sri, hard-coded place type? Mountain = mountain peak, isn't it business?"
-Princeton Radiology,Princeton Radiology - Monroe,monroe,location,Princeton Radiology,Jamesburg,9 Centre Dr,9 Centre Dr,,,,,
-Pharmacare Drugs,Pharmacare Drugs Pharmacy,pharmacy,business_type,Pharmacare Drugs Pharmacy,Ypsilanti Twp,6048 Rawsonville Rd,6048 Rawsonville Rd,,,,,
-Cerrajeria Lionel,Cerrajería Lionel Centrito,centrito,location,Cerrajeria Lionel,San Pedro Garza García,Calle Río Colorado Oriente 200,Rio Colorado 200,,,,,
-Lonches Amparito,Lonches Amparito Tránsito,transito,location,Lonches Amparito,Guadalajara,Calle Félix Fulgencio Palavicini 2254,Félix Palaviccini 2254,,,,,
-Colegio Madrid,Colegio Madrid Talleres,talleres,business_type,Colegio Madrid Talleres,Tlalpan,Calle Puente 224,Calle Puente,,,,,
+Princeton Radiology,Princeton Radiology - Monroe,monroe,location,Princeton Radiology,Jamesburg,9 Centre Dr,9 Centre Dr,Princeton Radiology,shorter,yes,,Check w/ Sri
+Pharmacare Drugs,Pharmacare Drugs Pharmacy,pharmacy,business_type,Pharmacare Drugs Pharmacy,Ypsilanti Twp,6048 Rawsonville Rd,6048 Rawsonville Rd,Pharmacare Drugs Pharmacy,longer,yes,"Brand website, Google Maps",
+Cerrajeria Lionel,Cerrajería Lionel Centrito,centrito,location,Cerrajeria Lionel,San Pedro Garza García,Calle Río Colorado Oriente 200,Rio Colorado 200,Cerrajeria Lionel,shorter,yes,Google Maps,Check w/ Sri
+Lonches Amparito,Lonches Amparito Tránsito,transito,location,Lonches Amparito,Guadalajara,Calle Félix Fulgencio Palavicini 2254,Félix Palaviccini 2254,Lonches Amparito,shorter,yes,Google Maps,
+Colegio Madrid,Colegio Madrid Talleres,talleres,business_type,Colegio Madrid Talleres,Tlalpan,Calle Puente 224,Calle Puente,Colegio Madrid,shorter,no,Google Maps,
 La Riviera,La Riviera Oficinas,oficinas,business_type,La Riviera Oficinas,,,,,,,,
-Dairy Queen,Dairy Queen Thailand,thailand,location,Dairy Queen,,,"ชั้น 3, 199,199/1,199/2 หมู่ 6 ตำบลเสาธงหิน อำเภอบางใหญ่",,,,,
-Pousada das Flores.,Pousada Das Flores - Roraima,roraima,location,Pousada das Flores.,Boa Vista,"Avenida Via das Flores, 393","Via das Flores, 528",,,,,
-Work Medicina Ocupacional,Work Medicina Ocupacional S/C Ltda,sc ltda,noise,Work Medicina Ocupacional,Campinas,"Rua Visconde de Taunay, 335","Rua Tiradentes, 217",,,,,
-Virginia Coffee Roastery,Virginia Coffee Roastery & Eatery,eatery,business_type,Virginia Coffee Roastery & Eatery,Durbanville,"Anansi, 25 Church St",Kerk St,,,,,
-Elite Picture Framing,Elite Picture Framing Adelaide,adelaide,location,Elite Picture Framing,Adelaide,24 Croydon Rd,32 Croydon Rd,,,,,
-Tempe Veterinary,Tempe Veterinary Hospital,hospital,business_type,Tempe Veterinary Hospital,Tempe,329 W Southern Ave,329 W Southern Ave,,,,,
-Cascade Shores Townhome,Cascade Shores Townhomes & Flats,s flats,business_type,Cascade Shores Townhomes & Flats,Rochester,222 Grandeville Rd SW,182 Grandeville Rd SW,,,,,
-Over The Rainbow,Over the Rainbow Limited,limited,disambiguation,Over The Rainbow,Stockport,39 Compstall Road,39 Compstall Rd,,,,,
+Dairy Queen,Dairy Queen Thailand,thailand,location,Dairy Queen,,,"ชั้น 3, 199,199/1,199/2 หมู่ 6 ตำบลเสาธงหิน อำเภอบางใหญ่",Dairy Queen,shorter,yes,"Brand website, Google Maps",
+Pousada das Flores.,Pousada Das Flores - Roraima,roraima,location,Pousada das Flores.,Boa Vista,"Avenida Via das Flores, 393","Via das Flores, 528",Pousada das Flores.,shorter,yes,H3?,
+Work Medicina Ocupacional,Work Medicina Ocupacional S/C Ltda,sc ltda,noise,Work Medicina Ocupacional,Campinas,"Rua Visconde de Taunay, 335","Rua Tiradentes, 217",Work Medicina Ocupacional,shorter,yes,,"Check w/ Sri, hard-coded, H3"
+Virginia Coffee Roastery,Virginia Coffee Roastery & Eatery,eatery,business_type,Virginia Coffee Roastery & Eatery,Durbanville,"Anansi, 25 Church St",Kerk St,Virginia Coffee Roastery & Eatery,longer,yes,"Google Maps, FaceBook",
+Elite Picture Framing,Elite Picture Framing Adelaide,adelaide,location,Elite Picture Framing,Adelaide,24 Croydon Rd,32 Croydon Rd,Elite Picture Framing,shorter,yes,"Brand website, Google Maps",
+Tempe Veterinary,Tempe Veterinary Hospital,hospital,business_type,Tempe Veterinary Hospital,Tempe,329 W Southern Ave,329 W Southern Ave,Tempe Veterinary Hospital,longer,yes,"Brand website, Google Maps",
+Cascade Shores Townhome,Cascade Shores Townhomes & Flats,s flats,business_type,Cascade Shores Townhomes & Flats,Rochester,222 Grandeville Rd SW,182 Grandeville Rd SW,Cascade Shores Townhomes & Flats,longer,yes,"Brand website, Google Maps",
+Over The Rainbow,Over the Rainbow Limited,limited,disambiguation,Over The Rainbow,Stockport,39 Compstall Road,39 Compstall Rd,Over The Rainbow,shorter,yes,Google Maps,
 Good Morning Children,Good Morning Children Limited,limited,disambiguation,Good Morning Children,Bristol,12 School Walk,12 School Walk,,,,,
-Calico Jacks,Calico Jack's Bistro,bistro,business_type,Calico Jack's Bistro,Endingen am Kaiserstuhl,Obere Guldenstraße 13,Obere Guldenstr. 13,,,,,
+Calico Jacks,Calico Jack's Bistro,bistro,business_type,Calico Jack's Bistro,Endingen am Kaiserstuhl,Obere Guldenstraße 13,Obere Guldenstr. 13,Calico Jacks,shorter,no,"Brand website, FaceBook, Instagram, Google Maps",Not Yelp
 COINworKs Bitcoin ATM,COINworKs Bitcoin ATM Modesto,modesto,location,COINworKs Bitcoin ATM,Modesto,1200 6th St,1200 6th St,COINworKs Bitcoin ATM,shorter,yes,,Check w/ Sri
 Safety Kleen,Safety-Kleen Systems,safetykleen systems,noise,Safety Kleen,North Las Vegas,4582 Donovan Way,4582 Donovan Way,Safety-Kleen Systems,longer,no,"Brand website, Google Maps",
 Instyle nails,Instyle Nails and Spa,and spa,business_type,Instyle Nails and Spa,West Hollywood,8539 W Sunset Blvd,Sunset Blvd,Instyle Nails and Spa,longer,yes,"Google Maps, Yelp, Instagram",
 Clarkson Eyecare,Clarkson Eyecare Florida,florida,location,Clarkson Eyecare,Riverview,3875 US-301 S,3875 US Highway 301 S Ste 5,Clarkson Eyecare,shorter,yes,"Brand website, Google Maps",Check w/ Sri
-Allison Hunt MD,"Allison Hunt, MD, FACOG",facog,noise,Allison Hunt MD,Houston,6550 Fannin St Ste 2221,"6550 Fannin St, Smith Ste 2221",,,,,
-Auto Solutions,Auto Solutions Orlando,orlando,location,Auto Solutions,Orlando,1782 Lee Rd,1782 Lee Rd,,,,,
-Pollo Feliz,Pollo Feliz Obregón,obregon,location,Pollo Feliz,Ciudad Obregón,Calle California 142,Tabasco e Hidalgo,,,,,
-La Azotea,La Azotea Terraza,terraza,business_type,La Azotea Terraza,Tlaxco,Avenida Independencia Nacional 38,Independencia Nacional 13,,,,,
-Hamburguesas Al Carbon,Hamburguesas al Carbon Torreon,torreon,location,Hamburguesas Al Carbon,Gustavo A Madero,Avenida Henry Ford 119,Henry Ford 105,,,,,
-Iglesia Fe Y Esperanza,Iglesia Fe y Esperanza Pinares,pinares,location,Iglesia Fe Y Esperanza,Pereira,Carrera 17 9-48,Cra 17 # 14-48,,,,,
-Instituto Magister de Ensino,Instituto Magister de Ensino Sala 05,sala 05,noise,Instituto Magister de Ensino,Teresina,"Rua Primeiro de Maio, 2236",Rua 1 De Maio,,,,,
-Hospital São Domingos,Hospital São Domingos- Exames,exames,disambiguation,Hospital São Domingos,São Luís,"Avenida Jerônimo de Albuquerque, 540",Av Gerônimo de Albuquerque,,,,,
-Alimentare - Massas e Congelados,Alimentare Massas e Congelados Especiais,especiais,noise,Alimentare - Massas e Congelados,Cuiabá,"Avenida São Sebastião, 2170","Av. São Sebastião, 2170",,,,,
-Ponto Xis,Ponto Xis Lanches,lanches,business_type,Ponto Xis Lanches,Campos Novos,São João Batista,"Rua s João Batista, 163",,,,,
-Academia Performance,Academia Performance & Saúde,saude,business_type,Academia Performance & Saúde,São Miguel do Oeste,"Rua Adolfo Konder, 1798",Adolfo Condr,,,,,
-Smartphone Solutions,Smartphone Solutions Sunbury,sunbury,location,Smartphone Solutions,Sunbury,90 Vineyard Rd,Shop 2 90 Vineyard road,,,,,
-Huffines Kia McKinney,Huffines Kia McKinney Service,service,business_type,Huffines Kia McKinney Service,McKinney,1201 N Central Expressway,1201 N Central Expy,,,,,
+Allison Hunt MD,"Allison Hunt, MD, FACOG",facog,noise,Allison Hunt MD,Houston,6550 Fannin St Ste 2221,"6550 Fannin St, Smith Ste 2221","Allison Hunt, MD, FACOG",longer,no,"Brand website, Google Maps","Check w/ Sri, hard-coded"
+Auto Solutions,Auto Solutions Orlando,orlando,location,Auto Solutions,Orlando,1782 Lee Rd,1782 Lee Rd,Auto Solutions,shorter,yes,Brand website,
+Pollo Feliz,Pollo Feliz Obregón,obregon,location,Pollo Feliz,Ciudad Obregón,Calle California 142,Tabasco e Hidalgo,Pollo Feliz,shorter,yes,"Brand website, Google Maps",
+La Azotea,La Azotea Terraza,terraza,business_type,La Azotea Terraza,Tlaxco,Avenida Independencia Nacional 38,Independencia Nacional 13,La Azotea,shorter,no,"Brand website, Google Maps",
+Hamburguesas Al Carbon,Hamburguesas al Carbon Torreon,torreon,location,Hamburguesas Al Carbon,Gustavo A Madero,Avenida Henry Ford 119,Henry Ford 105,Hamburguesas al Carbon Torreon,longer,no,"Brand website, Google Maps","Notable example, good example, bad example"
+Iglesia Fe Y Esperanza,Iglesia Fe y Esperanza Pinares,pinares,location,Iglesia Fe Y Esperanza,Pereira,Carrera 17 9-48,Cra 17 # 14-48,Iglesia Fe Y Esperanza,shorter,yes,"Brand website, Google Maps",
+Instituto Magister de Ensino,Instituto Magister de Ensino Sala 05,sala 05,noise,Instituto Magister de Ensino,Teresina,"Rua Primeiro de Maio, 2236",Rua 1 De Maio,Instituto Magister de Ensino,shorter,yes,"Brand website, Google Maps",
+Hospital São Domingos,Hospital São Domingos- Exames,exames,disambiguation,Hospital São Domingos,São Luís,"Avenida Jerônimo de Albuquerque, 540",Av Gerônimo de Albuquerque,Hospital São Domingos,shorter,yes,"Brand website, Google Maps",
+Alimentare - Massas e Congelados,Alimentare Massas e Congelados Especiais,especiais,noise,Alimentare - Massas e Congelados,Cuiabá,"Avenida São Sebastião, 2170","Av. São Sebastião, 2170",Alimentare - Massas e Congelados,shorter,yes,"Google Maps, Google Street View",Permanently closed
+Ponto Xis,Ponto Xis Lanches,lanches,business_type,Ponto Xis Lanches,Campos Novos,São João Batista,"Rua s João Batista, 163",Ponto Xis Lanches,longer,yes,Google Maps,
+Academia Performance,Academia Performance & Saúde,saude,business_type,Academia Performance & Saúde,São Miguel do Oeste,"Rua Adolfo Konder, 1798",Adolfo Condr,Academia Performance & Saúde,longer,yes,Google Maps,Permanently closed
+Smartphone Solutions,Smartphone Solutions Sunbury,sunbury,location,Smartphone Solutions,Sunbury,90 Vineyard Rd,Shop 2 90 Vineyard road,Smartphone Solutions,shorter,yes,Brand website,"Check w/ Sri, not Google Maps"
+Huffines Kia McKinney,Huffines Kia McKinney Service,service,business_type,Huffines Kia McKinney Service,McKinney,1201 N Central Expressway,1201 N Central Expy,Huffines Kia McKinney Service,longer,yes,Google Maps,
 El Dorado Hills Sports Club,El Dorado Hills Sports Club and Spa,and spa,business_type,El Dorado Hills Sports Club and Spa,El Dorado Hills,530 Post Ct,530 Post Ct,El Dorado Hills Sports Club and Spa,longer,yes,"Brand website, Google Maps",
-Sunrise Financial,Sunrise Financial Service,service,business_type,Sunrise Financial Service,Sarasota,1275 Whitfield Ave,1275 Whitfield Ave,,,,,
-Full Steam,Full Steam Tromso,tromso,location,Full Steam,Tromsø,Søndre Tollbodgate 3,3 Søndre Tollbodgate,,,,,
+Sunrise Financial,Sunrise Financial Service,service,business_type,Sunrise Financial Service,Sarasota,1275 Whitfield Ave,1275 Whitfield Ave,Sunrise Financial Service,longer,yes,Google Maps,
+Full Steam,Full Steam Tromso,tromso,location,Full Steam,Tromsø,Søndre Tollbodgate 3,3 Søndre Tollbodgate,Full Steam,shorter,yes,Brand website,"Check w/ Sri, not Google Maps"
 Communauté De Communes De Lacq-orthez,Communauté de communes de Lacq Orthez - CCLO,communaute de communes de lacq orthez cclo,noise,Communauté De Communes De Lacq-orthez,Mourenx,Rond-Point des Chênes - BP73,Rond-Point des Chênes,,,,,
-Bythams Community Shop,Bythams Community Shop & Cafe,cafe,business_type,Bythams Community Shop & Cafe,Grantham,42 Station Road,46 Station Rd,,,,,
-Momo and Co.,Momo and Co. Design,design,business_type,Momo and Co. Design,London,8a Replingham Road,17 Replingham Rd,,,,,
+Bythams Community Shop,Bythams Community Shop & Cafe,cafe,business_type,Bythams Community Shop & Cafe,Grantham,42 Station Road,46 Station Rd,Bythams Community Shop & Cafe,longer,yes,"Brand website, Google Maps",
+Momo and Co.,Momo and Co. Design,design,business_type,Momo and Co. Design,London,8a Replingham Road,17 Replingham Rd,Momo and Co. Design,longer,yes,"Brand website, Google Maps",
 Economy Fence Center,Economy Fence Center Tacoma,tacoma,location,Economy Fence Center,Tacoma,3304 S 30th St,3304 S 30th St,Economy Fence Center,shorter,yes,Brand website,Check w/ Sri
 Right Aid Home Care,Right Aid Home Care Agency,agency,business_type,Right Aid Home Care Agency,Philadelphia,305 S 60th St,305 S 60th St,Right Aid Home Care Agency,longer,yes,"Brand website, Google Maps",
 H&R Block,H&R Block Canada,canada,location,H&R Block,Port Hope,105 Peter St,"105 Peter St, #A",H&R Block,shorter,yes,"Brand website, Google Maps",
-Uluer Genç Yaşam Merkezi,Uluer Genç Yaşam Merkezi Kuaför,kuafor,business_type,Uluer Genç Yaşam Merkezi Kuaför,,,,,,,,
+Uluer Genç Yaşam Merkezi,Uluer Genç Yaşam Merkezi Kuaför,kuafor,business_type,Uluer Genç Yaşam Merkezi Kuaför,,,,Uluer Genç Yaşam Merkezi,shorter,no,Google Maps,
 West Bradenton Baptist,West Bradenton Baptist Church,church,business_type,West Bradenton Baptist Church,Bradenton,1305 43rd St W,4110 14th Ave W,West Bradenton Baptist Church,longer,yes,,
 Middleburg High School,Middleburg High School NJROTC,njrotc,disambiguation,Middleburg High School,Middleburg,3750 CR-220,3750 County Road 220,Middleburg High School NJROTC,longer,no,,Check w/ Sri
 Centauro Automotriz,Centauro Automotriz Matriz,matriz,disambiguation,Centauro Automotriz,,Avenida Ignacio Vallarta 3700,Av. Américas y Vallarta S/N,,,,,
 The Home Depot,The Home Depot México,mexico,location,The Home Depot,Cabo San Lucas,Calle Benito Juárez 75,Carretera Transpeninsular Benito Juarez Km. 6.5 Col,The Home Depot,shorter,yes,,
 Tiendas 3B,Tiendas 3B Centro,centro,location,Tiendas 3B,Puebla,Calle 2 Norte 1600,3 Norte,,,,,
-Smart Fit,Smart Fit México,mexico,location,Smart Fit,Puebla,Calzada Zavaleta 50,Plazavaleta,,,,,
-Dr. Ramón Salgado,Dr. Ramón Salgado Medina,medina,disambiguation,Dr. Ramón Salgado,,Tlacotalpan 59-int 705,Tlacotalpan,,,,,
+Smart Fit,Smart Fit México,mexico,location,Smart Fit,Puebla,Calzada Zavaleta 50,Plazavaleta,Smart Fit,shorter,yes,"Brand website, Google Maps",
+Dr. Ramón Salgado,Dr. Ramón Salgado Medina,medina,disambiguation,Dr. Ramón Salgado,,Tlacotalpan 59-int 705,Tlacotalpan,Dr. Ramón Salgado Medina,longer,no,"Brand website, FaceBook, Instagram, Google Maps",H3 (or rather a new hypothesis on if its already a name then maybe another name isn't bad.
 Instituto Andes,Instituto Andes Tuxtla,tuxtla,location,Instituto Andes,,Cumbres 1,Av. Cumbres 1,,,,,
-FIBRA Experts,Fibra Experts - Meet,meet,noise,FIBRA Experts,São Paulo,"Rua Alves Guimarães 1120, 2° andar (Pinheiros)","Rua Alves Guimarães, 1.120, 1120 - Vl Madalena",,,,,
-Centro Comunitário,Centro Comunitario Taiaçu,taiacu,location,Centro Comunitário,Taiaçu,"Avenida Bernardo da Fonseca, 390",Av João Bernardo da Fonseca,,,,,
-Smiley Mocktail Bar,Smiley Mocktail Bar & Cafe,cafe,business_type,Smiley Mocktail Bar & Cafe,Adelaide,11 Hindmarsh Sq,7/141-159 Rundle Mall,,,,,
+FIBRA Experts,Fibra Experts - Meet,meet,noise,FIBRA Experts,São Paulo,"Rua Alves Guimarães 1120, 2° andar (Pinheiros)","Rua Alves Guimarães, 1.120, 1120 - Vl Madalena",FIBRA Experts,shorter,yes,"Brand website, Google Maps",
+Centro Comunitário,Centro Comunitario Taiaçu,taiacu,location,Centro Comunitário,Taiaçu,"Avenida Bernardo da Fonseca, 390",Av João Bernardo da Fonseca,Centro Comunitário,shorter,yes,,Check w/ Sri
+Smiley Mocktail Bar,Smiley Mocktail Bar & Cafe,cafe,business_type,Smiley Mocktail Bar & Cafe,Adelaide,11 Hindmarsh Sq,7/141-159 Rundle Mall,Smiley Mocktail Bar & Cafe,longer,yes,Google Maps,
 Pet Supplies Plus,Pet Supplies Plus Inwood,inwood,location,Pet Supplies Plus,Inwood,561 Burnside Ave,561 Burnside Ave,Pet Supplies Plus,shorter,yes,,Check w/ Sri
-Expressions Floral Design,Expressions Floral Design Studio,studio,business_type,Expressions Floral Design Studio,Columbus,1247 N Hamilton Rd,1247 N Hamilton Rd,,,,,
-Svensk Fastighetsförmedling,Svensk Fastighetsförmedling Eslöv,eslov,location,Svensk Fastighetsförmedling,Eslöv,Västergatan 5,Stora Torg 8,,,,,
-Forst und Garten,Forst und Garten Diehl,diehl,disambiguation,Forst und Garten,Wilnsdorf,Freier Grunder Straße 117,Freier Grunder Str. 117,,,,,
-Praxis für Logopädie und Lerntherapie,Praxis für Logopädie und Lerntherapie B & B,b b,business_type,Praxis für Logopädie und Lerntherapie B & B,Emmerich am Rhein,Frankenstraße 21,Frankenstr. 23,,,,,
+Expressions Floral Design,Expressions Floral Design Studio,studio,business_type,Expressions Floral Design Studio,Columbus,1247 N Hamilton Rd,1247 N Hamilton Rd,Expressions Floral Design Studio,longer,yes,"Brand website, Google Maps",
+Svensk Fastighetsförmedling,Svensk Fastighetsförmedling Eslöv,eslov,location,Svensk Fastighetsförmedling,Eslöv,Västergatan 5,Stora Torg 8,Svensk Fastighetsförmedling,shorter,yes,,Check w/ Sri
+Forst und Garten,Forst und Garten Diehl,diehl,disambiguation,Forst und Garten,Wilnsdorf,Freier Grunder Straße 117,Freier Grunder Str. 117,Forst und Garten Diehl,longer,no,"Brand website, Google Maps","Check w/ Sri, edge case, requires hard-coded location aware"
+Praxis für Logopädie und Lerntherapie,Praxis für Logopädie und Lerntherapie B & B,b b,business_type,Praxis für Logopädie und Lerntherapie B & B,Emmerich am Rhein,Frankenstraße 21,Frankenstr. 23,Praxis für Logopädie und Lerntherapie B & B,longer,yes,"Brand website, Google Maps","Check w/ Sri, edge case, requires hard-coded location aware"
 Pro Car Wash South,Pro Car Wash South/North,north,noise,Pro Car Wash South,Smithville,300 Park Dr,,Pro Car Wash South,longer,yes,"Brand website, Google Maps",
 Kyle Citty,"Kyle Citty, M.D.",md,noise,Kyle Citty,Searcy,2900 Hawkins Dr,2900 Hawkins Dr,"Kyle Citty, M.D.",longer,no,,"Check w/ Sri, hard-coded"
-English Rows Dental,English Rows Dental Group,group,business_type,English Rows Dental Group,Naperville,3027 English Rows Ave,3027 English Row Ave,,,,,
-Fantastic Nails,Fantastic Nails & Spa,spa,business_type,Fantastic Nails & Spa,Westminster,5706 W 88th Ave,,,,,,
-Murphy USA,Murphy USA #6583,6583,disambiguation,Murphy USA,Paris,3805 Lamar Ave,3805 Lamar Ave,,,,,
-Juris Law Group,"Juris Law Group, P.C.",pc,disambiguation,Juris Law Group,Century City,"10215 Santa Monica Blvd., Ste 2",10215 Santa Monica Blvd Ste 2,,,,,
-Junior Bruins Hockey,Junior Bruins Hockey Camps,camps,business_type,Junior Bruins Hockey Camps,Marlborough,121 Donald Lynch Blvd,121 Donald Lynch Blvd,,,,,
-Snap Fitness,Snap Fitness Joppa,joppa,location,Snap Fitness,Joppa,413 Pulaski Hwy,413 Pulaski Hwy,,,,,
+English Rows Dental,English Rows Dental Group,group,business_type,English Rows Dental Group,Naperville,3027 English Rows Ave,3027 English Row Ave,English Rows Dental Group,longer,yes,"Brand website, Google Maps","Good example, notable example, this ""group"" is business, but ""group"" for insurance group is disambiguation?"
+Fantastic Nails,Fantastic Nails & Spa,spa,business_type,Fantastic Nails & Spa,Westminster,5706 W 88th Ave,,Fantastic Nails & Spa,longer,yes,Google Maps,"Be careful, their website is malware"
+Murphy USA,Murphy USA #6583,6583,disambiguation,Murphy USA,Paris,3805 Lamar Ave,3805 Lamar Ave,Murphy USA,shorter,yes,"Brand website, Google Maps",
+Juris Law Group,"Juris Law Group, P.C.",pc,disambiguation,Juris Law Group,Century City,"10215 Santa Monica Blvd., Ste 2",10215 Santa Monica Blvd Ste 2,"Juris Law Group, P.C.",longer,no,Google Maps,Check w/ Sri
+Junior Bruins Hockey,Junior Bruins Hockey Camps,camps,business_type,Junior Bruins Hockey Camps,Marlborough,121 Donald Lynch Blvd,121 Donald Lynch Blvd,Junior Bruins Hockey,shorter,no,"Brand website, Google Maps","Notable example, good example, bad example"
+Snap Fitness,Snap Fitness Joppa,joppa,location,Snap Fitness,Joppa,413 Pulaski Hwy,413 Pulaski Hwy,Snap Fitness,shorter,yes,Brand website,"Check w/ Sri, not Google Maps"
 Hamilton Ruritan Club,Hamilton Ruritan Club #1646,1646,disambiguation,Hamilton Ruritan Club,Chambersburg,4565 Edenville Rd,4498 Edenville Rd,,,,,
 Sports Experts,Sports Experts Magog,magog,location,Sports Experts,Magog,346 Rue Principale O,346 Rue Principale Ouest,Sports Experts,shorter,yes,"Brand website, Google Maps",
 Industria Pizzeria,Industria Pizzeria + Bar,bar,business_type,Industria Pizzeria + Bar,Blainville,1323 Boulevard Michèle-Bohec,1323 Blvd Michèle-Bohec,Industria Pizzeria + Bar,longer,yes,"Brand website, Google Maps",
 Les Hospitaliers,Les Hospitaliers Hotel,hotel,business_type,Les Hospitaliers Hotel,Le Poët-Laval,95 Rue Neuve,La Garenne et la Loze,Les Hospitaliers Hotel,longer,yes,"Brand website, Google Maps",
-Bahama Bay Resort,Bahama Bay Resort & Spa,spa,business_type,Bahama Bay Resort & Spa,Davenport,304 Rum Run,400 Gran Bahama Blvd,,,,,
-Batteries Plus,Batteries Plus Bulbs,bulbs,business_type,Batteries Plus Bulbs,Weaverville,61 Weaver Blvd,61 Weaver Blvd Ste 115,,,,,
+Bahama Bay Resort,Bahama Bay Resort & Spa,spa,business_type,Bahama Bay Resort & Spa,Davenport,304 Rum Run,400 Gran Bahama Blvd,Bahama Bay Resort & Spa,longer,yes,"Brand website, Google Maps",
+Batteries Plus,Batteries Plus Bulbs,bulbs,business_type,Batteries Plus Bulbs,Weaverville,61 Weaver Blvd,61 Weaver Blvd Ste 115,Batteries Plus,shorter,no,"Brand website, Google Maps","Notable example, good example, bad example"
 Southland Casino,Southland Casino Hotel,hotel,business_type,Southland Casino Hotel,West Memphis,1550 Ingram Blvd,1550 Ingram Blvd,Southland Casino Hotel,longer,yes,"Brand website, Google Maps",
 Clifton And Lewis Insurance,Clifton and Lewis Insurance Group,group,disambiguation,Clifton And Lewis Insurance,Zephyrhills,38232 5th Ave,38232 5th Ave,,,,,Check w/ Sri
 Royce Rolls,Royce Rolls Cafe,cafe,business_type,Royce Rolls Cafe,,"St Nicholas Market, Wine St",St Nicholas Market,Royce Rolls Cafe,longer,yes,"Brand website, Google Maps",
-Olina Küchen,olina-Küchen Linz,olinakuchen linz,location,Olina Küchen,,Freistädter Str. 400,Freistädter Straße 400,,,,,
+Olina Küchen,olina-Küchen Linz,olinakuchen linz,location,Olina Küchen,,Freistädter Str. 400,Freistädter Straße 400,Olina Küchen,shorter,yes,Brand website,"Check w/ Sri, not Google Maps"
 The UPS Store,The UPS Store 6285,6285,disambiguation,The UPS Store,Indianapolis,1389 W 86th St,1389 W 86th St,The UPS Store,shorter,yes,,
 Just Law,Just Law Utah,utah,location,Just Law,Salt Lake City,2040 E 3300 S Ste 3,2040 E 3300 S Ste 3,Just Law,shorter,yes,,Check w/ Sri
 University of Minnesota Medical Center,University of Minnesota Medical Center NICU,nicu,disambiguation,University of Minnesota Medical Center,Minneapolis,2450 Riverside Ave,2450 Riverside Ave,University of Minnesota Medical Center,shorter,yes,Google Maps,
@@ -272,7 +272,7 @@ Water Valley Housing Auth,Water Valley Housing Authority,ority,noise,Water Valle
 Tammy Medlin,"Tammy Medlin, FNP",fnp,disambiguation,Tammy Medlin,Lady's Island,"97 Sea Island Pkwy., Ste 203",97 Sea Island Pkwy Ste 203,"Tammy Medlin, FNP",longer,no,,"FNP legal entity, check w/ Sri, should be in hard-coded"
 Spectron Desarrollo,Spectron Desarrollo S.C.,sc,noise,Spectron Desarrollo,Miguel Hidalgo,Bosque de Duraznos 127,Paseo De Duraznos 127 Piso 4,Spectron Desarrollo S.C.,longer,no,,"S.C. legal entity, check w/ Sri, should be in hard-coded"
 Vighna Bamboo Briyani,Vighna Bamboo Briyani - JB,jb,location,Vighna Bamboo Briyani,Johor Bahru,10 Jalan Pertama,11 jalan pertama 5,Vighna Bamboo Briyani,shorter,yes,Google Maps,"Notable example, good example"
-Bonanza Cafe,Bonanza Cafe&Rest,rest,disambiguation,Bonanza Cafe,Bondowoso,"Jl. Pancur, Sumpilan Utara, Lumutan, Kec. Botolinggo, Kabupaten Bondowoso","Jl. Pancur, Sumpelan Utara, Lumutan, Kec. Prajekan, Kabupaten Bondowoso, Jawa Timur",,,,,
+Bonanza Cafe,Bonanza Cafe&Rest,rest,disambiguation,Bonanza Cafe,Bondowoso,"Jl. Pancur, Sumpilan Utara, Lumutan, Kec. Botolinggo, Kabupaten Bondowoso","Jl. Pancur, Sumpelan Utara, Lumutan, Kec. Prajekan, Kabupaten Bondowoso, Jawa Timur",Bonanza Cafe,shorter,yes,Google Maps,
 Wells Fargo,Wells Fargo Bank,bank,business_type,Wells Fargo Bank,Wichita Falls,2301 Kell Blvd,2301 Kell Blvd,Wells Fargo Bank,longer,yes,,
 Villa Sofia,Villa Sofia b&b,bb,business_type,Villa Sofia b&b,L'Aquila,"Via Nocelle, 101",Via Nocelle 116,Villa Sofia b&b,longer,yes,Google Maps,"Notable example, good example, check w/ Sri, not Brand Website"
 Smoker Friendly Discount Tobacco,Smoker Friendly Discount Tobacco #27,27,disambiguation,Smoker Friendly Discount Tobacco,Terre Haute,2501 S 3rd St,,Smoker Friendly Discount Tobacco,shorter,yes,,Check w/ Sri
@@ -284,10 +284,10 @@ Tractor Supply,Tractor Supply Co.,co,noise,Tractor Supply,Covington,1884 N Colli
 Dothan Nails,Dothan Nails Spa,spa,business_type,Dothan Nails Spa,Dothan,3341 S Oates St,3341 S Oates St Ste 104,Dothan Nails Spa,longer,yes,Google Maps,
 Oh My Goodness,Oh My Goodness OMG,omg,disambiguation,Oh My Goodness,Cabanatuan City,Del Pilar,,Oh My Goodness,shorter,yes,Google Maps,
 Chinese Foot Massage & Body Relax,Chinese Foot Massage & Body Relax Spa,spa,business_type,Chinese Foot Massage & Body Relax Spa,Galesburg,750 N Henderson St,750 N Henderson St,Chinese Foot Massage & Body Relax Spa,longer,yes,,Check w/ Sri
-Mail Boxes ETC.,Mail Boxes Etc. UK,uk,location,Mail Boxes ETC.,London,4 Spring Bridge Road,"4 Spring Bridge Road, Ealing",,,,,
-La Taquiza de Mario,La Taquiza de Mario #2,2,disambiguation,La Taquiza de Mario,Mexicali,Calzada Aviación 1258,Calz Cuauhtemoc,,,,,Check w/ Sri
-Le Salonce,Le salonce #2,2,disambiguation,Le Salonce,Corpus Christi,2701 Ayers St,,,,,,Check w/ Sri
-Farmacia Città Satellite,Farmacia Città Satellite 2,2,disambiguation,Farmacia Città Satellite,Catania,"Strada San Teodoro, 113",Stradale San Giorgio 113,,,,,
+Mail Boxes ETC.,Mail Boxes Etc. UK,uk,location,Mail Boxes ETC.,London,4 Spring Bridge Road,"4 Spring Bridge Road, Ealing",Mail Boxes ETC.,shorter,yes,"Brand website, Google Maps",
+La Taquiza de Mario,La Taquiza de Mario #2,2,disambiguation,La Taquiza de Mario,Mexicali,Calzada Aviación 1258,Calz Cuauhtemoc,,,,,Check w/ Sri - Mexican and #2
+Le Salonce,Le salonce #2,2,disambiguation,Le Salonce,Corpus Christi,2701 Ayers St,,,,,,Check w/ Sri - Mexican and #2
+Farmacia Città Satellite,Farmacia Città Satellite 2,2,disambiguation,Farmacia Città Satellite,Catania,"Strada San Teodoro, 113",Stradale San Giorgio 113,,,,,Check w/ Sri - Mexican and #2
 Praxis für Schmerzmedizin,"Praxis für Schmerzmedizin Dr. Carola Vogel, Privatpraxis (Selbstzahler/Privatversicherte)",dr carola vogel privatpraxis selbstzahlerprivatversicherte,disambiguation,Praxis für Schmerzmedizin,Reinhardshagen,Mündener Str. 70,Mündener Str. 76,,,,,
 Schlotzsky's,"Schlotzsky's (Colony Way - Madison, MS)",colony way madison ms,location,Schlotzsky's,Madison,205 Colony Way,205 Colony Way,Schlotzsky's,shorter,yes,,Check w/ Sri
 Centre RNPC Avranches,Centre RNPC AVRANCHES (Quentin sur le homme),quentin sur le homme,location,Centre RNPC Avranches,Saint-Quentin-sur-le-Homme,2 Z.A. de Cromel,2 ZA de Cromel,Centre RNPC Avranches,shorter,yes,,Check w/ Sri
