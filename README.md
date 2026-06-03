@@ -1224,11 +1224,11 @@ Of 2000 rows in the dataset:
 | Outcome                     | Rows | % of Total | Meaning                                      |
 |-----------------------------|------|------------|----------------------------------------------|
 | Agreement (no conflict)     | 917  | 45.9%      | Both sides identical — golden name is obvious |
-| Rule-resolved               | 590  | 29.5%      | Casing (58) + normalization (234) + subset-confident (298) |
+| Rule-resolved               | 590  | 29.5%      | Normalization S1–S8 (292 = 58 casing + 234 other) + subset-confident (298) |
 | SLM — H1 (subset uncertain) | 304  | 15.2%      | Extra-content classification needed          |
 | SLM — H2 (genuinely different) | 189 | 9.5%    | Genuine semantic disagreement                |
 
-Rules handle **75% of all name pairs** (917 agreement + 590 rule-resolved) without any language
+Rules handle **75.4%** of all name pairs (917 agreement + 590 rule-resolved) without any language
 model. The remaining **25% (493 rows)** require semantic reasoning that rules cannot provide.
 The `name_golden_candidates.csv` output provides the full audit trail: every row has a selected
 name, a source, and a reason, enabling row-by-row review and correction.
