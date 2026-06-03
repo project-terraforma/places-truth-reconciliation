@@ -1596,6 +1596,19 @@ time matches the slowest individual model (~5.35s/row for Qwen-2.5-14B).
 figure is ±4–5 percentage points. Differences smaller than ~5pt between models are within
 noise and should not be interpreted as a reliable ranking. See Evaluation Limitations below.
 
+**H1 Gold Label External Verification** (`analysis/names/h1_golden_verification.csv`):  
+To bound annotation bias, 314 rows were verified against brand websites and Google Maps. 42 rows were skipped where no authoritative external source could be found. Results on 272 verified rows:
+
+| Class | Annotator correct | Annotator wrong | Skipped | Accuracy |
+|-------|------------------|-----------------|---------|----------|
+| location | 89 | 8 | 4 | **91.8%** |
+| business_type | 69 | 26 | 10 | 72.6% |
+| noise | 18 | 7 | 4 | 72.0% |
+| disambiguation | 39 | 16 | 24 | 70.9% |
+| **Overall** | **215** | **57** | **42** | **79.0%** |
+
+Location labels are the most reliable (91.8%) — the rule "drop city/region qualifier, keep shorter" is almost always correct. Disambiguation is the hardest to verify (24 skips) and most error-prone for human annotators (70.9%), consistent with the model bottleneck observed in per-class accuracy. Note: Google Maps is not treated as ground truth (it has the same multi-source aggregation problem); brand websites and official registries are the preferred verification source.
+
 The throughput column answers the deployment question: not just *how accurate* but *how
 fast and at what cost*. For a dataset of 493 hard rows (the full H1+H2 scope in the
 2,000-row sample), the practical tradeoff is:
