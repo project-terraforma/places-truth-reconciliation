@@ -2531,58 +2531,23 @@ rule-based or selection-only approaches. Key findings:
 
 ---
 
-### Intellectual Landscape
+### Related Work (verified citations only — matches paper/references.bib)
 
-#### Positioning Against the Literature
+**Entity resolution.** The Fellegi-Sunter framework (`fellegi1969theory`) formalized record linkage as a probabilistic comparison problem. Modern deep learning approaches (`mudgal2018deep`, `li2021ditto`) achieve high accuracy on benchmark ER tasks but treat matching and canonicalization as separate problems, typically addressing only the former. This work starts where matching ends: given that two records describe the same place, which name is the better canonical form?
 
-This work sits at the intersection of three fields: **entity resolution (ER)**, **data
-canonicalization/record fusion**, and **language model evaluation methodology**.
+**LLM-based entity resolution.** Narayan et al. (`narayan2022can`) and Peeters et al. (`peeters2023entity`) demonstrate that GPT-class models can match entities zero-shot. BoostER (`li2024booster`) extends this to budget-constrained ER via LLM verification. None of these approaches stratify the conflict distribution — they apply the same model uniformly regardless of whether a conflict requires semantic reasoning. This work applies models only to the structurally specific subset that requires them.
 
-**Where it differs from ER matching.** The canonical ER problem (Fellegi & Sunter 1969;
-DeepMatcher, Mudgal et al. SIGMOD 2018; Ditto, Li et al. VLDB 2021) asks: *do these two
-records refer to the same entity?* Ditto, the current state-of-the-art, fine-tunes
-BERT/DistilBERT/RoBERTa for sequence-pair classification and achieves 96.5% F1 on
-real-world company matching. This work starts where Ditto ends: **given that two records
-are known to describe the same place, which attribute value is the better canonical form?**
-That is attribute-level canonicalization, not record-level matching. Ditto's architecture
-is irrelevant to this problem.
+**Data fusion and value selection.** Dong & Naumann (`dong2009fusion`) formalize value selection as truth discovery — source reliability is estimated iteratively and used to weight which value becomes canonical. Christophides et al. (`christophides2020end`) survey end-to-end ER across medical records, bibliographic databases, and e-commerce, noting canonicalization is underdeveloped relative to matching. Binette & Steorts (`binette2022almost`) make the same observation.
 
-**Where it differs from zero-shot LLM ER.** BoostER (WWW 2024) and the 2022–2025 wave of
-GPT-3/4 zero-shot ER papers argue that LLMs can circumvent expensive task-specific
-supervision. Their claim is valid. The counter-argument here is not that LLMs fail but
-that **deploying a large model on a dataset where 75% of pairs are pure formatting
-artifacts is architecturally wasteful and analytically uninformative.** DSPy + a small model,
-applied only to the 25% that requires semantic reasoning, is the correct architecture.
-The contribution is not "LLMs work" but "here is how to determine where and which LLM
-is sufficient."
+**DSPy and prompt optimization.** DSPy (`khattab2023dspy`) abstracts LLM pipelines as declarative, parameterized modules whose prompts and few-shot examples can be optimized against a task metric. MIPROv2 (`opsahl2024miprov2`) extends this with joint instruction and demonstration optimization via Bayesian search.
 
-**Where it fills a gap.** Steorts & Binette (2022) explicitly identify **canonicalization
-(merging)** as the understudied fourth stage of the ER pipeline. The matching literature
-dominates; the merging literature is sparse. This work addresses merging directly. The
-place dataset is the instantiation; the contribution is a general methodology for
-characterizing which conflicts in a canonicalization task are rules-solvable vs.
-semantics-requiring.
+**Geospatial entity resolution.** GER-LLM (`zhu2025gerllm`) addresses the matching step in geospatial ER specifically, using spatially-informed blocking and group LLM prompting. Their contribution targets the matching stage; this work addresses the canonicalization stage that follows.
 
-**On normalization inflation.** No prior work in the ER literature quantifies the inflation
-factor between raw-string conflict rates and post-normalization conflict rates on real-world
-multi-source place data. This work documents 3.8× inflation for phones and 6× inflation for
-names — arising from aggregating independently correct systems with different serialization
-conventions, not from data quality defects in either source. Most ER papers skip normalization
-entirely and benchmark against inflated conflict counts, making their problems appear harder
-than they are and obscuring which fraction genuinely requires a model.
+**Note:** Citations "Fu et al. 2025" and "Toponym resolution (DLR 2024)" that appeared in an earlier version of this section were not verified and have been removed. The paper's `references.bib` is the authoritative source.
 
-#### Key Citations by Section
+---
 
-| Paper section | Citations |
-|---------------|-----------|
-| Introduction | Fellegi & Sunter 1969; Steorts & Binette 2022 (survey, cite the pipeline stages); Overture Maps schema documentation |
-| Related Work — ER matching | DeepMatcher (Mudgal et al. SIGMOD 2018); Ditto (Li et al. VLDB 2021) — distinguish: their problem is matching, ours is canonicalization |
-| Related Work — LLMs for ER | BoostER (WWW 2024); Narayan et al. 2022 (first GPT-3 few-shot ER); Fu et al. 2025 (in-context clustering, zero-shot generalization); cite all, then note none stratify before deploying |
-| Related Work — Place/geospatial | Toponym resolution (Mistral-based, DLR 2024) — distinguish: geoparsing vs. attribute canonicalization |
-| Methodology | DSPy (Khattab et al. ICLR 2024); Unicode normalization standards (NFKD, combining mark categories) |
-| Discussion | Steorts & Binette 2022 again — canonicalization as understudied stage |
-
-#### Novel Claims (for abstract/introduction)
+### Novel Claims (for abstract/introduction)
 
 1. **Multi-source aggregation inflates apparent conflict by a measurable and recoverable factor.**
    Raw string comparison overstates phone conflict by 3.8× and name conflict by 6×, because
